@@ -16,10 +16,10 @@
             <h2>P E R T</h2>
         </div>
         <div class="links">
-            <a href="#">For Brands</a>
-            <a href="#">For Creators</a>
-            <a href="Regiscus.php">Register</a>
-            
+            <a href="#">coming soon</a>
+            <a href="#">coming soon</a>
+            <a href="#">coming soon</a>
+            <button id="RegisBtn"><i class="bi bi-check2-circle"></i> Registeration</button>
         </div>
     </div>
     <div class="container">
@@ -29,14 +29,12 @@
             <p>in Every Cup</p>
             <div class="buttons">
                 <button id="CusLogBT"><i class="bi bi-bag-check-fill" ></i> Customer Login</button>
-                <button id = "EmpLogBT" ><i class="bi bi-bag-check-fill" ></i> Employee Login</button>
+                <button id = "EmpLogBT" ><i class="bi bi-briefcase-fill"></i> Employee Login</button>
             </div>
         </div>
         <div class="hero-image"></div> <!-- จากตรงนี้ -->
     </div>
 </div>
-
-
     <script>
         // Add an event listener to the Log In button
         document.getElementById('EmpLogBT').addEventListener('click', function () {
@@ -47,6 +45,10 @@
         document.getElementById('CusLogBT').addEventListener('click', function () {
             // Redirect to the login page or any other page you want
             window.location.href = 'signin.php'; // Replace 'login.html' with the desired page
+        });
+        document.getElementById('RegisBtn').addEventListener('click', function () {
+            // Redirect to the login page or any other page you want
+            window.location.href = 'Regiscus.php'; // Replace 'login.html' with the desired page
         });
     </script>
 </body>

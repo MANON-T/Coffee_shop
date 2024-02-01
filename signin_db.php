@@ -25,7 +25,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         // ล็อกอินสำเร็จ
         $_SESSION['loggedin'] = true;
         header('Location:main.php'); // หากล็อกอินสำเร็จ ไปยังหน้าที่ควบคุม
-        
         exit;
     } else {
         $_SESSION['loggedin'] = false;
