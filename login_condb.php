@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows == 1) {
         // ในกรณีที่มีผู้ใช้งาน ให้ทำการเปลี่ยนเส้นทางไปยังหน้าหลักหรือหน้าอื่น ๆ ตามที่ต้องการ
         echo "เข้าสู่ระบบสำเร็จ";
-        header('Location: AddOrder.php');
+        header('Location: ../AddOrder.php');
     } else {
         echo "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
     }
