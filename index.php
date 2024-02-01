@@ -39,7 +39,7 @@
         // Add an event listener to the Log In button
         document.getElementById('loginBtn').addEventListener('click', function () {
             // Redirect to the login page or any other page you want
-            window.location.href = 'signin.php'; // Replace 'login.html' with the desired page
+            window.location.href = 'emp_signin.php'; // Replace 'login.html' with the desired page
         });
     </script>
 </body>
