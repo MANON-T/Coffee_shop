@@ -13,33 +13,40 @@
     <div class="nav">
         <div class="logo-container">
             <a href="#"><img src="image/coffee-cup.png" class="logo" /></a>
-            <h5>P E R T</h5>
+            <h2>P E R T</h2>
         </div>
         <div class="links">
             <a href="#">For Brands</a>
             <a href="#">For Creators</a>
-            <a href="#">About</a>
-            <button id="loginBtn"><i class="bi bi-briefcase-fill"></i> Employee Log In</button>
+            <a href="Regiscus.php">Register</a>
+            
         </div>
     </div>
     <div class="container">
-        <div class="hero">
-            <div class="hero-image"></div> <!-- Move the image container here -->
-            <div class="content">
-                <h1>Brewing Happiness</h1>
-                <p>in Every Cup</p>
-                <div class="buttons">
-                    <button><i class="bi bi-bag-check-fill"></i> Customer Log In</button>
-                </div>
+    <div class="hero">
+        <div class="content">
+            <h1>Brewing Happiness</h1>
+            <p>in Every Cup</p>
+            <div class="buttons">
+                <button id="CusLogBT"><i class="bi bi-bag-check-fill" ></i> Customer Login</button>
+                <button id = "EmpLogBT" ><i class="bi bi-bag-check-fill" ></i> Employee Login</button>
             </div>
         </div>
+        <div class="hero-image"></div> <!-- จากตรงนี้ -->
     </div>
+</div>
+
 
     <script>
         // Add an event listener to the Log In button
-        document.getElementById('loginBtn').addEventListener('click', function () {
+        document.getElementById('EmpLogBT').addEventListener('click', function () {
             // Redirect to the login page or any other page you want
-            window.location.href = 'emp_signin.php'; // Replace 'login.html' with the desired page
+            window.location.href = 'signin.php'; // Replace 'login.html' with the desired page
+        });
+
+        document.getElementById('CusLogBT').addEventListener('click', function () {
+            // Redirect to the login page or any other page you want
+            window.location.href = 'signin.php'; // Replace 'login.html' with the desired page
         });
     </script>
 </body>
