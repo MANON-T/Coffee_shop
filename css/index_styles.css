@@ -1,0 +1,89 @@
+/* styles.css */
+
+body {
+    background-color: #1a1a1a;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.nav a:hover {
+    color: green;
+}
+
+.nav button {
+    border: none;
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav button:hover {
+    background-color: limegreen;
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 100px 0;
+}
+
+.hero h1 {
+    color: green;
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.hero .buttons {
+    display: flex;
+}
+
+.hero .buttons button {
+    margin-right: 20px;
+}
+
+.phone {
+    width: 400px;
+    height: 800px;
+    background-image: url("phone.png"); /* Replace with your own image URL */
+    background-size: cover;
+    background-position: center;
+}
+
+/* Add this style to position and style the hero image */
+/* Adjust the width and height properties as needed */
+/* Adjust the width and height properties as needed */
+.hero-image {
+    width: 500px;
+    height: 500px;
+    background-image: url("../image/index_pic.png"); /* Replace with the actual path to your image file */
+    background-size: cover;
+    background-position: center;
+    margin-left: auto; /* To center the image horizontally */
+    margin-right: auto;
+}
