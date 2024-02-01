@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/index_styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>P E R T</title>
 </head>
 
@@ -18,7 +19,7 @@
             <a href="#">For Brands</a>
             <a href="#">For Creators</a>
             <a href="#">About</a>
-            <button id="loginBtn">Log In</button>
+            <button id="loginBtn"><i class="bi bi-briefcase-fill"></i> Employee Log In</button>
         </div>
     </div>
     <div class="container">
@@ -28,7 +29,7 @@
                 <h1>Brewing Happiness</h1>
                 <p>in Every Cup</p>
                 <div class="buttons">
-                    <button>Customer Mode</button>
+                    <button><i class="bi bi-bag-check-fill"></i> Customer Log In</button>
                 </div>
             </div>
         </div>

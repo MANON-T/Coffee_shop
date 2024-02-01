@@ -26,6 +26,7 @@
                 <input type="text" class="form-control" name="username" aria-describedby="email">
             </div>
             <div class="mb-3 form-label-left"> <!-- Apply the custom class for aligning labels to the left -->
+                <i class="bi bi-key"></i>
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" name="password">
             </div>
