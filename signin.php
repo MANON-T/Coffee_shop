@@ -22,12 +22,12 @@ session_start();
         <h3 class="mt-4">Welcome</h3>
         <p class="pink-text">Pert Employee </p>
         <hr>
-        <form action="condb/login_condb.php" method="post">
-            <div class="mb-3 form-label-left"> <!-- Apply the custom class for aligning labels to the left -->
+        <form action="condb/login_condb.php" method="post" onsubmit="return showAlert();">
+            <div class="mb-3 form-label-left">
                 <label for="email" class="form-label">Username</label>
                 <input type="text" class="form-control" name="username" aria-describedby="email">
             </div>
-            <div class="mb-3 form-label-left"> <!-- Apply the custom class for aligning labels to the left -->
+            <div class="mb-3 form-label-left">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" name="password">
             </div>
