@@ -5,26 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/styles.css"> <!-- Include your CSS file -->
+    <link rel="stylesheet" href="css/signin_styles.css"> <!-- Include your CSS file -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <title>เข้าสู่ระบบ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Log In</title>
 </head>
 
 <body>
-    <div class="container">
-        <h3 class="mt-4">เข้าสู่ระบบ</h3>
+    <div class="container text-center">
+        <!-- Add your logo here -->
+        <img src="image/coffee-cup.png" alt="Logo" class="mx-auto d-block mb-4" style="max-width: 100px;">
+        
+        <h3 class="mt-4">Welcome</h3>
+        <p class="pink-text">Sign in by entering the information below</p>
         <hr>
-        <form action="signup_db.php" method="post">
-            <div class="mb-3">
-                <label for="email" class="form-label">อีเมล</label>
-                <input type="email" class="form-control" name="email" aria-describedby="email">
+        <form action="signin_db.php" method="post">
+            <div class="mb-3 form-label-left"> <!-- Apply the custom class for aligning labels to the left -->
+                <i class="bi bi-person"></i>
+                <label for="email" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" aria-describedby="email">
             </div>
-            <div class="mb-3">
-                <label for="password1" class="form-label">รหัสผ่าน</label>
-                <input type="password" class="form-control" name="password1">
+            <div class="mb-3 form-label-left"> <!-- Apply the custom class for aligning labels to the left -->
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password">
             </div>
             <div class="d-grid gap-2">
-                <button type="submit" name="signin" class="btn btn-primary mx-auto">เข้าสู่ระบบ</button>
+                <button type="submit" name="signin" class="btn btn-primary mx-auto">Log In</button>
             </div>
         </form>
     </div>
