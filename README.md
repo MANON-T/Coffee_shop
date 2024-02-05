@@ -2,9 +2,11 @@
 โปรเจ็คงาน Internet Programing
 
 # Target Now
-ปรับปรุงหน้า Login
+Login
 
-- Status : Developing
+- Status : Complete
 
 # Next Target
--
+ทำให้สามารถเพิ่มออเดอร์ได้
+
+- status : Developing
