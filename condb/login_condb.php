@@ -18,7 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "เข้าสู่ระบบสำเร็จ";
         header('Location: ../AddOrder.php');
     } else {
+        $_SESSION['duplicate_username'] = true;
         header('location: ../signin.php');
+        mysqli_close($conn);
+        exit();
     }
 }
 ?>

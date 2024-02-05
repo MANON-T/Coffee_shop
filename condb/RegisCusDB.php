@@ -1,10 +1,8 @@
 <?php
-// เชื่อมต่อกับฐานข้อมูล
+session_start();
 include_once("database.php");
 
-// ตรวจสอบว่ามีการส่งข้อมูลมาจากฟอร์มหรือไม่
 if(isset($_POST['register'])) {
-    // รับค่าจากฟอร์ม
     $username = $_POST['username'];
     $password = $_POST['password'];
     $firstname = $_POST['name'];
@@ -12,6 +10,16 @@ if(isset($_POST['register'])) {
     $phone_number = $_POST['phone_num'];
     $gender = $_POST['gender'];
 
+    $check_username_sql = "SELECT * FROM customer WHERE cus_username = '$username'";
+    $result = mysqli_query($conn, $check_username_sql);
+
+    if(mysqli_num_rows($result) > 0) {
+        // If duplicate username is found, set session variable and redirect
+        $_SESSION['duplicate_username'] = true;
+        header("Location: ../RegisCus.php");
+        mysqli_close($conn);
+        exit();
+    }
     // สร้างคำสั่ง SQL เพื่อเพิ่มข้อมูลลงในฐานข้อมูล
     $sql = "INSERT INTO customer (cus_username, cus_password, cus_firstname, cus_lastname, cus_phone_number, cus_gender) 
             VALUES ('$username', '$password', '$firstname', '$lastname', '$phone_number', '$gender')";

@@ -1,37 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายการเมนูน้ำ</title>
-    <!-- เรียกใช้ Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/add_styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <title>Menu & Order</title>
 </head>
+
 <body>
-
-
-<!-- start login -->
-<div class="container" >
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 ">
-      <div class="col-md-3 mb-2 mb-md-0">
-        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-          <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-        </a>
+  <!-- start login -->
+  <div class="container">
+    <div class="nav">
+      <div class="logo-container">
+        <a href="#"><img src="image/coffee-cup.png" class="logo" /></a>
+        <h2>P E R T</h2>
       </div>
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="AddOrder.php" class="nav-link px-2 link-dark ">Menu</a></li>
-        <li><a href="order.php" class="nav-link px-2">Order</a></li>
-      </ul>
-      <div class="col-md-3 d-flex justify-content-end">
-      <a href="login.php" class="nav-link px-2">
-        <button type="button" class="btn btn-outline-dark me-2">Logout</button>
-      </a>
-      
+      <div class="links">
+        <a href="AddOrder.php">Menu</a>
+        <a href="#">Order</a>
+        <a href="#">coming soon</a>
+        <button id="LgoutBtn"><i class="bi bi-arrow-left-circle-fill"></i> Logout</button>
+      </div>
     </div>
-
-    </header>
   </div>
-<!-- end login -->
-  
+  <!-- end login -->
 </body>
+
 </html>

@@ -71,8 +71,7 @@ body {
 .phone {
     width: 400px;
     height: 800px;
-    background-image: url("phone.png");
-    /* Replace with your own image URL */
+    background-image: url("phone.png"); /* Replace with your own image URL */
     background-size: cover;
     background-position: center;
 }
@@ -82,12 +81,10 @@ body {
 .hero-image {
     width: 500px;
     height: 500px;
-    background-image: url("/image/index_pic.png");
-    /* Replace with the actual path to your image file */
+    background-image: url("../image/index_pic.png"); /* Replace with the actual path to your image file */
     background-size: cover;
     background-position: center;
-    margin-left: auto;
-    /* To center the image horizontally */
+    margin-left: auto; /* To center the image horizontally */
     margin-right: auto;
 }
 
@@ -98,45 +95,37 @@ body {
 }
 
 .logo {
-    max-width: 50px;
-    /* Adjust the maximum width of the logo image */
-    max-height: 50px;
-    /* Adjust the maximum height of the logo image */
+    max-width: 50px; /* Adjust the maximum width of the logo image */
+    max-height: 50px; /* Adjust the maximum height of the logo image */
 }
 
 .logo h5 {
-    margin-left: 10px;
-    /* Adjust the margin as needed to create space between the logo and text */
-    color: black;
-    /* Set the text color to white */
+    margin-left: 10px; /* Adjust the margin as needed to create space between the logo and text */
+    color: black; /* Set the text color to white */
 }
 
 /* Styles for the Log In button */
 .links button {
-    border: 2px solid red;
-    /* Add a yellow border */
+    border: 2px solid yellow; /* Add a yellow border */
     background-color: transparent;
     color: black;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.3s, border-color 0.3s;
-    /* Add border-color to the transition */
+    transition: background-color 0.3s, border-color 0.3s; /* Add border-color to the transition */
 }
 
 .links button:hover {
-    background-color: red;
-    border-color: transparent;
-    /* Set border color to transparent on hover */
+    background-color: yellow;
+    border-color: transparent; /* Set border color to transparent on hover */
 }
 
 /* index_styles.css */
 
 .buttons button {
     background-color: transparent;
-    border: 3px solid red;
-    /* Slightly smaller border */
+    border: 3px solid #FFD700; /* Slightly smaller border */
     border-radius: 20px;
     color: black;
     padding: 10px 20px;
@@ -146,7 +135,7 @@ body {
 }
 
 .buttons button:hover {
-    background-color: red;
+    background-color: #FFD700;
     color: black;
 }
 
@@ -154,16 +143,12 @@ body {
 
 /* เพิ่มไฮลิทที่ต้องการเมื่อนำเมาส์ไปวางเหนือลิงก์ */
 .nav a:not(.links button):hover {
-    border-bottom: 2px solid black;
-    /* เส้นใต้สีเหลือง */
-    padding-bottom: 3px;
-    /* พื้นที่ด้านล่างของเส้นใต้ */
+    border-bottom: 2px solid black; /* เส้นใต้สีเหลือง */
+    padding-bottom: 3px; /* พื้นที่ด้านล่างของเส้นใต้ */
 }
 
 /* สไตล์เมื่อนำเมาส์ไปวางเหนือปุ่ม Log In */
 .links button:hover {
-    background-color: red;
-    /* สีพื้นหลังเมื่อนำเมาส์ไปวาง */
-    color: black;
-    /* สีตัวอักษรเมื่อนำเมาส์ไปวาง */
+    background-color: yellow; /* สีพื้นหลังเมื่อนำเมาส์ไปวาง */
+    color: black; /* สีตัวอักษรเมื่อนำเมาส์ไปวาง */
 }

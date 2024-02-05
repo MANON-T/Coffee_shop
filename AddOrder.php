@@ -8,12 +8,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <title>Menu & Order</title>
   <!-- เรียกใช้ Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
 
 <body style="background-color: #34f6b5;">
-
-
   <!-- start login -->
   <div class="container">
     <div class="nav">
@@ -28,7 +26,6 @@
         <button id="LgoutBtn"><i class="bi bi-arrow-left-circle-fill"></i> Logout</button>
       </div>
     </div>
-    </header>
   </div>
 
   <!-- end login -->
@@ -54,7 +51,7 @@
             // วนลูปเพื่อแสดงข้อมูลทั้งหมด
             while ($row = $result->fetch_assoc()) {
 
-              echo '<div class="col-sm-4 mb-2">';
+              echo '<div class="col-sm-4 mb-4">';
               echo '<div class="card">';
               echo '<img src="https://www.allrecipes.com/thmb/Wh0Qnynwdxok4oN0NZ1Lz-wl0A8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/9428203-9d140a4ed1424824a7ddd358e6161473.jpg' . $row['w_pic'] . '" class="card-img-top" alt="' . $row['w_name'] . '">';
               echo '<div class="card-body">';
