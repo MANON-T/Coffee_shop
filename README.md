@@ -1,12 +1,14 @@
 # Coffee_shop
 โปรเจ็คงาน Internet Programing
 
-# Target Now
-Login
+# Function Completion
+-Login
+-Register
+-Permissions control
 
-- Status : Complete
-
-# Next Target
-ทำให้สามารถเพิ่มออเดอร์ได้
-
-- status : Developing
+# Fucntion Developing
+-Cashier page
+-Barista page
+-Manager page
+-Customer page
+-CEO page
