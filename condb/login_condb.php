@@ -23,8 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // header("Location: ../AddOrder.php");
         }
         if ($row['emp_employeelevel'] == 'C') {
-            $_SESSION['Manager_login'] = $row['emp_employeeID'];
-            echo "Manager_login successful";
+            $_SESSION['manager_login'] = $row['emp_employeeID'];
+            echo "manager_login successful";
             // header("Location: ../AddOrder.php");
         }
     }else {
