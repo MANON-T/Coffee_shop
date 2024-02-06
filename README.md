@@ -3,12 +3,18 @@
 
 # Function Completion
 -Login
+
 -Register
+
 -Permissions control
 
 # Fucntion Developing
 -Cashier page
+
 -Barista page
+
 -Manager page
+
 -Customer page
+
 -CEO page
