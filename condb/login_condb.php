@@ -10,14 +10,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // สร้างคำสั่ง SQL เพื่อตรวจสอบข้อมูลในฐานข้อมูล
     $sql = "SELECT * FROM employee WHERE emp_username='$username' AND emp_password='$password'";
-    $result = $conn->query($sql);
-
-    // ตรวจสอบว่ามีผู้ใช้งานนี้หรือไม่
-    if ($result->num_rows == 1) {
-        // ในกรณีที่มีผู้ใช้งาน ให้ทำการเปลี่ยนเส้นทางไปยังหน้าหลักหรือหน้าอื่น ๆ ตามที่ต้องการ
-        echo "เข้าสู่ระบบสำเร็จ";
-        header('Location: ../AddOrder.php');
-    } else {
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    if($result->num_rows == 1){
+        if ($row['emp_employeelevel'] == 'A') {
+            $_SESSION['cashier_login'] = $row['emp_employeeID'];
+            header("Location: ../AddOrder.php");
+        }
+        if ($row['emp_employeelevel'] == 'B') {
+            $_SESSION['barista_login'] = $row['emp_employeeID'];
+            echo "barista_login successful";
+            // header("Location: ../AddOrder.php");
+        }
+        if ($row['emp_employeelevel'] == 'C') {
+            $_SESSION['Manager_login'] = $row['emp_employeeID'];
+            echo "Manager_login successful";
+            // header("Location: ../AddOrder.php");
+        }
+    }else {
         $_SESSION['duplicate_username'] = true;
         header('location: ../signin.php');
         mysqli_close($conn);

@@ -1,3 +1,12 @@
+<?php
+    session_start();
+    require_once('condb/database.php');
+    if (!isset($_SESSION['cashier_login'])) {
+        $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ !';
+        header('Location:signin.php');
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -193,7 +202,7 @@
     // Add an event listener to the Log In button
     document.getElementById('LgoutBtn').addEventListener('click', function() {
       // Redirect to the login page or any other page you want
-      window.location.href = 'index.php'; // Replace 'login.html' with the desired page
+      window.location.href = 'condb/logout.php'; // Replace 'login.html' with the desired page
     });
   </script>
 </body>
