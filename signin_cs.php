@@ -38,7 +38,7 @@ session_start();
             </div>
             <div class="mb-3 form-label-left">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" required>
+                <input type="password" class="form-control" name="password" minlength="5" maxlength="20" required>
             </div>
             <div class="d-grid gap-2">
                 <button type="submit" name="signin" class="btn btn-primary mx-auto">Sign In</button>
