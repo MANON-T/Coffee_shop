@@ -45,7 +45,7 @@ session_start();
         // Add an event listener to the Log In button
         document.getElementById('EmpLogBT').addEventListener('click', function () {
             // Redirect to the login page or any other page you want
-            window.location.href = 'signin.php'; // Replace 'login.html' with the desired page
+            window.location.href = 'signin_ep.php'; // Replace 'login.html' with the desired page
         });
 
         document.getElementById('CusLogBT').addEventListener('click', function () {
@@ -57,6 +57,8 @@ session_start();
             window.location.href = 'Regiscus.php'; // Replace 'login.html' with the desired page
         });
     </script>
+
+    
 </body>
 
 </html>

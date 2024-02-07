@@ -3,7 +3,7 @@
     require_once('condb/database.php');
     if (!isset($_SESSION['cashier_login'])) {
         $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ !';
-        header('Location:signin.php');
+        header('Location:signin_ep.php');
     }
 ?>
 
