@@ -46,8 +46,9 @@ if(isset($_POST['delete'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>P E R T</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/infor_styles.css"> <!-- Include your CSS file -->
+    <link rel="stylesheet" href="../css/infor_styles.css">  <!-- Include your CSS file -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         .gradient-custom {
         /* fallback for old browsers */
@@ -76,7 +77,7 @@ if(isset($_POST['delete'])) {
             <a href="Information.php">Information</a>
             <a href="Point.php">point</a>
             
-            <button type="button" name="logoutBT" id="logoutBT">Logout</button>
+            <button type="button" name="logoutBt" id="logoutBt">Logout</button>
 
         </div>
     </div>
@@ -145,33 +146,6 @@ if(isset($_POST['delete'])) {
 
 
 
-
-
-
-        
-
-
-
-
-    <!--Edite info Button Script-->
-<script>
-    
-    document.getElementById('ConfigInfo').addEventListener('click', function () {
-            // Redirect to the login page or any other page you want
-            window.location.href = 'configinfo/Editeinfo.php'; // Replace 'login.html' with the desired page
-    });
-</script>
-
-
-
-
-
-
-
-
-
-
-
 <!-- เพิ่มไลบรารี jQuery ถ้ายังไม่ได้ใช้งาน -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -180,7 +154,7 @@ import { Ripple, initMDB } from "mdb-ui-kit";
 initMDB({ Ripple });
 $(document).ready(function(){
     // เมื่อคลิกที่ปุ่ม "Logout"
-    $("#logoutBT").click(function(){
+    $("#logoutBt").click(function(){
         // สร้าง AJAX request
         $.ajax({
             url: "../condb/logout.php", // กำหนด URL ของไฟล์ PHP ที่ใช้ในการล็อกเอาท์

@@ -37,18 +37,23 @@ require_once '../condb/database.php';
             <a href="Information.php">Information</a>
             <a href="Point.php">point</a>
             
-            <button type="button" name="logoutBT" id="logoutBT">Logout</button>
+            <button type="button" name="logoutBt" id="logoutBt">Logout</button>
 
         </div>
     </div>
     <br>
-    <h3>Water Menu</h3>
+
+    <div class="container">
+        <center><h2>Water Menu</h2></center>
+    </div>
+    
+
     <br>
     <div class="row">
         <?php 
         // สร้างคำสั่ง SQL เพื่อดึงข้อมูลเมนูน้ำทั้งหมด
-        $sql = "SELECT * FROM water_menu";
-        $result = $conn->query($sql);
+        $sqlwater = "SELECT * FROM water_menu";
+        $result = $conn->query($sqlwater);
         // ตรวจสอบว่ามีข้อมูลหรือไม่
         if ($result->num_rows > 0) {
             // วนลูปเพื่อแสดงข้อมูลทั้งหมด
@@ -56,7 +61,7 @@ require_once '../condb/database.php';
 
             echo '<div class="col-sm-4 mb-4">';
             echo '<div class="card">';
-            echo '<img src="https://www.allrecipes.com/thmb/Wh0Qnynwdxok4oN0NZ1Lz-wl0A8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/9428203-9d140a4ed1424824a7ddd358e6161473.jpg' . $row['w_pic'] . '" class="card-img-top" alt="' . $row['w_name'] . '">';
+            echo '<img src="' . $row['w_pic'] . '" class="card-img-top" alt="' . $row['w_name'] . '">';
             echo '<div class="card-body">';
             echo '<h5 class="card-title">' . $row['w_name'] . '</h5>';
             echo '<p class="card-text">ราคา: ' . number_format($row['w_price']) . ' บาท</p>';
@@ -68,6 +73,71 @@ require_once '../condb/database.php';
         }
         ?>
     </div>
+    <br>
+
+    <div class="container">
+        <center><h2>Dessert Menu</h2></center>
+    </div>
+    
+    <br>
+    <div class="row">
+        <?php 
+        // สร้างคำสั่ง SQL เพื่อดึงข้อมูลเมนูน้ำทั้งหมด
+        $sqldessert = "SELECT * FROM dessert_menu";
+        $result = $conn->query($sqldessert);
+        // ตรวจสอบว่ามีข้อมูลหรือไม่
+        if ($result->num_rows > 0) {
+            // วนลูปเพื่อแสดงข้อมูลทั้งหมด
+            while ($row = $result->fetch_assoc()) {
+
+            echo '<div class="col-sm-4 mb-4">';
+            echo '<div class="card">';
+            echo '<img src="' . $row['dess_pic'] . '" class="card-img-top" alt="' . $row['dess_menu_name'] . '">';
+            echo '<div class="card-body">';
+            echo '<h5 class="card-title">' . $row['dess_menu_name'] . '</h5>';
+            echo '<p class="card-text">ราคา: ' . number_format($row['dess_price']) . ' บาท</p>';
+            echo '<a href="login.php" class="nav-link px-2 text-center"> </a>';
+            echo '</div></div></div>';
+            }
+        } else {
+            echo "ไม่พบรายการเมนูน้ำ";
+        }
+        ?>
+    </div>
+    <br>
+
+    <div class="container">
+        <center><h2>Fruit Menu</h2></center>
+    </div>
+    
+
+    <br>
+    <div class="row">
+        <?php 
+        // สร้างคำสั่ง SQL เพื่อดึงข้อมูลเมนูน้ำทั้งหมด
+        $sqldessert = "SELECT * FROM fruit_manu";
+        $result = $conn->query($sqldessert);
+        // ตรวจสอบว่ามีข้อมูลหรือไม่
+        if ($result->num_rows > 0) {
+            // วนลูปเพื่อแสดงข้อมูลทั้งหมด
+            while ($row = $result->fetch_assoc()) {
+
+            echo '<div class="col-sm-4 mb-4">';
+            echo '<div class="card">';
+            echo '<img src="' . $row['fruit_pic'] . '" class="card-img-top" alt="' . $row['fruit_menu_name'] . '">';
+            echo '<div class="card-body">';
+            echo '<h5 class="card-title">' . $row['fruit_menu_name'] . '</h5>';
+            echo '<p class="card-text">ราคา: ' . number_format($row['fruit_Price']) . ' บาท</p>';
+            echo '<a href="login.php" class="nav-link px-2 text-center"> </a>';
+            echo '</div></div></div>';
+            }
+        } else {
+            echo "ไม่พบรายการเมนูน้ำ";
+        }
+        ?>
+    </div>
+
+    
     
 
 </body>
@@ -77,7 +147,7 @@ require_once '../condb/database.php';
 <script>
 $(document).ready(function(){
     // เมื่อคลิกที่ปุ่ม "Logout"
-    $("#logoutBT").click(function(){
+    $("#logoutBt").click(function(){
         // สร้าง AJAX request
         $.ajax({
             url: "../condb/logout.php", // กำหนด URL ของไฟล์ PHP ที่ใช้ในการล็อกเอาท์
