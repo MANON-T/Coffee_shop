@@ -21,6 +21,7 @@ session_start();
             unset($_SESSION['duplicate_username']); // Clear the session variable
         }
         ?>
+
         function formatPhoneNumber(input) {
             // Remove non-numeric characters from the input value
             var phoneNumber = input.value.replace(/\D/g, '');
@@ -33,6 +34,7 @@ session_start();
         }
     </script>
 </head>
+
 <body>
     <div class="container text-center">
         <!-- Add your logo here -->
@@ -48,6 +50,14 @@ session_start();
             <div class="mb-3 form-label-left">
                 <label for="surname" class="form-label">Surname</label>
                 <input type="text" class="form-control" name="surname" required>
+            </div>
+            <div class="mb-3 form-label-left">
+                <label for="birthdate" class="form-label">Birth Date</label>
+                <input type="date" class="form-control" name="birthdate" required>
+            </div>
+            <div class="mb-3 form-label-left">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" name="email" required>
             </div>
             <div class="mb-3 form-label-left">
                 <label for="phone_num" class="form-label">Phone number</label>
