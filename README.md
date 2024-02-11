@@ -14,9 +14,10 @@
 # Function Completion
 -Login
 
+# Fucntion Developing
+
 -Register
 
-# Fucntion Developing
 -Permissions control
 
 -Cashier page
