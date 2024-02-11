@@ -27,7 +27,7 @@ session_start();
     <div class="container text-center">
         <!-- Add your logo here -->
         <img src="image/coffee-cup.png" alt="Logo" class="mx-auto d-block mb-4" style="max-width: 100px;">
-        
+
         <h3 class="mt-4">Welcome</h3>
         <p class="pink-text">Pert Customer</p>
         <hr>
@@ -41,7 +41,7 @@ session_start();
                 <input type="password" class="form-control" name="password" minlength="5" maxlength="20" required>
             </div>
             <div class="d-grid gap-2">
-                <button type="submit" name="signin" class="btn btn-primary mx-auto">Sign In</button>
+                <button type="submit" name="signin" id="signin" class="btn btn-primary mx-auto">Sign In</button>
             </div>
         </form>
     </div>

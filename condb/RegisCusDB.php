@@ -9,6 +9,8 @@ if(isset($_POST['register'])) {
     $lastname = $_POST['surname'];
     $phone_number = $_POST['phone_num'];
     $gender = $_POST['gender'];
+    $birthdate = $_POST['birthdate'];
+    $email = $_POST['email'];
 
     $check_username_sql = "SELECT * FROM customer WHERE cus_username = '$username'";
     $result = mysqli_query($conn, $check_username_sql);
@@ -21,8 +23,8 @@ if(isset($_POST['register'])) {
         exit();
     }
     // สร้างคำสั่ง SQL เพื่อเพิ่มข้อมูลลงในฐานข้อมูล
-    $sql = "INSERT INTO customer (cus_username, cus_password, cus_firstname, cus_lastname, cus_phone_number, cus_gender) 
-            VALUES ('$username', '$password', '$firstname', '$lastname', '$phone_number', '$gender')";
+    $sql = "INSERT INTO customer (cus_username, cus_password, cus_firstname, cus_lastname, cus_phone_number, cus_gender, birthday, 	cus_email) 
+            VALUES ('$username', '$password', '$firstname', '$lastname', '$phone_number', '$gender', '$birthdate', '$email')";
 
     // ส่งคำสั่ง SQL ไปยังฐานข้อมูล
     if(mysqli_query($conn, $sql)) {

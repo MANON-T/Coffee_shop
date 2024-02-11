@@ -15,17 +15,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($result->num_rows == 1){
         if ($row['emp_employeelevel'] == 'A') {
             $_SESSION['cashier_login'] = $row['emp_employeeID'];
-            header("Location: ../AddOrder.php");
+            header("Location: ../Cashierphp/index.php");
         }
         if ($row['emp_employeelevel'] == 'B') {
             $_SESSION['barista_login'] = $row['emp_employeeID'];
-            echo "barista_login successful";
-            // header("Location: ../AddOrder.php");
+            header("Location: ../Baristaphp/index.php");
         }
         if ($row['emp_employeelevel'] == 'C') {
             $_SESSION['manager_login'] = $row['emp_employeeID'];
-            echo "manager_login successful";
-            // header("Location: ../AddOrder.php");
+            header("Location: ../Managerphp/index.php");
         }
     }else {
         $_SESSION['duplicate_username'] = true;
