@@ -4,7 +4,7 @@ include 'database.php';
 if (!empty($_GET['id'])) {
     $query_product = mysqli_query($conn, "SELECT * FROM dessert_menu WHERE dess_menuID = '{$_GET['id']}'");
     $result = mysqli_fetch_assoc($query_product);
-    @unlink('../image/menu/dessert/' . $result['dess_pic']);
+    @unlink('../image/menu/Dessert/' . $result['dess_picture']);
 
     $query = mysqli_query($conn, "DELETE FROM dessert_menu WHERE dess_menuID  = '{$_GET['id']}'") or die('query failed');
     mysqli_close($conn);

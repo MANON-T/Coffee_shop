@@ -21,6 +21,13 @@ session_start();
             unset($_SESSION['duplicate_username']); // Clear the session variable
         }
         ?>
+        <?php
+        // Check if there is a session variable for the duplicate username
+        if (isset($_SESSION['duplicate_email'])) {
+            echo "alert('อีเมลนี้ถูกใช้ไปแล้ว กรูณากรอกข้อมูลใหม่');";
+            unset($_SESSION['duplicate_email']); // Clear the session variable
+        }
+        ?>
 
         function formatPhoneNumber(input) {
             // Remove non-numeric characters from the input value

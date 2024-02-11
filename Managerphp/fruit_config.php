@@ -2,16 +2,22 @@
 session_start();
 include '../condb/database.php';
 
+if (!isset($_SESSION['manager_login'])) {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ !';
+    header('Location:../signin_ep.php');
+}
+
+
 $result = [
     'fruit_menuID' => '',
-    'fruit_menu_name' => '',
+    'fruit_menuName' => '',
     'fruit_quantity' => '',
-    'fruit_Price' => '',
-    'fruit_pic' => '',
+    'fruit_price' => '',
+    'fruit_picture' => '',
 ];
 
 if (!empty($_GET['id'])) {
-    $query_product = mysqli_query($conn, "SELECT * FROM fruit_manu WHERE fruit_menuID = '{$_GET['id']}'");
+    $query_product = mysqli_query($conn, "SELECT * FROM fruit_menu WHERE fruit_menuID = '{$_GET['id']}'");
     $row_product = mysqli_num_rows($query_product);
 
     if ($row_product == 0) {
@@ -53,9 +59,8 @@ if (!empty($_GET['id'])) {
         </div>
         <div class="links">
             <a href="index.php">Menu</a>
-            <a href="#">Bartender Site</a>
             <a href="#">Dashboard</a>
-            <button id="RegisBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
+            <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
         </div>
     </div>
     <div class="container">
@@ -69,7 +74,7 @@ if (!empty($_GET['id'])) {
                             <div class="row g-3 mb-3">
                                 <div class="col-sm-6">
                                     <label class="form-label">Product Name</label>
-                                    <input type="text" name="product_name" class="form-control" value="<?php echo $result['fruit_menu_name']; ?>">
+                                    <input type="text" name="product_name" class="form-control" value="<?php echo $result['fruit_menuName']; ?>">
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="form-label">Product Quantity</label>
@@ -77,12 +82,12 @@ if (!empty($_GET['id'])) {
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="form-label">Price</label>
-                                    <input type="text" name="price" class="form-control" value="<?php echo $result['fruit_Price']; ?>">
+                                    <input type="text" name="price" class="form-control" value="<?php echo $result['fruit_price']; ?>">
                                 </div>
                                 <div class="col-sm-6">
                                     <div>
-                                        <?php if (!empty($result['fruit_pic'])) : ?>
-                                            <img src="../image/menu/fruit/<?php echo $result['fruit_pic']; ?>" width="100" alt="Product Image">
+                                        <?php if (!empty($result['fruit_picture'])) : ?>
+                                            <img src="../image/menu/Fruit/<?php echo $result['fruit_picture']; ?>" width="100" alt="Product Image">
                                         <?php endif; ?>
                                     </div>
                                     <label for="formfile" class="form-label">Image</label>
@@ -102,6 +107,13 @@ if (!empty($_GET['id'])) {
             </div>
         </div>
     </div>
+    <script>
+        // Add an event listener to the Log In button
+        document.getElementById('LogoutBtn').addEventListener('click', function() {
+            // Redirect to the login page or any other page you want
+            window.location.href = '../condb/logout.php'; // Replace 'login.html' with the desired page
+        });
+    </script>
 </body>
 
 </html>

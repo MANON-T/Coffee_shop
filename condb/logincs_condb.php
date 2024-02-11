@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     
     // สร้างคำสั่ง SQL เพื่อตรวจสอบข้อมูลในฐานข้อมูล
-    $sql = "SELECT * FROM customer WHERE cus_username='$username' AND cus_password='$password'";
+    $sql = "SELECT * FROM customer WHERE cus_username ='$username' AND cus_password ='$password'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
     if($result->num_rows == 1){
@@ -17,12 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // ในกรณีที่มีผู้ใช้งาน ให้ทำการเปลี่ยนเส้นทางไปยังหน้าหลักหรือหน้าอื่น ๆ ตามที่ต้องการ
         echo "เข้าสู่ระบบสำเร็จ";
         header('Location: ../Userphp/Userinter.php');
-        }
     }else {
         $_SESSION['duplicate_username'] = true;
-        header('location: ../signin_cs.php');
+        header('location: ../signin_ep.php');
         mysqli_close($conn);
         exit();
     }
-
+}
 ?>

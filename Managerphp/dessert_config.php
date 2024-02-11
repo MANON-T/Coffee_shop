@@ -4,10 +4,10 @@ include '../condb/database.php';
 
 $result = [
     'dess_menuID' => '',
-    'dess_menu_name' => '',
+    'dess_menuName' => '',
     'dess_quantity' => '',
     'dess_price' => '',
-    'dess_pic' => '',
+    'dess_picture' => '',
 ];
 
 if (!empty($_GET['id'])) {
@@ -56,7 +56,7 @@ if (!empty($_GET['id'])) {
             <a href="index.php">Menu</a>
             <a href="#">Bartander Site</a>
             <a href="#">Dashboard</a>
-            <button id="RegisBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
+            <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
         </div>
     </div>
     <div class="container">
@@ -70,7 +70,7 @@ if (!empty($_GET['id'])) {
                             <div class="row g-3 mb-3">
                                 <div class="col-sm-6">
                                     <label class="form-label">Product Name</label>
-                                    <input type="text" name="product_name" class="form-control" value="<?php echo $result['dess_menu_name']; ?>">
+                                    <input type="text" name="product_name" class="form-control" value="<?php echo $result['dess_menuName']; ?>">
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="form-label">Product quantity</label>
@@ -82,8 +82,8 @@ if (!empty($_GET['id'])) {
                                 </div>
                                 <div class="col-sm-6">
                                     <div>
-                                        <?php if (!empty($result['dess_pic'])) : ?>
-                                            <img src="../image/menu/dessert/<?php echo $result['dess_pic']; ?>" width="100" alt="Product Image">
+                                        <?php if (!empty($result['dess_picture'])) : ?>
+                                            <img src="../image/menu/Dessert/<?php echo $result['dess_picture']; ?>" width="100" alt="Product Image">
                                         <?php endif; ?>
                                     </div>
                                     <label for="formfile" class="form-label">image</label>
@@ -103,6 +103,13 @@ if (!empty($_GET['id'])) {
             </div>
         </div>
     </div>
+    <script>
+        // Add an event listener to the Log In button
+        document.getElementById('LogoutBtn').addEventListener('click', function() {
+            // Redirect to the login page or any other page you want
+            window.location.href = '../condb/logout.php'; // Replace 'login.html' with the desired page
+        });
+    </script>
 </body>
 
 </html>

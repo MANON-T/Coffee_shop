@@ -8,22 +8,22 @@
     $image_name = $_FILES['profile_image']['name'];
 
     $image_tmp = $_FILES['profile_image']['tmp_name'];
-    $folder = '../image/menu/dessert/';
+    $folder = '../image/menu/Dessert/';
     $image_location = $folder . $image_name;
 
     if(empty($_POST['id'])){
-        $query = mysqli_query($conn,"INSERT INTO dessert_menu(dess_menu_name, dess_quantity, dess_price, dess_pic) VALUES ('{$product_name}','{$quantity}', '{$price}', '{$image_name}')") or die('query failed');
+        $query = mysqli_query($conn,"INSERT INTO dessert_menu(dess_menuName, dess_quantity, dess_price, dess_picture) VALUES ('{$product_name}','{$quantity}', '{$price}', '{$image_name}')") or die('query failed');
     }else{
         $query_product = mysqli_query($conn, "SELECT * FROM dessert_menu WHERE dess_menuID = '{$_POST['id']}'");
         $result = mysqli_fetch_assoc($query_product);
 
         if (empty($image_name)) {
-            $image_name = $result['dess_pic'];
+            $image_name = $result['dess_picture'];
         }else{
-            @unlink($folder . $result['dess_pic']);
+            @unlink($folder . $result['dess_picture']);
         }
 
-        $query = mysqli_query($conn,"UPDATE dessert_menu SET dess_menu_name='{$product_name}', dess_quantity='{$quantity}', dess_price='{$price}', dess_pic='{$image_name}' WHERE dess_menuID = '{$_POST['id']}'") or die('query failed');
+        $query = mysqli_query($conn,"UPDATE dessert_menu SET dess_menuName='{$product_name}', dess_quantity='{$quantity}', dess_price='{$price}', dess_picture='{$image_name}' WHERE dess_menuID = '{$_POST['id']}'") or die('query failed');
     }
     mysqli_close($conn);
     if ($query) {

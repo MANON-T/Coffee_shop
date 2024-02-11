@@ -1,32 +1,46 @@
 <?php
-// Start the session
 session_start();
+include '../condb/database.php';
 
-require_once '../condb/database.php';
+if (!isset($_SESSION['cus_login'])) {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ !';
+    header('Location:../signin_cs.php');
+}
 
-  
+$cof_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'coffee'");
+$cof_row = mysqli_num_rows($cof_query);
 
+$mil_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'milk'");
+$mil_row = mysqli_num_rows($mil_query);
 
+$tea_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'tea'");
+$tea_row = mysqli_num_rows($tea_query);
 
+$dess_query = mysqli_query($conn, "SELECT * FROM dessert_menu");
+$dess_row = mysqli_num_rows($dess_query);
+
+$fruit_query = mysqli_query($conn, "SELECT * FROM fruit_menu");
+$fruit_row = mysqli_num_rows($fruit_query);
+
+$cus_username = $_SESSION['cus_login'];
+$point_query = "SELECT * FROM points WHERE p_customerName = '$cus_username' ";
+$point_row = mysqli_query($conn, $point_query);
+$point = mysqli_fetch_assoc($point_row)
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/add_styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Point Use</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/signin_styles.css"> <!-- Include your CSS file -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/add_styles.css">
+    <title>Point Use</title>
 </head>
 
-
 <body>
-    
     <div class="nav">
         <div class="logo-container">
             <a href="#"><img src="../image/coffee-cup.png" class="logo" /></a>
@@ -34,138 +48,158 @@ require_once '../condb/database.php';
         </div>
         <div class="links">
             <a href="Userinter.php">Menu</a>
+            <a href="#"><i class="bi bi-coin"></i> <?php echo $point['p_pointTotal'] ?> Point</a>
             <a href="Information.php">Information</a>
-            <a href="Point.php">point</a>
-            
-            <button type="button" name="logoutBt" id="logoutBt">Logout</button>
-
+            <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
         </div>
     </div>
-    <br>
-
-    <div class="container">
-        <center><h2>Water Menu</h2></center>
+    <div class="container" style="margin-top: 30px;">
+        <?php if (!empty($_SESSION['message'])) : ?>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <?php echo $_SESSION['message']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+        <?php unset($_SESSION['message']); ?>
+        <br>
+        <div class="row">
+            <h4>Coffee</h4>
+            <?php if ($cof_row > 0) : ?>
+                <?php while ($water = mysqli_fetch_assoc($cof_query)) : ?>
+                    <div class="col-3 mb-3">
+                        <div class="card" style="width: 16rem;">
+                            <?php if (!empty($water['w_picture'])) : ?>
+                                <img src="../image/menu/Water/<?php echo $water['w_picture']; ?>" class="card-img-top" width="100" alt="Product Image">
+                            <?php else : ?>
+                                <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
+                            <?php endif; ?>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
+                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'], 2); ?> Point</p>
+                                <a href="#" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else : ?>
+                <diiv class="col-12">
+                    <h4 class="text-danger">No product data</h4>
+                </diiv>
+            <?php endif; ?>
+        </div>
+        <div class="row">
+            <h4>Milk</h4>
+            <?php if ($mil_row > 0) : ?>
+                <?php while ($water = mysqli_fetch_assoc($mil_query)) : ?>
+                    <div class="col-3 mb-3">
+                        <div class="card" style="width: 16rem;">
+                            <?php if (!empty($water['w_picture'])) : ?>
+                                <img src="../image/menu/water/<?php echo $water['w_picture']; ?>" class="card-img-top" width="100" alt="Product Image">
+                            <?php else : ?>
+                                <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
+                            <?php endif; ?>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
+                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'], 2); ?> Point</p>
+                                <a href="#" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else : ?>
+                <diiv class="col-12">
+                    <h4 class="text-danger">No product data</h4>
+                </diiv>
+            <?php endif; ?>
+        </div>
+        <div class="row">
+            <h4>Tea</h4>
+            <?php if ($tea_row > 0) : ?>
+                <?php while ($water = mysqli_fetch_assoc($tea_query)) : ?>
+                    <div class="col-3 mb-3">
+                        <div class="card" style="width: 16rem;">
+                            <?php if (!empty($water['w_picture'])) : ?>
+                                <img src="../image/menu/water/<?php echo $water['w_picture']; ?>" class="card-img-top" width="100" alt="Product Image">
+                            <?php else : ?>
+                                <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
+                            <?php endif; ?>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
+                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'], 2); ?> Point</p>
+                                <a href="#" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else : ?>
+                <diiv class="col-12">
+                    <h4 class="text-danger">No product data</h4>
+                </diiv>
+            <?php endif; ?>
+        </div>
+        <div class="row">
+            <h4>Dessert</h4>
+            <?php if ($dess_row > 0) : ?>
+                <?php while ($dessert = mysqli_fetch_assoc($dess_query)) : ?>
+                    <div class="col-3 mb-3">
+                        <div class="card" style="width: 16rem;">
+                            <?php if (!empty($dessert['dess_picture'])) : ?>
+                                <img src="../image/menu/Dessert/<?php echo $dessert['dess_picture']; ?>" class="card-img-top" width="100" alt="Product Image">
+                            <?php else : ?>
+                                <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
+                            <?php endif; ?>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $dessert['dess_menuName']; ?></h5>
+                                <p class="card-text text-muted mb-0">Stock : <?php echo $dessert['dess_quantity']; ?></p>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($dessert['dess_price'], 2); ?> Point</p>
+                                <a href="#" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else : ?>
+                <diiv class="col-12">
+                    <h4 class="text-danger">No product data</h4>
+                </diiv>
+            <?php endif; ?>
+        </div>
+        <div class="row">
+            <h4>Fruit</h4>
+            <?php if ($fruit_row > 0) : ?>
+                <?php while ($fruit = mysqli_fetch_assoc($fruit_query)) : ?>
+                    <div class="col-3 mb-3">
+                        <div class="card" style="width: 16rem;">
+                            <?php if (!empty($fruit['fruit_picture'])) : ?>
+                                <img src="../image/menu/Fruit/<?php echo $fruit['fruit_picture']; ?>" class="card-img-top" width="100" alt="Product Image">
+                            <?php else : ?>
+                                <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
+                            <?php endif; ?>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $fruit['fruit_menuName']; ?></h5>
+                                <p class="card-text text-muted mb-0">Stock : <?php echo $fruit['fruit_quantity']; ?></p>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($fruit['fruit_price'], 2); ?> Point</p>
+                                <a href="#" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else : ?>
+                <diiv class="col-12">
+                    <h4 class="text-danger">No product data</h4>
+                </diiv>
+            <?php endif; ?>
+        </div>
     </div>
-    
-
-    <br>
-    <div class="row">
-        <?php 
-        // สร้างคำสั่ง SQL เพื่อดึงข้อมูลเมนูน้ำทั้งหมด
-        $sqlwater = "SELECT * FROM water_menu";
-        $result = $conn->query($sqlwater);
-        // ตรวจสอบว่ามีข้อมูลหรือไม่
-        if ($result->num_rows > 0) {
-            // วนลูปเพื่อแสดงข้อมูลทั้งหมด
-            while ($row = $result->fetch_assoc()) {
-
-            echo '<div class="col-sm-4 mb-4">';
-            echo '<div class="card">';
-            echo '<img src="' . $row['w_pic'] . '" class="card-img-top" alt="' . $row['w_name'] . '">';
-            echo '<div class="card-body">';
-            echo '<h5 class="card-title">' . $row['w_name'] . '</h5>';
-            echo '<p class="card-text">ราคา: ' . number_format($row['w_price']) . ' บาท</p>';
-            echo '<a href="login.php" class="nav-link px-2 text-center"> </a>';
-            echo '</div></div></div>';
-            }
-        } else {
-            echo "ไม่พบรายการเมนูน้ำ";
-        }
-        ?>
-    </div>
-    <br>
-
-    <div class="container">
-        <center><h2>Dessert Menu</h2></center>
-    </div>
-    
-    <br>
-    <div class="row">
-        <?php 
-        // สร้างคำสั่ง SQL เพื่อดึงข้อมูลเมนูน้ำทั้งหมด
-        $sqldessert = "SELECT * FROM dessert_menu";
-        $result = $conn->query($sqldessert);
-        // ตรวจสอบว่ามีข้อมูลหรือไม่
-        if ($result->num_rows > 0) {
-            // วนลูปเพื่อแสดงข้อมูลทั้งหมด
-            while ($row = $result->fetch_assoc()) {
-
-            echo '<div class="col-sm-4 mb-4">';
-            echo '<div class="card">';
-            echo '<img src="' . $row['dess_pic'] . '" class="card-img-top" alt="' . $row['dess_menu_name'] . '">';
-            echo '<div class="card-body">';
-            echo '<h5 class="card-title">' . $row['dess_menu_name'] . '</h5>';
-            echo '<p class="card-text">ราคา: ' . number_format($row['dess_price']) . ' บาท</p>';
-            echo '<a href="login.php" class="nav-link px-2 text-center"> </a>';
-            echo '</div></div></div>';
-            }
-        } else {
-            echo "ไม่พบรายการเมนูน้ำ";
-        }
-        ?>
-    </div>
-    <br>
-
-    <div class="container">
-        <center><h2>Fruit Menu</h2></center>
-    </div>
-    
-
-    <br>
-    <div class="row">
-        <?php 
-        // สร้างคำสั่ง SQL เพื่อดึงข้อมูลเมนูน้ำทั้งหมด
-        $sqldessert = "SELECT * FROM fruit_manu";
-        $result = $conn->query($sqldessert);
-        // ตรวจสอบว่ามีข้อมูลหรือไม่
-        if ($result->num_rows > 0) {
-            // วนลูปเพื่อแสดงข้อมูลทั้งหมด
-            while ($row = $result->fetch_assoc()) {
-
-            echo '<div class="col-sm-4 mb-4">';
-            echo '<div class="card">';
-            echo '<img src="' . $row['fruit_pic'] . '" class="card-img-top" alt="' . $row['fruit_menu_name'] . '">';
-            echo '<div class="card-body">';
-            echo '<h5 class="card-title">' . $row['fruit_menu_name'] . '</h5>';
-            echo '<p class="card-text">ราคา: ' . number_format($row['fruit_Price']) . ' บาท</p>';
-            echo '<a href="login.php" class="nav-link px-2 text-center"> </a>';
-            echo '</div></div></div>';
-            }
-        } else {
-            echo "ไม่พบรายการเมนูน้ำ";
-        }
-        ?>
-    </div>
-
-    
-    
-
-</body>
-<!-- เพิ่มไลบรารี jQuery ถ้ายังไม่ได้ใช้งาน -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-$(document).ready(function(){
-    // เมื่อคลิกที่ปุ่ม "Logout"
-    $("#logoutBt").click(function(){
-        // สร้าง AJAX request
-        $.ajax({
-            url: "../condb/logout.php", // กำหนด URL ของไฟล์ PHP ที่ใช้ในการล็อกเอาท์
-            type: "GET", // กำหนดเป็นเมธอด GET
-            success: function(data){
-                // หากการ request สำเร็จ
-                alert("Logout successful"); // แสดงข้อความแจ้งเตือน
-                window.location.href = "../index.php"; // redirect ไปยังหน้า index.php
-            },
-            error: function(){
-                // หากการ request ไม่สำเร็จ
-                alert("Logout failed"); // แสดงข้อความแจ้งเตือน
-            }
+    <script>
+        // Add an event listener to the Log In button
+        document.getElementById('LogoutBtn').addEventListener('click', function () {
+            // Redirect to the login page or any other page you want
+            window.location.href = '../condb/logout.php'; // Replace 'login.html' with the desired page
         });
-    });
-});
-</script>
-
-
+    </script>
+</body>
 
 </html>

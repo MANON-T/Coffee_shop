@@ -6,26 +6,25 @@
     $price = $_POST['price'] ?: 0;
     $product_type = trim($_POST['product_type']);
     $image_name = $_FILES['profile_image']['name'];
-    $temperature = isset($_POST['temperature']) ? $_POST['temperature'] : array();
+    $temperature = $_POST['temperature'];
 
-    $temperature_str = implode(',', $temperature);
     $image_tmp = $_FILES['profile_image']['tmp_name'];
-    $folder = '../image/menu/water/';
+    $folder = '../image/menu/Water/';
     $image_location = $folder . $image_name;
 
     if(empty($_POST['id'])){
-        $query = mysqli_query($conn,"INSERT INTO water_menu(w_name, w_watertype, w_hcm, w_price, w_pic) VALUES ('{$product_name}','{$product_type}','{$temperature_str}','{$price}', '{$image_name}')") or die('query failed');
+        $query = mysqli_query($conn,"INSERT INTO water_menu(w_menuName, w_waterType, w_HotColdBlended, w_price, w_picture) VALUES ('{$product_name}','{$product_type}','{$temperature}','{$price}', '{$image_name}')") or die('query failed');
     }else{
         $query_product = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_menuID = '{$_POST['id']}'");
         $result = mysqli_fetch_assoc($query_product);
 
         if (empty($image_name)) {
-            $image_name = $result['w_pic'];
+            $image_name = $result['w_picture'];
         }else{
-            @unlink($folder . $result['w_pic']);
+            @unlink($folder . $result['w_picture']);
         }
 
-        $query = mysqli_query($conn,"UPDATE water_menu SET w_name='{$product_name}', w_watertype='{$product_type}', w_hcm='{$temperature_str}', w_price='{$price}', w_pic='{$image_name}' WHERE w_menuID = '{$_POST['id']}'") or die('query failed');
+        $query = mysqli_query($conn,"UPDATE water_menu SET w_menuName='{$product_name}', w_waterType='{$product_type}', w_HotColdBlended='{$temperature}', w_price='{$price}', w_picture='{$image_name}' WHERE w_menuID = '{$_POST['id']}'") or die('query failed');
     }
     mysqli_close($conn);
     if ($query) {

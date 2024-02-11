@@ -7,8 +7,8 @@ $username = mysqli_real_escape_string($conn, $_POST['username']);
 $queryID = mysqli_query($conn, "SELECT * FROM customer WHERE cus_username = '{$username}'");
 
 $customerID = mysqli_fetch_assoc($queryID);
-$query = mysqli_query($conn, "INSERT INTO order_main(od_orderdate, od_customerID, od_total) 
-VALUES ('{$now}','{$customerID['cus_CustomerID']}', '{$_POST['grand_total']}')") or die('query failed');
+$query = mysqli_query($conn, "INSERT INTO order_main(ord_orderDate, ord_customerID, ord_total) 
+VALUES ('{$now}','{$customerID['cus_customerID']}', '{$_POST['grand_total']}')") or die('query failed');
 
 if ($query) {
     $last_id = mysqli_insert_id($conn);
@@ -18,7 +18,7 @@ if ($query) {
         $total = $price * $productQty;
 
         // $_SESSION['cart'][$productID] = $_POST['product'][$productID]['quantity'];
-        $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_price, ord_quantity, ord_totalprice) 
+        $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_price, ord_quantity, ord_totalPrice) 
         VALUES ('{$last_id}','{$productID}', '{$product_name}', '{$price}', '{$productQty}', '{$total}')") or die('query failed');
     }
 

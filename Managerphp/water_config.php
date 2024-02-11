@@ -2,13 +2,18 @@
 session_start();
 include '../condb/database.php';
 
+if (!isset($_SESSION['manager_login'])) {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ !';
+    header('Location:../signin_ep.php');
+}
+
 $result = [
     'w_menuID' => '',
-    'w_name' => '',
-    'w_watertype' => '',
-    'w_hcm' => '',
+    'w_menuName' => '',
+    'w_waterType' => '',
+    'w_HotColdBlended' => '',
     'w_price' => '',
-    'w_pic' => '',
+    'w_picture' => '',
 ];
 
 if (!empty($_GET['id'])) {
@@ -55,9 +60,8 @@ if (!empty($_GET['id'])) {
         </div>
         <div class="links">
             <a href="index.php">Menu</a>
-            <a href="#">Bartander Site</a>
             <a href="#">Dashboard</a>
-            <button id="RegisBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
+            <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
         </div>
     </div>
     <div class="container">
@@ -70,33 +74,30 @@ if (!empty($_GET['id'])) {
                         <div class="row g-3 mb-3">
                             <div class="col-sm-6">
                                 <label class="form-label">Product Name</label>
-                                <input type="text" name="product_name" class="form-control" value="<?php echo $result['w_name']; ?>">
+                                <input type="text" name="product_name" class="form-control" value="<?php echo $result['w_menuName']; ?>">
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label">Product Type</label>
                                 <select name="product_type" class="form-select">
-                                    <option value="coffee" <?php echo ($result['w_watertype'] == 'coffee') ? 'selected' : ''; ?>>Coffee</option>
-                                    <option value="milk" <?php echo ($result['w_watertype'] == 'milk') ? 'selected' : ''; ?>>Milk</option>
-                                    <option value="tea" <?php echo ($result['w_watertype'] == 'tea') ? 'selected' : ''; ?>>Tea</option>
+                                    <option value="coffee" <?php echo ($result['w_waterType'] == 'coffee') ? 'selected' : ''; ?>>Coffee</option>
+                                    <option value="milk" <?php echo ($result['w_waterType'] == 'milk') ? 'selected' : ''; ?>>Milk</option>
+                                    <option value="tea" <?php echo ($result['w_waterType'] == 'tea') ? 'selected' : ''; ?>>Tea</option>
                                     <!-- Add more options as needed -->
                                 </select>
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label">Option</label>
-                                <?php
-                                $temperature = explode(',', $result['w_hcm']);
-                                ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="temperature[]" value="hot" id="hot" <?php echo (in_array('hot', $temperature)) ? 'checked' : ''; ?>>
-                                    <label class="form-check-label" for="hot">Hot</label>
+                                    <input type="radio" id="hot" name="temperature" value="Hot" <?php echo ($result['w_HotColdBlended'] == 'Hot') ? 'checked' : ''; ?>>
+                                    <label for="hot">Hot</label><br>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="temperature[]" value="cold" id="cold" <?php echo (in_array('cold', $temperature)) ? 'checked' : ''; ?>>
-                                    <label class="form-check-label" for="cold">Cold</label>
+                                    <input type="radio" id="cold" name="temperature" value="Cold" <?php echo ($result['w_HotColdBlended'] == 'Cold') ? 'checked' : ''; ?>>
+                                    <label for="cold">Cold</label><br>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="temperature[]" value="blended" id="blended" <?php echo (in_array('blended', $temperature)) ? 'checked' : ''; ?>>
-                                    <label class="form-check-label" for="blended">Blended</label>
+                                    <input type="radio" id="blended" name="temperature" value="Blen" <?php echo ($result['w_HotColdBlended'] == 'Blen') ? 'checked' : ''; ?>>
+                                    <label for="blended">Blended</label><br>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -105,8 +106,8 @@ if (!empty($_GET['id'])) {
                             </div>
                             <div class="col-sm-6">
                                 <div>
-                                    <?php if (!empty($result['w_pic'])) : ?>
-                                        <img src="../image/menu/water/<?php echo $result['w_pic']; ?>" width="100" alt="Product Image">
+                                    <?php if (!empty($result['w_picture'])) : ?>
+                                        <img src="../image/menu/Water/<?php echo $result['w_picture']; ?>" width="100" alt="Product Image">
                                     <?php endif; ?>
                                 </div>
                                 <label for="formfile" class="form-label">image</label>
@@ -125,6 +126,13 @@ if (!empty($_GET['id'])) {
             </div>
         </div>
     </div>
+    <script>
+        // Add an event listener to the Log In button
+        document.getElementById('LogoutBtn').addEventListener('click', function() {
+            // Redirect to the login page or any other page you want
+            window.location.href = '../condb/logout.php'; // Replace 'login.html' with the desired page
+        });
+    </script>
 </body>
 
 </html>
