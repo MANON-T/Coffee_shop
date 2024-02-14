@@ -16,9 +16,8 @@
 
 -Permissions control
 
-# Fucntion Developing
-
 -Register
+# Fucntion Developing
 
 -Cashier page
 
