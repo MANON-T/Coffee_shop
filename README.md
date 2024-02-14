@@ -14,11 +14,11 @@
 # Function Completion
 -Login
 
+-Permissions control
+
 # Fucntion Developing
 
 -Register
-
--Permissions control
 
 -Cashier page
 
