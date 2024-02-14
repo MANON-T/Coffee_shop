@@ -74,10 +74,14 @@ $point = mysqli_fetch_assoc($point_row)
                                 <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
-                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'], 2); ?> Point</p>
-                                <a href="#" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</a>
+                                <form action="redeem.php" method="post">
+                                    <?php $rate = number_format($water['w_price'], 2) * 5 ?>
+                                    <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
+                                    <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
+                                    <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
+                                    <input type="hidden" name="product_name" value="<?php echo $water['w_menuName']; ?>">
+                                    <button type="submit" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -100,10 +104,14 @@ $point = mysqli_fetch_assoc($point_row)
                                 <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
-                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'], 2); ?> Point</p>
-                                <a href="#" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</a>
+                                <form action="redeem.php" method="post">
+                                    <?php $rate = number_format($water['w_price'], 2) * 5 ?>
+                                    <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
+                                    <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
+                                    <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
+                                    <input type="hidden" name="product_name" value="<?php echo $water['w_menuName']; ?>">
+                                    <input type="submit" class="btn btn-dark w-100" value="Redeem">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -126,10 +134,14 @@ $point = mysqli_fetch_assoc($point_row)
                                 <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
-                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'], 2); ?> Point</p>
-                                <a href="#" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</a>
+                                <form action="redeem.php" method="post">
+                                    <?php $rate = number_format($water['w_price'], 2) * 5 ?>
+                                    <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
+                                    <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
+                                    <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
+                                    <input type="hidden" name="product_name" value="<?php echo $water['w_menuName']; ?>">
+                                    <input type="submit" class="btn btn-dark w-100" value="Redeem">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -152,10 +164,14 @@ $point = mysqli_fetch_assoc($point_row)
                                 <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $dessert['dess_menuName']; ?></h5>
-                                <p class="card-text text-muted mb-0">Stock : <?php echo $dessert['dess_quantity']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($dessert['dess_price'], 2); ?> Point</p>
-                                <a href="#" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</a>
+                                <form action="redeem.php" method="post">
+                                    <?php $rate = number_format($dessert['dess_price'], 2) * 5 ?>
+                                    <h5 class="card-title"><?php echo $dessert['dess_menuName']; ?></h5>
+                                    <p class="card-text text-muted mb-0">Stock : <?php echo $dessert['dess_quantity']; ?></p>
+                                    <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
+                                    <input type="hidden" name="product_name" value="<?php echo $dessert['dess_menuName']; ?>">
+                                    <input type="submit" class="btn btn-dark w-100" value="Redeem">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -178,10 +194,14 @@ $point = mysqli_fetch_assoc($point_row)
                                 <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $fruit['fruit_menuName']; ?></h5>
-                                <p class="card-text text-muted mb-0">Stock : <?php echo $fruit['fruit_quantity']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($fruit['fruit_price'], 2); ?> Point</p>
-                                <a href="#" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</a>
+                                <form action="redeem.php" method="post">
+                                    <?php $rate = number_format($fruit['fruit_price'], 2) * 5 ?>
+                                    <h5 class="card-title"><?php echo $fruit['fruit_menuName']; ?></h5>
+                                    <p class="card-text text-muted mb-0">Stock : <?php echo $fruit['fruit_quantity']; ?></p>
+                                    <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
+                                    <input type="hidden" name="product_name" value="<?php echo $fruit['fruit_menuName']; ?>">
+                                    <input type="submit" class="btn btn-dark w-100" value="Redeem">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -195,7 +215,7 @@ $point = mysqli_fetch_assoc($point_row)
     </div>
     <script>
         // Add an event listener to the Log In button
-        document.getElementById('LogoutBtn').addEventListener('click', function () {
+        document.getElementById('LogoutBtn').addEventListener('click', function() {
             // Redirect to the login page or any other page you want
             window.location.href = '../condb/logout.php'; // Replace 'login.html' with the desired page
         });
