@@ -12,9 +12,10 @@ VALUES ('{$now}','{$customerID['cus_customerID']}', '{$_POST['grand_total']}')")
 
 if ($query) {
     $last_id = mysqli_insert_id($conn);
-    foreach ($_SESSION['cart'] as $productID => $productQty) {
-        $product_name = $_POST['product'][$productID]['name'];
-        $price = $_POST['product'][$productID]['price'];
+    foreach ($_SESSION['cart'] as $product => $productQty) {
+        $productID = $_POST['product'][$product]['id'];
+        $product_name = $_POST['product'][$product]['name'];
+        $price = $_POST['product'][$product]['price'];
         $total = $price * $productQty;
 
         // $_SESSION['cart'][$productID] = $_POST['product'][$productID]['quantity'];

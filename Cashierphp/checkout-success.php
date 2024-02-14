@@ -2,6 +2,10 @@
 session_start();
 include '../condb/database.php';
 
+if (!isset($_SESSION['cashier_login'])) {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ !';
+    header('Location:../signin_ep.php');
+}
 ?>
 
 <!doctype html>
@@ -28,7 +32,7 @@ include '../condb/database.php';
                 <div class="links">
                     <a href="index.php">Menu</a>
                     <a href="cart.php">Cart (<?php echo count($_SESSION['cart'] ?? []) ?>) </a>
-                    <button id="RegisBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
+                    <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
                 </div>
             </div>
             <div class="container" style="margin-top: 30px;">
@@ -46,6 +50,13 @@ include '../condb/database.php';
     <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script src="form-validation.js"></script>
+    <script>
+        // Add an event listener to the Log In button
+        document.getElementById('LogoutBtn').addEventListener('click', function() {
+            // Redirect to the login page or any other page you want
+            window.location.href = '../condb/logout.php'; // Replace 'login.html' with the desired page
+        });
+    </script>
 </body>
 
 </html>

@@ -2,19 +2,24 @@
 session_start();
 include '../condb/database.php';
 
-$cof_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'coffee'");
+if (!isset($_SESSION['cashier_login'])) {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ !';
+    header('Location:../signin_ep.php');
+}
+
+$cof_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_waterType = 'coffee'");
 $cof_row = mysqli_num_rows($cof_query);
 
-$mil_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'milk'");
+$mil_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_waterType = 'milk'");
 $mil_row = mysqli_num_rows($mil_query);
 
-$tea_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'tea'");
+$tea_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_waterType = 'tea'");
 $tea_row = mysqli_num_rows($tea_query);
 
 $dess_query = mysqli_query($conn, "SELECT * FROM dessert_menu");
 $dess_row = mysqli_num_rows($dess_query);
 
-$fruit_query = mysqli_query($conn, "SELECT * FROM fruit_manu");
+$fruit_query = mysqli_query($conn, "SELECT * FROM fruit_menu");
 $fruit_row = mysqli_num_rows($fruit_query);
 ?>
 
@@ -39,7 +44,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
         <div class="links">
             <a href="index.php">Menu</a>
             <a href="cart.php">Cart (<?php echo count($_SESSION['cart'] ?? []) ?>) </a>
-            <button id="RegisBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
+            <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
         </div>
     </div>
     <div class="container" style="margin-top: 30px;">
@@ -57,16 +62,16 @@ $fruit_row = mysqli_num_rows($fruit_query);
                 <?php while ($water = mysqli_fetch_assoc($cof_query)) : ?>
                     <div class="col-3 mb-3">
                         <div class="card" style="width: 16rem;">
-                            <?php if (!empty($water['w_pic'])) : ?>
-                                <img src="../image/menu/water/<?php echo $water['w_pic']; ?>" class="card-img-top" width="100" alt="Product Image">
+                            <?php if (!empty($water['w_picture'])) : ?>
+                                <img src="../image/menu/Water/<?php echo $water['w_picture']; ?>" class="card-img-top" width="100" alt="Product Image">
                             <?php else : ?>
                                 <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $water['w_name']; ?></h5>
-                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_hcm']; ?></p>
+                                <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
+                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
                                 <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'],2); ?> Baht</p>
-                                <a href="../condb/cart-adddb.php?id=<?php echo $water['w_menuID']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
+                                <a href="../condb/cart-adddb.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
                             </div>
                         </div>
                     </div>
@@ -83,16 +88,16 @@ $fruit_row = mysqli_num_rows($fruit_query);
                 <?php while ($water = mysqli_fetch_assoc($mil_query)) : ?>
                     <div class="col-3 mb-3">
                         <div class="card" style="width: 16rem;">
-                            <?php if (!empty($water['w_pic'])) : ?>
-                                <img src="../image/menu/water/<?php echo $water['w_pic']; ?>" class="card-img-top" width="100" alt="Product Image">
+                            <?php if (!empty($water['w_picture'])) : ?>
+                                <img src="../image/menu/Water/<?php echo $water['w_picture']; ?>" class="card-img-top" width="100" alt="Product Image">
                             <?php else : ?>
                                 <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $water['w_name']; ?></h5>
-                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_hcm']; ?></p>
+                                <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
+                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
                                 <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'],2); ?> Baht</p>
-                                <a href="../condb/cart-adddb.php?id=<?php echo $water['w_menuID']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
+                                <a href="../condb/cart-adddb.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
                             </div>
                         </div>
                     </div>
@@ -109,16 +114,16 @@ $fruit_row = mysqli_num_rows($fruit_query);
                 <?php while ($water = mysqli_fetch_assoc($tea_query)) : ?>
                     <div class="col-3 mb-3">
                         <div class="card" style="width: 16rem;">
-                            <?php if (!empty($water['w_pic'])) : ?>
-                                <img src="../image/menu/water/<?php echo $water['w_pic']; ?>" class="card-img-top" width="100" alt="Product Image">
+                            <?php if (!empty($water['w_picture'])) : ?>
+                                <img src="../image/menu/Water/<?php echo $water['w_picture']; ?>" class="card-img-top" width="100" alt="Product Image">
                             <?php else : ?>
                                 <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $water['w_name']; ?></h5>
-                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_hcm']; ?></p>
+                                <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
+                                <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
                                 <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'],2); ?> Baht</p>
-                                <a href="../condb/cart-adddb.php?id=<?php echo $water['w_menuID']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
+                                <a href="../condb/cart-adddb.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
                             </div>
                         </div>
                     </div>
@@ -135,16 +140,16 @@ $fruit_row = mysqli_num_rows($fruit_query);
                 <?php while ($dessert = mysqli_fetch_assoc($dess_query)) : ?>
                     <div class="col-3 mb-3">
                         <div class="card" style="width: 16rem;">
-                            <?php if (!empty($dessert['dess_pic'])) : ?>
-                                <img src="../image/menu/dessert/<?php echo $dessert['dess_pic']; ?>" class="card-img-top" width="100" alt="Product Image">
+                            <?php if (!empty($dessert['dess_picture'])) : ?>
+                                <img src="../image/menu/Dessert/<?php echo $dessert['dess_picture']; ?>" class="card-img-top" width="100" alt="Product Image">
                             <?php else : ?>
                                 <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $dessert['dess_menu_name']; ?></h5>
+                                <h5 class="card-title"><?php echo $dessert['dess_menuName']; ?></h5>
                                 <p class="card-text text-muted mb-0">Stock : <?php echo $dessert['dess_quantity']; ?></p>
                                 <p class="card-text text-success fw-bold"><?php echo number_format($dessert['dess_price'],2); ?> Baht</p>
-                                <a href="../condb/cart-adddb.php?id=<?php echo $dessert['dess_menuID']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
+                                <a href="../condb/cart-adddb.php?id=<?php echo $dessert['dess_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
                             </div>
                         </div>
                     </div>
@@ -161,16 +166,16 @@ $fruit_row = mysqli_num_rows($fruit_query);
                 <?php while ($fruit = mysqli_fetch_assoc($fruit_query)) : ?>
                     <div class="col-3 mb-3">
                         <div class="card" style="width: 16rem;">
-                            <?php if (!empty($fruit['fruit_pic'])) : ?>
-                                <img src="../image/menu/fruit/<?php echo $fruit['fruit_pic']; ?>" class="card-img-top" width="100" alt="Product Image">
+                            <?php if (!empty($fruit['fruit_picture'])) : ?>
+                                <img src="../image/menu/Fruit/<?php echo $fruit['fruit_picture']; ?>" class="card-img-top" width="100" alt="Product Image">
                             <?php else : ?>
                                 <img src="../image/error.png" class="card-img-top" width="100" alt="Product Image">
                             <?php endif; ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $fruit['fruit_menu_name']; ?></h5>
+                                <h5 class="card-title"><?php echo $fruit['fruit_menuName']; ?></h5>
                                 <p class="card-text text-muted mb-0">Stock : <?php echo $fruit['fruit_quantity']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($fruit['fruit_Price'],2); ?> Baht</p>
-                                <a href="../condb/cart-adddb.php?id=<?php echo $fruit['fruit_menuID']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($fruit['fruit_price'],2); ?> Baht</p>
+                                <a href="../condb/cart-adddb.php?id=<?php echo $fruit['fruit_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
                             </div>
                         </div>
                     </div>
@@ -182,6 +187,13 @@ $fruit_row = mysqli_num_rows($fruit_query);
             <?php endif; ?>
         </div>
     </div>
+    <script>
+        // Add an event listener to the Log In button
+        document.getElementById('LogoutBtn').addEventListener('click', function() {
+            // Redirect to the login page or any other page you want
+            window.location.href = '../condb/logout.php'; // Replace 'login.html' with the desired page
+        });
+    </script>
 </body>
 
 </html>

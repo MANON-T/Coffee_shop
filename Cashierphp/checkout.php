@@ -2,29 +2,31 @@
 session_start();
 include '../condb/database.php';
 
-$productIDs = [];
-foreach (($_SESSION['cart'] ?? []) as $cartID => $cartQty) {
-    $productIDs[] = $cartID;
+if (!isset($_SESSION['cashier_login'])) {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ !';
+    header('Location:../signin_ep.php');
 }
 
-$ids = 0;
-if (count($productIDs) > 0) {
-    $ids = implode(',', $productIDs);
+$productNames = [];
+foreach (($_SESSION['cart'] ?? []) as $cartName => $cartQty) {
+    $productNames[] = mysqli_real_escape_string($conn, $cartName);
 }
 
-$cof_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'coffee' AND w_menuID IN ($ids)");
+$names = "'" . implode("','", $productNames) . "'";
+
+$cof_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_waterType = 'coffee' AND w_menuName IN ($names)");
 $cof_row = mysqli_num_rows($cof_query);
 
-$mil_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'milk' AND w_menuID IN ($ids)");
+$mil_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_waterType = 'milk' AND w_menuName IN ($names)");
 $mil_row = mysqli_num_rows($mil_query);
 
-$tea_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'tea' AND w_menuID IN ($ids)");
+$tea_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_waterType = 'tea' AND w_menuName IN ($names)");
 $tea_row = mysqli_num_rows($tea_query);
 
-$dess_query = mysqli_query($conn, "SELECT * FROM dessert_menu WHERE dess_menuID IN ($ids)");
+$dess_query = mysqli_query($conn, "SELECT * FROM dessert_menu WHERE dess_menuName IN ($names)");
 $dess_row = mysqli_num_rows($dess_query);
 
-$fruit_query = mysqli_query($conn, "SELECT * FROM fruit_manu WHERE fruit_menuID IN ($ids)");
+$fruit_query = mysqli_query($conn, "SELECT * FROM fruit_menu WHERE fruit_menuName IN ($names)");
 $fruit_row = mysqli_num_rows($fruit_query);
 ?>
 
@@ -52,7 +54,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
                 <div class="links">
                     <a href="index.php">Menu</a>
                     <a href="cart.php">Cart (<?php echo count($_SESSION['cart'] ?? []) ?>) </a>
-                    <button id="RegisBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
+                    <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
                 </div>
             </div>
             <div class="container" style="margin-top: 30px;">
@@ -79,13 +81,14 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                     <?php while ($water = mysqli_fetch_assoc($cof_query)) : ?>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0"><?php echo $water['w_name']; ?>(<?php echo $_SESSION['cart'][$water['w_menuID']]; ?>)</h6>
-                                                <input type="hidden" name="product[<?php echo $water['w_menuID']; ?>][price]" value="<?php echo $water['w_price']; ?>">
-                                                <input type="hidden" name="product[<?php echo $water['w_menuID']; ?>][name]" value="<?php echo $water['w_name']; ?>">
+                                                <h6 class="my-0"><?php echo $water['w_menuName']; ?>(<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>)</h6>
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][id]" value="<?php echo $water['w_menuID']; ?>">
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][price]" value="<?php echo $water['w_price']; ?>">
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][name]" value="<?php echo $water['w_menuName']; ?>">
                                             </div>
-                                            <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$water['w_menuID']] * $water['w_price'], 2); ?></span>
+                                            <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$water['w_menuName']] * $water['w_price'], 2); ?></span>
                                         </li>
-                                        <?php $grand_total += $_SESSION['cart'][$water['w_menuID']] * $water['w_price']; ?>
+                                        <?php $grand_total += $_SESSION['cart'][$water['w_menuName']] * $water['w_price']; ?>
                                     <?php endwhile; ?>
                                 </ul>
 
@@ -96,13 +99,14 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                     <?php while ($water = mysqli_fetch_assoc($mil_query)) : ?>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0"><?php echo $water['w_name']; ?>(<?php echo $_SESSION['cart'][$water['w_menuID']]; ?>)</h6>
-                                                <input type="hidden" name="product[<?php echo $water['w_menuID']; ?>][price]" value="<?php echo $water['w_price']; ?>">
-                                                <input type="hidden" name="product[<?php echo $water['w_menuID']; ?>][name]" value="<?php echo $water['w_name']; ?>">
+                                                <h6 class="my-0"><?php echo $water['w_menuName']; ?>(<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>)</h6>
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][id]" value="<?php echo $water['w_menuID']; ?>">
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][price]" value="<?php echo $water['w_price']; ?>">
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][name]" value="<?php echo $water['w_menuName']; ?>">
                                             </div>
-                                            <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$water['w_menuID']] * $water['w_price'], 2); ?></span>
+                                            <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$water['w_menuName']] * $water['w_price'], 2); ?></span>
                                         </li>
-                                        <?php $grand_total += $_SESSION['cart'][$water['w_menuID']] * $water['w_price']; ?>
+                                        <?php $grand_total += $_SESSION['cart'][$water['w_menuName']] * $water['w_price']; ?>
                                     <?php endwhile; ?>
                                 </ul>
 
@@ -113,13 +117,14 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                     <?php while ($water = mysqli_fetch_assoc($tea_query)) : ?>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0"><?php echo $water['w_name']; ?>(<?php echo $_SESSION['cart'][$water['w_menuID']]; ?>)</h6>
-                                                <input type="hidden" name="product[<?php echo $water['w_menuID']; ?>][price]" value="<?php echo $water['w_price']; ?>">
-                                                <input type="hidden" name="product[<?php echo $water['w_menuID']; ?>][name]" value="<?php echo $water['w_name']; ?>">
+                                                <h6 class="my-0"><?php echo $water['w_menuName']; ?>(<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>)</h6>
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][id]" value="<?php echo $water['w_menuID']; ?>">
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][price]" value="<?php echo $water['w_price']; ?>">
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][name]" value="<?php echo $water['w_menuName']; ?>">
                                             </div>
-                                            <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$water['w_menuID']] * $water['w_price'], 2); ?></span>
+                                            <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$water['w_menuName']] * $water['w_price'], 2); ?></span>
                                         </li>
-                                        <?php $grand_total += $_SESSION['cart'][$water['w_menuID']] * $water['w_price']; ?>
+                                        <?php $grand_total += $_SESSION['cart'][$water['w_menuName']] * $water['w_price']; ?>
                                     <?php endwhile; ?>
                                 </ul>
 
@@ -130,13 +135,14 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                     <?php while ($dessert = mysqli_fetch_assoc($dess_query)) : ?>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0"><?php echo $dessert['dess_menu_name']; ?>(<?php echo $_SESSION['cart'][$dessert['dess_menuID']]; ?>)</h6>
-                                                <input type="hidden" name="product[<?php echo $dessert['dess_menuID']; ?>][price]" value="<?php echo $dessert['dess_price']; ?>">
-                                                <input type="hidden" name="product[<?php echo $dessert['dess_menuID']; ?>][name]" value="<?php echo $dessert['dess_menu_name']; ?>">
+                                                <h6 class="my-0"><?php echo $dessert['dess_menuName']; ?>(<?php echo $_SESSION['cart'][$dessert['dess_menuName']]; ?>)</h6>
+                                                <input type="hidden" name="product[<?php echo $dessert['dess_menuName']; ?>][id]" value="<?php echo $dessert['dess_menuID']; ?>">
+                                                <input type="hidden" name="product[<?php echo $dessert['dess_menuName']; ?>][price]" value="<?php echo $dessert['dess_price']; ?>">
+                                                <input type="hidden" name="product[<?php echo $dessert['dess_menuName']; ?>][name]" value="<?php echo $dessert['dess_menuName']; ?>">
                                             </div>
-                                            <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$dessert['dess_menuID']] * $dessert['dess_price'], 2); ?></span>
+                                            <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$dessert['dess_menuName']] * $dessert['dess_price'], 2); ?></span>
                                         </li>
-                                        <?php $grand_total += $_SESSION['cart'][$dessert['dess_menuID']] * $dessert['dess_price']; ?>
+                                        <?php $grand_total += $_SESSION['cart'][$dessert['dess_menuName']] * $dessert['dess_price']; ?>
                                     <?php endwhile; ?>
                                 </ul>
 
@@ -147,13 +153,14 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                     <?php while ($fruit = mysqli_fetch_assoc($fruit_query)) : ?>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0"><?php echo $fruit['fruit_menu_name']; ?>(<?php echo $_SESSION['cart'][$fruit['fruit_menuID']]; ?>)</h6>
-                                                <input type="hidden" name="product[<?php echo $fruit['fruit_menuID']; ?>][price]" value="<?php echo $fruit['fruit_Price']; ?>">
-                                                <input type="hidden" name="product[<?php echo $fruit['fruit_menuID']; ?>][name]" value="<?php echo $fruit['fruit_menu_name']; ?>">
+                                                <h6 class="my-0"><?php echo $fruit['fruit_menuName']; ?>(<?php echo $_SESSION['cart'][$fruit['fruit_menuName']]; ?>)</h6>
+                                                <input type="hidden" name="product[<?php echo $fruit['fruit_menuName']; ?>][id]" value="<?php echo $fruit['fruit_menuID']; ?>">
+                                                <input type="hidden" name="product[<?php echo $fruit['fruit_menuName']; ?>][price]" value="<?php echo $fruit['fruit_price']; ?>">
+                                                <input type="hidden" name="product[<?php echo $fruit['fruit_menuName']; ?>][name]" value="<?php echo $fruit['fruit_menuName']; ?>">
                                             </div>
-                                            <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$fruit['fruit_menuID']] * $fruit['fruit_Price'], 2); ?></span>
+                                            <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$fruit['fruit_menuName']] * $fruit['fruit_price'], 2); ?></span>
                                         </li>
-                                        <?php $grand_total += $_SESSION['cart'][$fruit['fruit_menuID']] * $fruit['fruit_Price']; ?>
+                                        <?php $grand_total += $_SESSION['cart'][$fruit['fruit_menuName']] * $fruit['fruit_price']; ?>
                                     <?php endwhile; ?>
                                 </ul>
 
@@ -179,26 +186,6 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                             Valid first name is required.
                                         </div>
                                     </div>
-
-                                    <hr class="my-4">
-
-                                    <h4 class="mb-3">Payment</h4>
-
-                                    <div class="my-3">
-                                        <div class="form-check">
-                                            <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
-                                            <label class="form-check-label" for="credit">Credit card</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
-                                            <label class="form-check-label" for="debit">Debit card</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
-                                            <label class="form-check-label" for="paypal">PayPal</label>
-                                        </div>
-                                    </div>
-
                                     <hr class="my-4">
 
                                     <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
@@ -213,6 +200,13 @@ $fruit_row = mysqli_num_rows($fruit_query);
     <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script src="form-validation.js"></script>
+    <script>
+        // Add an event listener to the Log In button
+        document.getElementById('LogoutBtn').addEventListener('click', function() {
+            // Redirect to the login page or any other page you want
+            window.location.href = '../condb/logout.php'; // Replace 'login.html' with the desired page
+        });
+    </script>
 </body>
 
 </html>

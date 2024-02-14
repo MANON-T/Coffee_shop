@@ -2,29 +2,31 @@
 session_start();
 include '../condb/database.php';
 
-$productIDs = [];
-foreach (($_SESSION['cart'] ?? []) as $cartID => $cartQty) {
-    $productIDs[] = $cartID;
+if (!isset($_SESSION['cashier_login'])) {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ !';
+    header('Location:../signin_ep.php');
 }
 
-$ids = 0;
-if (count($productIDs) > 0) {
-    $ids = implode(',', $productIDs);
+$productNames = [];
+foreach (($_SESSION['cart'] ?? []) as $cartName => $cartQty) {
+    $productNames[] = mysqli_real_escape_string($conn, $cartName);
 }
 
-$cof_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'coffee' AND w_menuID IN ($ids)");
+$names = "'" . implode("','", $productNames) . "'";
+
+$cof_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_waterType = 'coffee' AND w_menuName IN ($names)");
 $cof_row = mysqli_num_rows($cof_query);
 
-$mil_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'milk' AND w_menuID IN ($ids)");
+$mil_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_waterType = 'milk' AND w_menuName IN ($names)");
 $mil_row = mysqli_num_rows($mil_query);
 
-$tea_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_watertype = 'tea' AND w_menuID IN ($ids)");
+$tea_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_waterType = 'tea' AND w_menuName IN ($names)");
 $tea_row = mysqli_num_rows($tea_query);
 
-$dess_query = mysqli_query($conn, "SELECT * FROM dessert_menu WHERE dess_menuID IN ($ids)");
+$dess_query = mysqli_query($conn, "SELECT * FROM dessert_menu WHERE dess_menuName IN ($names)");
 $dess_row = mysqli_num_rows($dess_query);
 
-$fruit_query = mysqli_query($conn, "SELECT * FROM fruit_manu WHERE fruit_menuID IN ($ids)");
+$fruit_query = mysqli_query($conn, "SELECT * FROM fruit_menu WHERE fruit_menuName IN ($names)");
 $fruit_row = mysqli_num_rows($fruit_query);
 ?>
 
@@ -49,7 +51,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
         <div class="links">
             <a href="index.php">Menu</a>
             <a href="cart.php">Cart (<?php echo count($_SESSION['cart'] ?? []) ?>) </a>
-            <button id="RegisBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
+            <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
         </div>
     </div>
     <div class="container" style="margin-top: 30px;">
@@ -91,40 +93,21 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                 <?php while ($water = mysqli_fetch_assoc($cof_query)) : ?>
                                     <tr>
                                         <td>
-                                            <?php if (!empty($water['w_pic'])) : ?>
-                                                <img src="../image/menu/water/<?php echo $water['w_pic']; ?>" width="100" alt="Product Image">
+                                            <?php if (!empty($water['w_picture'])) : ?>
+                                                <img src="../image/menu/Water/<?php echo $water['w_picture']; ?>" width="100" alt="Product Image">
                                             <?php else : ?>
                                                 <img src="../image/error.png" width="100" alt="Product Image">
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo $water['w_name']; ?> </td>
+                                        <td><?php echo $water['w_menuName']; ?> </td>
                                         <td>
-                                            <select name="option" class="form-select">
-                                                
-                                                <?php
-                                                // Fetching options from database along with regular and hot/blended prices
-                                                $options_query = mysqli_query($conn, "SELECT w_hcm, w_price FROM water_menu WHERE w_menuID = {$water['w_menuID']}");
-                                                while ($option = mysqli_fetch_assoc($options_query)) {
-                                                    // Explode the data using comma as delimiter
-                                                    $options = explode(',', $option['w_hcm']);
-                                                    // Iterate through each option
-                                                    foreach ($options as $value) {
-                                                        // Trim any whitespace
-                                                        $value = trim($value);
-                                                        // Determine the price based on the selected option
-                                                        $price = ($value == 'cold') ? $option['w_price'] + 7 : $option['w_price'] + 10;
-                                                        // Output the option with the appropriate price
-                                                        echo "<option value='$value'>$value (Price: $price)</option>";
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
+                                            <?php echo $water['w_HotColdBlended']; ?> </td>
                                         </td>
                                         <td><?php echo number_format($water['w_price'], 2); ?> </td>
-                                        <td><input type="number" name="product[<?php echo $water['w_menuID']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$water['w_menuID']]; ?>" class="form-control"></td>
-                                        <td><?php echo number_format($water['w_price'] * $_SESSION['cart'][$water['w_menuID']], 2) ?></td>
+                                        <td><input type="number" name="product[<?php echo $water['w_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>" class="form-control"></td>
+                                        <td><?php echo number_format($water['w_price'] * $_SESSION['cart'][$water['w_menuName']], 2) ?></td>
                                         <td>
-                                            <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $water['w_menuID']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
+                                            <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>
@@ -159,37 +142,21 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                 <?php while ($water = mysqli_fetch_assoc($mil_query)) : ?>
                                     <tr>
                                         <td>
-                                            <?php if (!empty($water['w_pic'])) : ?>
-                                                <img src="../image/menu/water/<?php echo $water['w_pic']; ?>" width="100" alt="Product Image">
+                                            <?php if (!empty($water['w_picture'])) : ?>
+                                                <img src="../image/menu/Water/<?php echo $water['w_picture']; ?>" width="100" alt="Product Image">
                                             <?php else : ?>
                                                 <img src="../image/error.png" width="100" alt="Product Image">
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo $water['w_name']; ?> </td>
+                                        <td><?php echo $water['w_menuName']; ?> </td>
                                         <td>
-                                            <select name="option" class="form-select">
-                                                <?php
-                                                // Fetching options from database
-                                                $options_query = mysqli_query($conn, "SELECT w_hcm FROM water_menu WHERE w_menuID = {$water['w_menuID']}");
-                                                while ($option = mysqli_fetch_assoc($options_query)) {
-                                                    // Explode the data using comma as delimiter
-                                                    $options = explode(',', $option['w_hcm']);
-                                                    // Iterate through each option
-                                                    foreach ($options as $value) {
-                                                        // Trim any whitespace
-                                                        $value = trim($value);
-                                                        // Output the option
-                                                        echo "<option value='$value'>$value</option>";
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
+                                            <?php echo $water['w_HotColdBlended']; ?> </td>
                                         </td>
                                         <td><?php echo number_format($water['w_price'], 2); ?> </td>
-                                        <td><input type="number" name="product[<?php echo $water['w_menuID']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$water['w_menuID']]; ?>" class="form-control"></td>
-                                        <td><?php echo number_format($water['w_price'] * $_SESSION['cart'][$water['w_menuID']], 2) ?></td>
+                                        <td><input type="number" name="product[<?php echo $water['w_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>" class="form-control"></td>
+                                        <td><?php echo number_format($water['w_price'] * $_SESSION['cart'][$water['w_menuName']], 2) ?></td>
                                         <td>
-                                            <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $water['w_menuID']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i></i> Delete</a>
+                                            <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i></i> Delete</a>
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>
@@ -222,37 +189,21 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                 <?php while ($water = mysqli_fetch_assoc($tea_query)) : ?>
                                     <tr>
                                         <td>
-                                            <?php if (!empty($water['w_pic'])) : ?>
-                                                <img src="../image/menu/water/<?php echo $water['w_pic']; ?>" width="100" alt="Product Image">
+                                            <?php if (!empty($water['w_picture'])) : ?>
+                                                <img src="../image/menu/Water/<?php echo $water['w_picture']; ?>" width="100" alt="Product Image">
                                             <?php else : ?>
                                                 <img src="../image/error.png" width="100" alt="Product Image">
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo $water['w_name']; ?> </td>
+                                        <td><?php echo $water['w_menuName']; ?> </td>
                                         <td>
-                                            <select name="option" class="form-select">
-                                                <?php
-                                                // Fetching options from database
-                                                $options_query = mysqli_query($conn, "SELECT w_hcm FROM water_menu WHERE w_menuID = {$water['w_menuID']}");
-                                                while ($option = mysqli_fetch_assoc($options_query)) {
-                                                    // Explode the data using comma as delimiter
-                                                    $options = explode(',', $option['w_hcm']);
-                                                    // Iterate through each option
-                                                    foreach ($options as $value) {
-                                                        // Trim any whitespace
-                                                        $value = trim($value);
-                                                        // Output the option
-                                                        echo "<option value='$value'>$value</option>";
-                                                    }
-                                                }
-                                                ?>
-                                            </select>
+                                            <?php echo $water['w_HotColdBlended']; ?> </td>
                                         </td>
                                         <td><?php echo number_format($water['w_price'], 2); ?> </td>
-                                        <td><input type="number" name="product[<?php echo $water['w_menuID']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$water['w_menuID']]; ?>" class="form-control"></td>
-                                        <td><?php echo number_format($water['w_price'] * $_SESSION['cart'][$water['w_menuID']], 2) ?></td>
+                                        <td><input type="number" name="product[<?php echo $water['w_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>" class="form-control"></td>
+                                        <td><?php echo number_format($water['w_price'] * $_SESSION['cart'][$water['w_menuName']], 2) ?></td>
                                         <td>
-                                            <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $water['w_menuID']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
+                                            <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>
@@ -284,18 +235,18 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                 <?php while ($dessert = mysqli_fetch_assoc($dess_query)) : ?>
                                     <tr>
                                         <td>
-                                            <?php if (!empty($dessert['dess_pic'])) : ?>
-                                                <img src="../image/menu/dessert/<?php echo $dessert['dess_pic']; ?>" width="100" alt="Product Image">
+                                            <?php if (!empty($dessert['dess_picture'])) : ?>
+                                                <img src="../image/menu/Dessert/<?php echo $dessert['dess_picture']; ?>" width="100" alt="Product Image">
                                             <?php else : ?>
                                                 <img src="../image/error.png" width="100" alt="Product Image">
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo $dessert['dess_menu_name']; ?> </td>
+                                        <td><?php echo $dessert['dess_menuName']; ?> </td>
                                         <td><?php echo number_format($dessert['dess_price'], 2); ?> </td>
-                                        <td><input type="number" name="product[<?php echo $dessert['dess_menuID']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$dessert['dess_menuID']]; ?>" class="form-control"></td>
-                                        <td><?php echo number_format($dessert['dess_price'] * $_SESSION['cart'][$dessert['dess_menuID']], 2) ?></td>
+                                        <td><input type="number" name="product[<?php echo $dessert['dess_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$dessert['dess_menuName']]; ?>" class="form-control"></td>
+                                        <td><?php echo number_format($dessert['dess_price'] * $_SESSION['cart'][$dessert['dess_menuName']], 2) ?></td>
                                         <td>
-                                            <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $dessert['dess_menuID']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
+                                            <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $dessert['dess_menuName']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>
@@ -327,18 +278,18 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                 <?php while ($fruit = mysqli_fetch_assoc($fruit_query)) : ?>
                                     <tr>
                                         <td>
-                                            <?php if (!empty($fruit['fruit_pic'])) : ?>
-                                                <img src="../image/menu/fruit/<?php echo $fruit['fruit_pic']; ?>" width="100" alt="Product Image">
+                                            <?php if (!empty($fruit['fruit_picture'])) : ?>
+                                                <img src="../image/menu/Fruit/<?php echo $fruit['fruit_picture']; ?>" width="100" alt="Product Image">
                                             <?php else : ?>
                                                 <img src="../image/error.png" width="100" alt="Product Image">
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo $fruit['fruit_menu_name']; ?> </td>
-                                        <td><?php echo number_format($fruit['fruit_Price'], 2); ?> </td>
-                                        <td><input type="number" name="product[<?php echo $fruit['fruit_menuID']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$fruit['fruit_menuID']]; ?>" class="form-control"></td>
-                                        <td><?php echo number_format($fruit['fruit_Price'] * $_SESSION['cart'][$fruit['fruit_menuID']], 2) ?></td>
+                                        <td><?php echo $fruit['fruit_menuName']; ?> </td>
+                                        <td><?php echo number_format($fruit['fruit_price'], 2); ?> </td>
+                                        <td><input type="number" name="product[<?php echo $fruit['fruit_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$fruit['fruit_menuName']]; ?>" class="form-control"></td>
+                                        <td><?php echo number_format($fruit['fruit_price'] * $_SESSION['cart'][$fruit['fruit_menuName']], 2) ?></td>
                                         <td>
-                                            <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $fruit['fruit_menuID']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
+                                            <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $fruit['fruit_menuName']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>
@@ -353,10 +304,13 @@ $fruit_row = mysqli_num_rows($fruit_query);
             </div>
         </form>
     </div>
-</body>
-
-</html>
-</div>
+    <script>
+        // Add an event listener to the Log In button
+        document.getElementById('LogoutBtn').addEventListener('click', function() {
+            // Redirect to the login page or any other page you want
+            window.location.href = '../condb/logout.php'; // Replace 'login.html' with the desired page
+        });
+    </script>
 </body>
 
 </html>
