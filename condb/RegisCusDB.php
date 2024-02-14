@@ -22,6 +22,16 @@ if (isset($_POST['register'])) {
         mysqli_close($conn);
         exit();
     }
+    $check_email_sql = "SELECT * FROM customer WHERE cus_email = '$email'";
+    $result1 = mysqli_query($conn, $check_email_sql);
+    if (mysqli_num_rows($result1) > 0) {
+        // If duplicate username is found, set session variable and redirect
+        $_SESSION['duplicate_email'] = true;
+        header("Location: ../RegisCus.php");
+        mysqli_close($conn);
+        exit();
+    }
+
     // สร้างคำสั่ง SQL เพื่อเพิ่มข้อมูลลงในฐานข้อมูล
     $sql = "INSERT INTO customer (cus_username, cus_password, cus_firstname, cus_lastname, cus_phoneNumber, cus_gender, cus_birthday, cus_email) 
             VALUES ('$username', '$password', '$firstname', '$lastname', '$phone_number', '$gender', '$birthdate', '$email')";
