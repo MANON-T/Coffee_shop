@@ -80,6 +80,8 @@ $point = mysqli_fetch_assoc($point_row)
                                     <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
                                     <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
                                     <input type="hidden" name="product_name" value="<?php echo $water['w_menuName']; ?>">
+                                    <input type="hidden" name="product_hcb" value="<?php echo $water['w_HotColdBlended']; ?>">
+                                    <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
                                     <button type="submit" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</button>
                                 </form>
                             </div>

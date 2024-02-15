@@ -8,23 +8,12 @@ if (!isset($_SESSION['cus_login'])) {
 }
 
 $name = $_POST['product_name'];
+$option = $_POST['product_hcb'];
+$point_use = $_POST['point_use'];
 
-$cof_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_menuName = ('$name')");
-$cof_row = mysqli_num_rows($cof_query);
-if ($cof_row >= 1) {
-    $table = 'water_menu';
-    $where = 'w_menuName';
-}
-$mil_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_menuName = ('$name')");
-$mil_row = mysqli_num_rows($mil_query);
-if ($mil_row >= 1) {
-    $table = 'water_menu';
-    $where = 'w_menuName';
-}
-
-$tea_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_menuName = ('$name')");
-$tea_row = mysqli_num_rows($tea_query);
-if ($tea_row >= 1) {
+$water_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_menuName = ('$name')");
+$water_row = mysqli_num_rows($water_query);
+if ($water_row >= 1) {
     $table = 'water_menu';
     $where = 'w_menuName';
 }
@@ -83,18 +72,31 @@ $point = mysqli_fetch_assoc($point_row);
             </div>
         <?php endif; ?>
         <?php unset($_SESSION['message']); ?>
-
-        <div class="card mb-3 mx-auto" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="..." class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
+        <?php if ($table == 'water_menu') : ?>
+            <div class="card mb-3 mx-auto" style="max-width: 540px;">
+                <div class="row g-0">
                     <div class="card-body">
-                        <h5 class="card-title"><?php echo $table.$where ?></h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        <img src="../image/coffee-cup.png" alt="Logo" class="mx-auto d-block mb-4" style="max-width: 100px;">
+                        <h5 class="card-title text-center"><?php echo $name ?></h5>
+                        <hr>
+                        <p class="card-text">Option : <?php echo $option ?></p>
+                        <form action="../condb/exchange.php" method="post">
+                            <div class="mb-4">
+                                Point Use:
+                                <input type="number" name="point_use" class="form form-control" value="<?php echo $point_use ?>" readonly>
+                            </div>
+                            <div class="mb-4">
+                                Point Have:
+                                <input type="number" name="point_have" class="form form-control" value="<?php echo $point['p_pointTotal'] ?>" readonly>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-warning"><i class="bi bi-check-circle-fill"></i> Confirm</button>
+                                <a href="Userinter.php" class="btn btn-dark"><i class="bi bi-x-circle-fill"></i> Cancle</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
+
+<?php endif; ?>
