@@ -17,6 +17,9 @@
 -Permissions control
 
 -Register
+
+-Customer page
+
 # Fucntion Developing
 
 -Cashier page
@@ -25,6 +28,5 @@
 
 -Manager page
 
--Customer page
 
 -CEO page

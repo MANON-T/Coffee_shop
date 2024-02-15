@@ -25,7 +25,8 @@ $fruit_row = mysqli_num_rows($fruit_query);
 $cus_username = $_SESSION['cus_login'];
 $point_query = "SELECT * FROM points WHERE p_customerName = '$cus_username' ";
 $point_row = mysqli_query($conn, $point_query);
-$point = mysqli_fetch_assoc($point_row)
+$point = mysqli_fetch_assoc($point_row);
+$point_total = $point['p_pointTotal'];
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +49,7 @@ $point = mysqli_fetch_assoc($point_row)
         </div>
         <div class="links">
             <a href="Userinter.php">Menu</a>
-            <a href="#"><i class="bi bi-coin"></i> <?php echo $point['p_pointTotal'] ?> Point</a>
+            <a href="#"><i class="bi bi-coin"></i> <?php echo $point_total ?> Point</a>
             <a href="Information.php">Information</a>
             <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
         </div>
@@ -82,7 +83,11 @@ $point = mysqli_fetch_assoc($point_row)
                                     <input type="hidden" name="product_name" value="<?php echo $water['w_menuName']; ?>">
                                     <input type="hidden" name="product_hcb" value="<?php echo $water['w_HotColdBlended']; ?>">
                                     <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
-                                    <button type="submit" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php if($point_total < $rate): ?>
+                                        <button type="submit" class="btn btn-dark w-100" disabled><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php else: ?>
+                                        <button type="submit" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php endif; ?>
                                 </form>
                             </div>
                         </div>
@@ -114,7 +119,11 @@ $point = mysqli_fetch_assoc($point_row)
                                     <input type="hidden" name="product_name" value="<?php echo $water['w_menuName']; ?>">
                                     <input type="hidden" name="product_hcb" value="<?php echo $water['w_HotColdBlended']; ?>">
                                     <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
-                                    <input type="submit" class="btn btn-dark w-100" value="Redeem">
+                                    <?php if($point_total < $rate): ?>
+                                        <button type="submit" class="btn btn-dark w-100" disabled><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php else: ?>
+                                        <button type="submit" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php endif; ?>
                                 </form>
                             </div>
                         </div>
@@ -146,7 +155,11 @@ $point = mysqli_fetch_assoc($point_row)
                                     <input type="hidden" name="product_name" value="<?php echo $water['w_menuName']; ?>">
                                     <input type="hidden" name="product_hcb" value="<?php echo $water['w_HotColdBlended']; ?>">
                                     <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
-                                    <input type="submit" class="btn btn-dark w-100" value="Redeem">
+                                    <?php if($point_total < $rate): ?>
+                                        <button type="submit" class="btn btn-dark w-100" disabled><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php else: ?>
+                                        <button type="submit" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php endif; ?>
                                 </form>
                             </div>
                         </div>
@@ -177,7 +190,11 @@ $point = mysqli_fetch_assoc($point_row)
                                     <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
                                     <input type="hidden" name="product_name" value="<?php echo $dessert['dess_menuName']; ?>">
                                     <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
-                                    <input type="submit" class="btn btn-dark w-100" value="Redeem">
+                                    <?php if($point_total < $rate): ?>
+                                        <button type="submit" class="btn btn-dark w-100" disabled><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php else: ?>
+                                        <button type="submit" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php endif; ?>
                                 </form>
                             </div>
                         </div>
@@ -208,7 +225,11 @@ $point = mysqli_fetch_assoc($point_row)
                                     <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
                                     <input type="hidden" name="product_name" value="<?php echo $fruit['fruit_menuName']; ?>">
                                     <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
-                                    <input type="submit" class="btn btn-dark w-100" value="Redeem">
+                                    <?php if($point_total < $rate): ?>
+                                        <button type="submit" class="btn btn-dark w-100" disabled><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php else: ?>
+                                        <button type="submit" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</button>
+                                    <?php endif; ?>
                                 </form>
                             </div>
                         </div>
