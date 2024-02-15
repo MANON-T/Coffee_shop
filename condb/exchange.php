@@ -24,13 +24,13 @@ if ($fruit_row >= 1) {
 var_dump($update_quantity);
 
 if ($dess_row >= 1) {
-    $sql1 = "UPDATE dessert_menu SET dess_quantity = $update_quantity";
+    $sql1 = "UPDATE dessert_menu SET dess_quantity = $update_quantity WHERE dess_menuName = '$product_name'";
     $result1 = mysqli_query($conn, $sql1);
 } elseif ($fruit_row >= 1) {
-    $sql2 = "UPDATE fruit_menu SET fruit_quantity = $update_quantity";
+    $sql2 = "UPDATE fruit_menu SET fruit_quantity = $update_quantity WHERE fruit_menuName = '$product_name'";
     $result2 = mysqli_query($conn, $sql2);
 }
-$sql3 = "UPDATE points SET p_pointTotal = {$point_result}";
+$sql3 = "UPDATE points SET p_pointTotal = {$point_result} WHERE p_customerName = '$cus_username'";
 $result3 = mysqli_query($conn, $sql3);
 if ($result3) {
     $_SESSION['message'] = 'Redeem Porduct successfully';

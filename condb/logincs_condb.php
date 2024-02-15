@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Location: ../Userphp/Userinter.php');
     }else {
         $_SESSION['duplicate_username'] = true;
-        header('location: ../signin_ep.php');
+        header('location: ../signin_csS.php');
         mysqli_close($conn);
         exit();
     }
