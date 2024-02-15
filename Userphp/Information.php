@@ -95,7 +95,7 @@ if (isset($_POST['delete'])) {
                     <div class="card mb-3" style="border-radius: .5rem;">
                         <div class="row g-0">
                             <div class="col-md-4 gradient-custom text-center text-white" style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                                <img src="../image/user.png" alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
                                 <h5><?php echo $cus_firstname . '&nbsp;' . $cus_lastname; ?></h5>
                                 <p>P E R T Customer</p>
                                 <i class="far fa-edit mb-5"></i>

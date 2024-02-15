@@ -7,6 +7,7 @@ if (!empty($_GET['id'])) {
     @unlink('../image/menu/Water/' . $result['w_picture']);
 
     $query = mysqli_query($conn, "DELETE FROM water_menu WHERE w_menuID = '{$_GET['id']}'") or die('query failed');
+    $query1 = mysqli_query($conn,"DELETE FROM recipe_of_water WHERE rec_menuID = '{$_GET['id']}'") or die('query failed');
     mysqli_close($conn);
 
     if ($query) {

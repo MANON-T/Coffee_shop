@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2024 at 10:16 AM
+-- Generation Time: Feb 15, 2024 at 11:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -138,7 +138,7 @@ CREATE TABLE `fruit_menu` (
 --
 
 INSERT INTO `fruit_menu` (`fruit_menuID`, `fruit_menuName`, `fruit_quantity`, `fruit_price`, `fruit_picture`) VALUES
-(1, 'Apple', 15, 10, 'fru_1.jpg'),
+(1, 'Apple', 14, 10, 'fru_1.jpg'),
 (2, 'Banana', 15, 8, 'fru_2.jpg'),
 (3, 'Orange', 15, 12, 'fru_3.jpg'),
 (4, 'Grapes', 15, 15, 'fru_4.jpg'),
@@ -225,7 +225,7 @@ CREATE TABLE `points` (
 --
 
 INSERT INTO `points` (`p_pointID`, `p_customerName`, `p_pointTotal`) VALUES
-(1, 'jane_smith', 91850),
+(1, 'jane_smith', 200),
 (2, 'agosz2', 95175),
 (3, 'dadaf', 95175);
 
@@ -245,16 +245,16 @@ CREATE TABLE `recipe_of_water` (
 --
 
 INSERT INTO `recipe_of_water` (`rec_menuID`, `rec_description`) VALUES
-(1, '1. Preheat oven to 350°F (175°C). 2. Mix flour, sugar, and baking powder. 3. Add milk, eggs, and vanilla. 4. Pour batter into greased pan. 5. Bake for 30 minutes.'),
-(2, '1. Crush graham crackers and mix with melted butter. 2. Press mixture into a pan to form a crust. 3. Mix cream cheese, sugar, and vanilla until smooth. 4. Pour mixture onto crust. 5. Refrigerate for 4 hours.'),
-(3, '1. Preheat oven to 375°F (190°C). 2. Mix sliced apples, sugar, and cinnamon. 3. Pour mixture into pie crust. 4. Cover with another pie crust. 5. Bake for 45 minutes.'),
-(4, '1. Melt chocolate and butter. 2. Mix with sugar and eggs. 3. Add flour and mix until smooth. 4. Pour batter into greased pan. 5. Bake for 25 minutes.'),
-(5, '1. Scoop ice cream into a bowl. 2. Top with whipped cream, chocolate syrup, and a cherry.'),
+(1, 'ทดสอบ-1'),
+(2, '1. Preheat oven to 350°F (175°C). 2. Mix flour, sugar, and baking powder. 3. Add milk, eggs, and vanilla. 4. Pour batter into greased pan. 5. Bake for 30 minutes.'),
+(3, '1. Preheat oven to 350°F (175°C). 2. Mix flour, sugar, and baking powder. 3. Add milk, eggs, and vanilla. 4. Pour batter into greased pan. 5. Bake for 30 minutes.'),
+(4, 'ทดสอบ-2'),
+(5, '1. Preheat oven to 350°F (175°C). 2. Mix flour, sugar, and baking powder. 3. Add milk, eggs, and vanilla. 4. Pour batter into greased pan. 5. Bake for 30 minutes.'),
 (6, '1. Preheat oven to 350°F (175°C). 2. Mix flour, sugar, and baking powder. 3. Add milk, eggs, and vanilla. 4. Pour batter into greased pan. 5. Bake for 30 minutes.'),
-(7, '1. Crush graham crackers and mix with melted butter. 2. Press mixture into a pan to form a crust. 3. Mix cream cheese, sugar, and vanilla until smooth. 4. Pour mixture onto crust. 5. Refrigerate for 4 hours.'),
-(8, '1. Preheat oven to 375°F (190°C). 2. Mix sliced apples, sugar, and cinnamon. 3. Pour mixture into pie crust. 4. Cover with another pie crust. 5. Bake for 45 minutes.'),
-(9, '1. Melt chocolate and butter. 2. Mix with sugar and eggs. 3. Add flour and mix until smooth. 4. Pour batter into greased pan. 5. Bake for 25 minutes.'),
-(10, '1. Scoop ice cream into a bowl. 2. Top with whipped cream, chocolate syrup, and a cherry.');
+(7, 'ทดสอบ-3'),
+(8, '1. Preheat oven to 350°F (175°C). 2. Mix flour, sugar, and baking powder. 3. Add milk, eggs, and vanilla. 4. Pour batter into greased pan. 5. Bake for 30 minutes.'),
+(9, '1. Preheat oven to 350°F (175°C). 2. Mix flour, sugar, and baking powder. 3. Add milk, eggs, and vanilla. 4. Pour batter into greased pan. 5. Bake for 30 minutes.'),
+(10, '1. Preheat oven to 350°F (175°C). 2. Mix flour, sugar, and baking powder. 3. Add milk, eggs, and vanilla. 4. Pour batter into greased pan. 5. Bake for 30 minutes.');
 
 -- --------------------------------------------------------
 
@@ -274,7 +274,8 @@ CREATE TABLE `redeem` (
 --
 
 INSERT INTO `redeem` (`rd_redeemID`, `rd_customerName`, `rd_redeemOrder`, `rd_expire`) VALUES
-(1, 'jane_smith', 'อเมริกาโน่', '2024-02-22');
+(1, 'jane_smith', 'อเมริกาโน่', '2024-02-22'),
+(2, 'jane_smith', 'Apple', '2024-02-22');
 
 -- --------------------------------------------------------
 
@@ -358,6 +359,7 @@ ALTER TABLE `points`
 -- Indexes for table `recipe_of_water`
 --
 ALTER TABLE `recipe_of_water`
+  ADD PRIMARY KEY (`rec_menuID`),
   ADD KEY `rec_menuID` (`rec_menuID`);
 
 --
@@ -419,16 +421,22 @@ ALTER TABLE `points`
   MODIFY `p_pointID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `recipe_of_water`
+--
+ALTER TABLE `recipe_of_water`
+  MODIFY `rec_menuID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
 -- AUTO_INCREMENT for table `redeem`
 --
 ALTER TABLE `redeem`
-  MODIFY `rd_redeemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `rd_redeemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `water_menu`
 --
 ALTER TABLE `water_menu`
-  MODIFY `w_menuID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `w_menuID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

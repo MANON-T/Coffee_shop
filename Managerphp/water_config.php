@@ -25,6 +25,8 @@ if (!empty($_GET['id'])) {
     }
 
     $result = mysqli_fetch_assoc($query_product);
+    $recipe_query = mysqli_query($conn, "SELECT * FROM recipe_of_water WHERE rec_menuID = '{$_GET['id']}'");
+    $recipe = mysqli_fetch_assoc($recipe_query);
 }
 ?>
 
@@ -112,6 +114,14 @@ if (!empty($_GET['id'])) {
                                 </div>
                                 <label for="formfile" class="form-label">image</label>
                                 <input type="file" name="profile_image" class="form-control" accept="image/png, image/jpg, image/jpeg">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Product Recipe</label>
+                                <?php if(!empty($_GET['id'])): ?>
+                                    <textarea name="Recipe" class="form-control" cols="30" rows="5"><?php echo $recipe['rec_description']; ?></textarea>
+                                <?php else: ?>
+                                    <textarea name="Recipe" class="form-control" cols="30" rows="5"></textarea>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <?php if (empty($result['w_menuID'])) : ?>
