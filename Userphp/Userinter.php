@@ -112,6 +112,8 @@ $point = mysqli_fetch_assoc($point_row)
                                     <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
                                     <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
                                     <input type="hidden" name="product_name" value="<?php echo $water['w_menuName']; ?>">
+                                    <input type="hidden" name="product_hcb" value="<?php echo $water['w_HotColdBlended']; ?>">
+                                    <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
                                     <input type="submit" class="btn btn-dark w-100" value="Redeem">
                                 </form>
                             </div>
@@ -142,6 +144,8 @@ $point = mysqli_fetch_assoc($point_row)
                                     <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
                                     <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
                                     <input type="hidden" name="product_name" value="<?php echo $water['w_menuName']; ?>">
+                                    <input type="hidden" name="product_hcb" value="<?php echo $water['w_HotColdBlended']; ?>">
+                                    <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
                                     <input type="submit" class="btn btn-dark w-100" value="Redeem">
                                 </form>
                             </div>
@@ -172,6 +176,7 @@ $point = mysqli_fetch_assoc($point_row)
                                     <p class="card-text text-muted mb-0">Stock : <?php echo $dessert['dess_quantity']; ?></p>
                                     <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
                                     <input type="hidden" name="product_name" value="<?php echo $dessert['dess_menuName']; ?>">
+                                    <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
                                     <input type="submit" class="btn btn-dark w-100" value="Redeem">
                                 </form>
                             </div>
@@ -202,6 +207,7 @@ $point = mysqli_fetch_assoc($point_row)
                                     <p class="card-text text-muted mb-0">Stock : <?php echo $fruit['fruit_quantity']; ?></p>
                                     <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
                                     <input type="hidden" name="product_name" value="<?php echo $fruit['fruit_menuName']; ?>">
+                                    <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
                                     <input type="submit" class="btn btn-dark w-100" value="Redeem">
                                 </form>
                             </div>

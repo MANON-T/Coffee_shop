@@ -126,10 +126,9 @@ if (!isset($_SESSION['cus_login'])) {
 
                                     </div>
                                 </div>
-                                <div class="mt-4 pt-2">
+                                <div class="mt-4 pt-2 text-center">
                                     <input class="btn btn-success btn-lg" type="submit" value="Update">
                                     <input type="reset" class="btn btn-danger btn-lg" value="Clear Form">
-                                    <!-- <input class="btn btn-danger btn-lg" type="reset" value="Clear Form" /> -->
                                 </div>
 
                             </form>
