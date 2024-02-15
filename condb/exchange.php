@@ -21,7 +21,6 @@ if ($fruit_row >= 1) {
     $fruit = mysqli_fetch_assoc($fruit_query);
     $update_quantity = $fruit['fruit_quantity'] - 1;
 }
-var_dump($update_quantity);
 
 if ($dess_row >= 1) {
     $sql1 = "UPDATE dessert_menu SET dess_quantity = $update_quantity WHERE dess_menuName = '$product_name'";
@@ -32,7 +31,11 @@ if ($dess_row >= 1) {
 }
 $sql3 = "UPDATE points SET p_pointTotal = {$point_result} WHERE p_customerName = '$cus_username'";
 $result3 = mysqli_query($conn, $sql3);
-if ($result3) {
+
+$sql4 = "INSERT INTO redeem (rd_customerName, rd_redeemOrder, rd_expire) VALUES ('$cus_username', '$product_name', DATE_ADD(NOW(), INTERVAL 7 DAY))";
+$result4 = mysqli_query($conn, $sql4);
+
+if ($result4) {
     $_SESSION['message'] = 'Redeem Porduct successfully';
     header('location: ../Userphp/Userinter.php');
 } else {

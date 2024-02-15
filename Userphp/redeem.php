@@ -81,6 +81,7 @@ $point = mysqli_fetch_assoc($point_row);
                         <hr>
                         <p class="card-text">Option : <?php echo $option ?></p>
                         <form action="../condb/exchange.php" method="post">
+                            <input type="hidden" name="product_name" value="<?php echo $name ?>">
                             <div class="mb-4">
                                 Point Use:
                                 <input type="number" name="point_use" class="form form-control" value="<?php echo $point_use ?>" readonly>
