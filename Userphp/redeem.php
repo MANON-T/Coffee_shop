@@ -81,6 +81,7 @@ $point = mysqli_fetch_assoc($point_row);
                         <hr>
                         <p class="card-text">Option : <?php echo $option ?></p>
                         <form action="../condb/exchange.php" method="post">
+                            <input type="hidden" name="option" value="<?php echo $option ?>">
                             <input type="hidden" name="product_name" value="<?php echo $name ?>">
                             <div class="mb-4">
                                 Point Use:
@@ -152,6 +153,13 @@ $point = mysqli_fetch_assoc($point_row);
             </div>
         <?php endif; ?>
     </div>
+    <script>
+        // Add an event listener to the Log In button
+        document.getElementById('LogoutBtn').addEventListener('click', function() {
+            // Redirect to the login page or any other page you want
+            window.location.href = '../condb/logout.php'; // Replace 'login.html' with the desired page
+        });
+    </script>
 </body>
 
 </html>

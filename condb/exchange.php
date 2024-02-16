@@ -4,6 +4,7 @@ include 'database.php';
 
 $cus_username = $_SESSION['cus_login'];
 $product_name = $_POST['product_name'];
+$product_option = $_POST['option'] ?? '-';
 $point_use = $_POST['point_use'];
 $point_have = $_POST['point_have'];
 $point_result = $point_have - $point_use;
@@ -32,7 +33,7 @@ if ($dess_row >= 1) {
 $sql3 = "UPDATE points SET p_pointTotal = {$point_result} WHERE p_customerName = '$cus_username'";
 $result3 = mysqli_query($conn, $sql3);
 
-$sql4 = "INSERT INTO redeem (rd_customerName, rd_redeemOrder, rd_expire) VALUES ('$cus_username', '$product_name', DATE_ADD(NOW(), INTERVAL 7 DAY))";
+$sql4 = "INSERT INTO redeem (rd_customerName, rd_redeemOrder, rd_option, rd_expire) VALUES ('$cus_username', '$product_name', '$product_option', DATE_ADD(NOW(), INTERVAL 7 DAY))";
 $result4 = mysqli_query($conn, $sql4);
 
 if ($result4) {

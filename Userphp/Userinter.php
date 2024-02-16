@@ -190,7 +190,7 @@ $point_total = $point['p_pointTotal'];
                                     <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
                                     <input type="hidden" name="product_name" value="<?php echo $dessert['dess_menuName']; ?>">
                                     <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
-                                    <?php if($point_total < $rate): ?>
+                                    <?php if($point_total < $rate or $dessert['dess_quantity'] == 0): ?>
                                         <button type="submit" class="btn btn-dark w-100" disabled><i class="bi bi-credit-card-2-front"></i> Redeem</button>
                                     <?php else: ?>
                                         <button type="submit" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</button>
@@ -225,7 +225,7 @@ $point_total = $point['p_pointTotal'];
                                     <p class="card-text text-success fw-bold"><?php echo $rate; ?> Point</p>
                                     <input type="hidden" name="product_name" value="<?php echo $fruit['fruit_menuName']; ?>">
                                     <input type="hidden" name="point_use" value="<?php echo $rate; ?>">
-                                    <?php if($point_total < $rate): ?>
+                                    <?php if($point_total < $rate or $fruit['fruit_quantity'] == 0): ?>
                                         <button type="submit" class="btn btn-dark w-100" disabled><i class="bi bi-credit-card-2-front"></i> Redeem</button>
                                     <?php else: ?>
                                         <button type="submit" class="btn btn-dark w-100"><i class="bi bi-credit-card-2-front"></i> Redeem</button>

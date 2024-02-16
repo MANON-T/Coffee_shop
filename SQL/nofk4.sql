@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2024 at 11:26 AM
+-- Generation Time: Feb 16, 2024 at 06:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -77,12 +77,12 @@ CREATE TABLE `dessert_menu` (
 --
 
 INSERT INTO `dessert_menu` (`dess_menuID`, `dess_menuName`, `dess_quantity`, `dess_price`, `dess_picture`) VALUES
-(1, 'Chocolate Cake', 17, 100, 'des_1.jpg'),
-(2, 'Cheesecake', 19, 120, 'des_2.jpg'),
+(1, 'Chocolate Cake', 19, 100, 'des_1.jpg'),
+(2, 'Cheesecake', 18, 120, 'des_2.jpg'),
 (3, 'Apple Pie', 19, 110, 'des_3.jpg'),
-(4, 'Brownie', 19, 90, 'des_4.jpg'),
-(5, 'Ice Cream Sundae', 19, 130, 'des_5.jpg'),
-(6, 'Fruit Tart', 19, 140, 'des_6.jpg');
+(4, 'Brownie', 20, 90, 'des_4.jpg'),
+(5, 'Ice Cream Sundae', 20, 130, 'des_5.jpg'),
+(6, 'Fruit Tart', 18, 140, 'des_6.jpg');
 
 -- --------------------------------------------------------
 
@@ -138,12 +138,12 @@ CREATE TABLE `fruit_menu` (
 --
 
 INSERT INTO `fruit_menu` (`fruit_menuID`, `fruit_menuName`, `fruit_quantity`, `fruit_price`, `fruit_picture`) VALUES
-(1, 'Apple', 14, 10, 'fru_1.jpg'),
-(2, 'Banana', 15, 8, 'fru_2.jpg'),
-(3, 'Orange', 15, 12, 'fru_3.jpg'),
-(4, 'Grapes', 15, 15, 'fru_4.jpg'),
+(1, 'Apple', 13, 10, 'fru_1.jpg'),
+(2, 'Banana', 14, 8, 'fru_2.jpg'),
+(3, 'Orange', 19, 12, 'fru_3.jpg'),
+(4, 'Grapes', 12, 15, 'fru_4.jpg'),
 (5, 'Strawberry', 15, 20, 'fru_5.jpg'),
-(6, 'Watermelon', 14, 25, 'fru_6.jpg');
+(6, 'Watermelon', 0, 25, 'fru_6.jpg');
 
 -- --------------------------------------------------------
 
@@ -156,6 +156,7 @@ CREATE TABLE `order_detail` (
   `ord_productID` int(11) NOT NULL,
   `ord_orderID` int(10) NOT NULL,
   `ord_productName` varchar(255) NOT NULL,
+  `ord_option` varchar(255) NOT NULL,
   `ord_quantity` int(3) NOT NULL,
   `ord_price` int(11) NOT NULL,
   `ord_totalPrice` decimal(10,0) NOT NULL
@@ -165,23 +166,64 @@ CREATE TABLE `order_detail` (
 -- Dumping data for table `order_detail`
 --
 
-INSERT INTO `order_detail` (`ord_detailID`, `ord_productID`, `ord_orderID`, `ord_productName`, `ord_quantity`, `ord_price`, `ord_totalPrice`) VALUES
-(1, 6, 1, 'Watermelon', 1, 25, 25),
-(2, 1, 2, 'Apple', 1, 10, 10),
-(3, 0, 3, 'อเมริกาโน่', 2, 50, 100),
-(4, 0, 3, 'Cheesecake', 2, 120, 240),
-(5, 0, 3, 'Banana', 1, 8, 8),
-(6, 0, 3, 'Watermelon', 2, 25, 50),
-(7, 1, 4, 'อเมริกาโน่', 2, 50, 100),
-(8, 0, 4, 'Chocolate Cake', 2, 100, 200),
-(9, 0, 4, 'Apple', 2, 10, 20),
-(10, 7, 4, 'โกโก้', 2, 70, 140),
-(11, 1, 5, 'อเมริกาโน่', 1, 50, 50),
-(12, 4, 5, 'ลาเต้', 1, 45, 45),
-(13, 1, 6, 'Chocolate Cake', 1, 100, 100),
-(14, 6, 6, 'Fruit Tart', 1, 140, 140),
-(15, 6, 6, 'Watermelon', 1, 25, 25),
-(16, 3, 6, 'Orange', 1, 12, 12);
+INSERT INTO `order_detail` (`ord_detailID`, `ord_productID`, `ord_orderID`, `ord_productName`, `ord_option`, `ord_quantity`, `ord_price`, `ord_totalPrice`) VALUES
+(1, 6, 1, 'Watermelon', '', 1, 25, 25),
+(2, 1, 2, 'Apple', '', 1, 10, 10),
+(3, 0, 3, 'อเมริกาโน่', '', 2, 50, 100),
+(4, 0, 3, 'Cheesecake', '', 2, 120, 240),
+(5, 0, 3, 'Banana', '', 1, 8, 8),
+(6, 0, 3, 'Watermelon', '', 2, 25, 50),
+(7, 1, 4, 'อเมริกาโน่', '', 2, 50, 100),
+(8, 0, 4, 'Chocolate Cake', '', 2, 100, 200),
+(9, 0, 4, 'Apple', '', 2, 10, 20),
+(10, 7, 4, 'โกโก้', '', 2, 70, 140),
+(11, 1, 5, 'อเมริกาโน่', '', 1, 50, 50),
+(12, 4, 5, 'ลาเต้', '', 1, 45, 45),
+(13, 1, 6, 'Chocolate Cake', '', 1, 100, 100),
+(14, 6, 6, 'Fruit Tart', '', 1, 140, 140),
+(15, 6, 6, 'Watermelon', '', 1, 25, 25),
+(16, 3, 6, 'Orange', '', 1, 12, 12),
+(17, 1, 7, 'อเมริกาโน่', 'Blen', 3, 50, 150),
+(18, 4, 7, 'ลาเต้', 'Cold', 1, 45, 45),
+(19, 7, 7, 'โกโก้', 'Cold', 1, 70, 70),
+(20, 2, 7, 'อเมริกาโน่ส้ม', 'Cold', 1, 40, 40),
+(21, 3, 7, 'เอสเพรสโซ่', 'Blen', 1, 60, 60),
+(22, 9, 7, 'ชากุหลาบ', 'Hot', 2, 45, 90),
+(23, 5, 7, 'Ice Cream Sundae', '-', 1, 130, 130),
+(24, 3, 7, 'Apple Pie', '-', 1, 110, 110),
+(25, 2, 7, 'Banana', '-', 5, 8, 40),
+(26, 6, 7, 'Watermelon', '-', 1, 25, 25),
+(27, 4, 8, 'ลาเต้', 'Cold', 4, 45, 180),
+(28, 7, 8, 'โกโก้', 'Cold', 1, 70, 70),
+(29, 8, 8, 'ชาเขียว', 'Cold', 1, 55, 55),
+(30, 1, 9, 'Chocolate Cake', '-', 1, 100, 100),
+(31, 1, 10, 'Chocolate Cake', '-', 1, 100, 100),
+(32, 1, 11, 'Chocolate Cake', '-', 1, 100, 100),
+(33, 1, 12, 'Chocolate Cake', '-', 1, 100, 100),
+(34, 1, 13, 'Chocolate Cake', '-', 6, 100, 600),
+(35, 1, 0, 'อเมริกาโน่', 'Blen', 2, 50, 100),
+(36, 1, 15, 'อเมริกาโน่', 'Blen', 2, 50, 100),
+(37, 1, 0, 'อเมริกาโน่', 'Blen', 1, 50, 50),
+(38, 3, 0, 'เอสเพรสโซ่', 'Blen', 1, 60, 60),
+(39, 1, 22, 'อเมริกาโน่', 'Blen', 1, 50, 50),
+(40, 10, 22, 'ชาแอปเปิ้ล', 'Cold', 1, 60, 60),
+(41, 1, 23, 'Chocolate Cake', '-', 1, 100, 100),
+(42, 1, 24, 'Chocolate Cake', '-', 1, 100, 100),
+(43, 1, 25, 'Chocolate Cake', '-', 1, 100, 100),
+(44, 1, 26, 'Chocolate Cake', '-', 1, 100, 100),
+(45, 1, 27, 'Chocolate Cake', '-', 1, 100, 100),
+(46, 3, 27, 'Apple Pie', '-', 1, 110, 110),
+(47, 6, 27, 'Fruit Tart', '-', 2, 140, 280),
+(48, 2, 28, 'Cheesecake', '-', 2, 120, 240),
+(49, 3, 29, 'Orange', '-', 1, 12, 12),
+(50, 4, 30, 'Grapes', '-', 1, 15, 15),
+(51, 1, 31, 'อเมริกาโน่', 'Blen', 1, 50, 50),
+(52, 3, 31, 'เอสเพรสโซ่', 'Blen', 1, 60, 60),
+(53, 2, 31, 'อเมริกาโน่ส้ม', 'Cold', 1, 40, 40),
+(54, 1, 32, 'อเมริกาโน่', 'Blen', 1, 50, 50),
+(55, 3, 32, 'เอสเพรสโซ่', 'Blen', 2, 60, 120),
+(56, 4, 33, 'Grapes', '-', 2, 15, 30),
+(57, 1, 34, 'อเมริกาโน่', 'Blen', 2, 50, 100);
 
 -- --------------------------------------------------------
 
@@ -206,7 +248,35 @@ INSERT INTO `order_main` (`ord_orderID`, `ord_orderDate`, `ord_customerID`, `ord
 (3, '2024-02-14', 0, 398),
 (4, '2024-02-14', 0, 460),
 (5, '2024-02-14', 1, 95),
-(6, '2024-02-14', 10, 277);
+(6, '2024-02-14', 10, 277),
+(7, '2024-02-16', 0, 760),
+(8, '2024-02-16', 6, 305),
+(9, '2024-02-16', 0, 100),
+(10, '2024-02-16', 0, 100),
+(11, '2024-02-16', 1, 100),
+(12, '2024-02-16', 2, 100),
+(13, '2024-02-16', 0, 600),
+(14, '2024-02-16', 2, 100),
+(15, '2024-02-16', 2, 100),
+(16, '2024-02-16', 0, 160),
+(17, '2024-02-16', 0, 160),
+(18, '2024-02-16', 2, 160),
+(19, '2024-02-16', 0, 210),
+(20, '2024-02-16', 0, 210),
+(21, '2024-02-16', 2, 110),
+(22, '2024-02-16', 3, 110),
+(23, '2024-02-16', 0, 100),
+(24, '2024-02-16', 0, 100),
+(25, '2024-02-16', 0, 100),
+(26, '2024-02-16', 0, 100),
+(27, '2024-02-16', 3, 490),
+(28, '2024-02-16', 2, 240),
+(29, '2024-02-16', 0, 12),
+(30, '2024-02-16', 0, 15),
+(31, '2024-02-16', 12, 150),
+(32, '2024-02-16', 2, 170),
+(33, '2024-02-16', 2, 30),
+(34, '2024-02-16', 2, 100);
 
 -- --------------------------------------------------------
 
@@ -225,8 +295,8 @@ CREATE TABLE `points` (
 --
 
 INSERT INTO `points` (`p_pointID`, `p_customerName`, `p_pointTotal`) VALUES
-(1, 'jane_smith', 200),
-(2, 'agosz2', 95175),
+(1, 'jane_smith', 0),
+(2, 'agosz2', 95400),
 (3, 'dadaf', 95175);
 
 -- --------------------------------------------------------
@@ -266,6 +336,7 @@ CREATE TABLE `redeem` (
   `rd_redeemID` int(11) NOT NULL,
   `rd_customerName` varchar(255) NOT NULL,
   `rd_redeemOrder` varchar(255) NOT NULL,
+  `rd_option` varchar(255) NOT NULL,
   `rd_expire` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -273,9 +344,16 @@ CREATE TABLE `redeem` (
 -- Dumping data for table `redeem`
 --
 
-INSERT INTO `redeem` (`rd_redeemID`, `rd_customerName`, `rd_redeemOrder`, `rd_expire`) VALUES
-(1, 'jane_smith', 'อเมริกาโน่', '2024-02-22'),
-(2, 'jane_smith', 'Apple', '2024-02-22');
+INSERT INTO `redeem` (`rd_redeemID`, `rd_customerName`, `rd_redeemOrder`, `rd_option`, `rd_expire`) VALUES
+(1, 'jane_smith', 'อเมริกาโน่', '', '2024-02-22'),
+(2, 'jane_smith', 'Apple', '', '2024-02-22'),
+(3, 'jane_smith', 'ลาเต้', '', '2024-02-23'),
+(4, 'jane_smith', 'อเมริกาโน่', 'Blen', '2024-02-23'),
+(5, 'jane_smith', 'ชากุหลาบ', 'Hot', '2024-02-23'),
+(6, 'jane_smith', 'อเมริกาโน่ส้ม', 'Cold', '2024-02-23'),
+(7, 'jane_smith', 'Apple Pie', '-', '2024-02-23'),
+(8, 'jane_smith', 'Banana', '-', '2024-02-23'),
+(9, 'jane_smith', 'Apple', '-', '2024-02-23');
 
 -- --------------------------------------------------------
 
@@ -406,13 +484,13 @@ ALTER TABLE `fruit_menu`
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `ord_detailID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `ord_detailID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `order_main`
 --
 ALTER TABLE `order_main`
-  MODIFY `ord_orderID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ord_orderID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `points`
@@ -430,7 +508,7 @@ ALTER TABLE `recipe_of_water`
 -- AUTO_INCREMENT for table `redeem`
 --
 ALTER TABLE `redeem`
-  MODIFY `rd_redeemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `rd_redeemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `water_menu`

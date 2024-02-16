@@ -2,6 +2,11 @@
 session_start();
 include '../condb/database.php';
 
+if (!isset($_SESSION['manager_login'])) {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ !';
+    header('Location:../signin_ep.php');
+}
+
 $result = [
     'dess_menuID' => '',
     'dess_menuName' => '',
@@ -54,7 +59,6 @@ if (!empty($_GET['id'])) {
         </div>
         <div class="links">
             <a href="index.php">Menu</a>
-            <a href="#">Bartander Site</a>
             <a href="#">Dashboard</a>
             <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
         </div>

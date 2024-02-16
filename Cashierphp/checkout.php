@@ -81,10 +81,11 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                     <?php while ($water = mysqli_fetch_assoc($cof_query)) : ?>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0"><?php echo $water['w_menuName']; ?>(<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>)</h6>
+                                                <h6 class="my-0"><?php echo $water['w_menuName']; ?>(<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>) - <?php echo $water['w_HotColdBlended']; ?></h6>
                                                 <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][id]" value="<?php echo $water['w_menuID']; ?>">
                                                 <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][price]" value="<?php echo $water['w_price']; ?>">
                                                 <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][name]" value="<?php echo $water['w_menuName']; ?>">
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][hcb]" value="<?php echo $water['w_HotColdBlended']; ?>"> 
                                             </div>
                                             <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$water['w_menuName']] * $water['w_price'], 2); ?></span>
                                         </li>
@@ -99,10 +100,11 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                     <?php while ($water = mysqli_fetch_assoc($mil_query)) : ?>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0"><?php echo $water['w_menuName']; ?>(<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>)</h6>
+                                                <h6 class="my-0"><?php echo $water['w_menuName']; ?>(<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>) - <?php echo $water['w_HotColdBlended']; ?></h6>
                                                 <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][id]" value="<?php echo $water['w_menuID']; ?>">
                                                 <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][price]" value="<?php echo $water['w_price']; ?>">
                                                 <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][name]" value="<?php echo $water['w_menuName']; ?>">
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][hcb]" value="<?php echo $water['w_HotColdBlended']; ?>">
                                             </div>
                                             <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$water['w_menuName']] * $water['w_price'], 2); ?></span>
                                         </li>
@@ -117,10 +119,11 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                     <?php while ($water = mysqli_fetch_assoc($tea_query)) : ?>
                                         <li class="list-group-item d-flex justify-content-between lh-sm">
                                             <div>
-                                                <h6 class="my-0"><?php echo $water['w_menuName']; ?>(<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>)</h6>
+                                                <h6 class="my-0"><?php echo $water['w_menuName']; ?>(<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>) - <?php echo $water['w_HotColdBlended']; ?></h6>
                                                 <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][id]" value="<?php echo $water['w_menuID']; ?>">
                                                 <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][price]" value="<?php echo $water['w_price']; ?>">
                                                 <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][name]" value="<?php echo $water['w_menuName']; ?>">
+                                                <input type="hidden" name="product[<?php echo $water['w_menuName']; ?>][hcb]" value="<?php echo $water['w_HotColdBlended']; ?>">
                                             </div>
                                             <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$water['w_menuName']] * $water['w_price'], 2); ?></span>
                                         </li>
@@ -139,6 +142,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                                 <input type="hidden" name="product[<?php echo $dessert['dess_menuName']; ?>][id]" value="<?php echo $dessert['dess_menuID']; ?>">
                                                 <input type="hidden" name="product[<?php echo $dessert['dess_menuName']; ?>][price]" value="<?php echo $dessert['dess_price']; ?>">
                                                 <input type="hidden" name="product[<?php echo $dessert['dess_menuName']; ?>][name]" value="<?php echo $dessert['dess_menuName']; ?>">
+                                                <input type="hidden" name="product[<?php echo $dessert['dess_menuName']; ?>][quantity]" value="<?php echo $_SESSION['cart'][$dessert['dess_menuName']];?>">
                                             </div>
                                             <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$dessert['dess_menuName']] * $dessert['dess_price'], 2); ?></span>
                                         </li>
@@ -157,6 +161,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                                 <input type="hidden" name="product[<?php echo $fruit['fruit_menuName']; ?>][id]" value="<?php echo $fruit['fruit_menuID']; ?>">
                                                 <input type="hidden" name="product[<?php echo $fruit['fruit_menuName']; ?>][price]" value="<?php echo $fruit['fruit_price']; ?>">
                                                 <input type="hidden" name="product[<?php echo $fruit['fruit_menuName']; ?>][name]" value="<?php echo $fruit['fruit_menuName']; ?>">
+                                                <input type="hidden" name="product[<?php echo $fruit['fruit_menuName']; ?>][quantity]" value="<?php echo $_SESSION['cart'][$fruit['fruit_menuName']];?>">
                                             </div>
                                             <span class="text-body-secondary">฿<?php echo number_format($_SESSION['cart'][$fruit['fruit_menuName']] * $fruit['fruit_price'], 2); ?></span>
                                         </li>

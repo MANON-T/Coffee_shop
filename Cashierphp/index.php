@@ -70,13 +70,13 @@ $fruit_row = mysqli_num_rows($fruit_query);
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
                                 <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'],2); ?> Baht</p>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'], 2); ?> Baht</p>
                                 <a href="../condb/cart-adddb.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
                             </div>
                         </div>
                     </div>
                 <?php endwhile; ?>
-            <?php else: ?>
+            <?php else : ?>
                 <diiv class="col-12">
                     <h4 class="text-danger">No product data</h4>
                 </diiv>
@@ -96,13 +96,13 @@ $fruit_row = mysqli_num_rows($fruit_query);
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
                                 <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'],2); ?> Baht</p>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'], 2); ?> Baht</p>
                                 <a href="../condb/cart-adddb.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
                             </div>
                         </div>
                     </div>
                 <?php endwhile; ?>
-            <?php else: ?>
+            <?php else : ?>
                 <diiv class="col-12">
                     <h4 class="text-danger">No product data</h4>
                 </diiv>
@@ -122,13 +122,13 @@ $fruit_row = mysqli_num_rows($fruit_query);
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $water['w_menuName']; ?></h5>
                                 <p class="card-text text-muted mb-0">Option : <?php echo $water['w_HotColdBlended']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'],2); ?> Baht</p>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($water['w_price'], 2); ?> Baht</p>
                                 <a href="../condb/cart-adddb.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
                             </div>
                         </div>
                     </div>
                 <?php endwhile; ?>
-            <?php else: ?>
+            <?php else : ?>
                 <diiv class="col-12">
                     <h4 class="text-danger">No product data</h4>
                 </diiv>
@@ -148,13 +148,17 @@ $fruit_row = mysqli_num_rows($fruit_query);
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $dessert['dess_menuName']; ?></h5>
                                 <p class="card-text text-muted mb-0">Stock : <?php echo $dessert['dess_quantity']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($dessert['dess_price'],2); ?> Baht</p>
-                                <a href="../condb/cart-adddb.php?id=<?php echo $dessert['dess_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($dessert['dess_price'], 2); ?> Baht</p>
+                                <?php if ($dessert['dess_quantity'] == 0) : ?>
+                                    <button class="btn btn-dark w-100" disabled><i class="bi bi-cart-check"></i> Add Cart</button>
+                                <?php else : ?>
+                                    <a href="../condb/cart-adddb.php?id=<?php echo $dessert['dess_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 <?php endwhile; ?>
-            <?php else: ?>
+            <?php else : ?>
                 <diiv class="col-12">
                     <h4 class="text-danger">No product data</h4>
                 </diiv>
@@ -174,13 +178,17 @@ $fruit_row = mysqli_num_rows($fruit_query);
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $fruit['fruit_menuName']; ?></h5>
                                 <p class="card-text text-muted mb-0">Stock : <?php echo $fruit['fruit_quantity']; ?></p>
-                                <p class="card-text text-success fw-bold"><?php echo number_format($fruit['fruit_price'],2); ?> Baht</p>
-                                <a href="../condb/cart-adddb.php?id=<?php echo $fruit['fruit_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
+                                <p class="card-text text-success fw-bold"><?php echo number_format($fruit['fruit_price'], 2); ?> Baht</p>
+                                <?php if ($fruit['fruit_quantity'] == 0): ?>
+                                    <button class="btn btn-dark w-100" disabled><i class="bi bi-cart-check"></i> Add Cart</button>
+                                <?php else: ?>
+                                    <a href="../condb/cart-adddb.php?id=<?php echo $fruit['fruit_menuName']; ?>" class="btn btn-dark w-100"><i class="bi bi-cart-check"></i> Add Cart</a>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 <?php endwhile; ?>
-            <?php else: ?>
+            <?php else : ?>
                 <diiv class="col-12">
                     <h4 class="text-danger">No product data</h4>
                 </diiv>
