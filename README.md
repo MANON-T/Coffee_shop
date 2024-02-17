@@ -22,9 +22,9 @@
 
 -Cashier page
 
-# Fucntion Developing
-
 -Barista page
+
+# Fucntion Developing
 
 -Manager page
 
