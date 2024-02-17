@@ -11,7 +11,6 @@ $productNames = [];
 foreach (($_SESSION['cart'] ?? []) as $cartName => $cartQty) {
     $productNames[] = mysqli_real_escape_string($conn, $cartName);
 }
-
 $names = "'" . implode("','", $productNames) . "'";
 
 $cof_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_waterType = 'coffee' AND w_menuName IN ($names)");
@@ -53,6 +52,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
                 </div>
                 <div class="links">
                     <a href="index.php">Menu</a>
+                    <a href="redeem.php">Redeem</a>
                     <a href="cart.php">Cart (<?php echo count($_SESSION['cart'] ?? []) ?>) </a>
                     <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
                 </div>

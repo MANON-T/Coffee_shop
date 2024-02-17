@@ -33,7 +33,7 @@ if ($dess_row >= 1) {
 $sql3 = "UPDATE points SET p_pointTotal = {$point_result} WHERE p_customerName = '$cus_username'";
 $result3 = mysqli_query($conn, $sql3);
 
-$sql4 = "INSERT INTO redeem (rd_customerName, rd_redeemOrder, rd_option, rd_expire) VALUES ('$cus_username', '$product_name', '$product_option', DATE_ADD(NOW(), INTERVAL 7 DAY))";
+$sql4 = "INSERT INTO redeem (rd_customerName, rd_redeemOrder, rd_option, rd_expire, rd_status) VALUES ('$cus_username', '$product_name', '$product_option', DATE_ADD(NOW(), INTERVAL 7 DAY), 'redeemable')";
 $result4 = mysqli_query($conn, $sql4);
 
 if ($result4) {
