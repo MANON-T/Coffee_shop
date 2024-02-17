@@ -20,13 +20,12 @@
 
 -Customer page
 
-# Fucntion Developing
-
 -Cashier page
+
+# Fucntion Developing
 
 -Barista page
 
 -Manager page
-
 
 -CEO page
