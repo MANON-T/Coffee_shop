@@ -105,7 +105,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                             <?php echo $water['w_HotColdBlended']; ?> </td>
                                         </td>
                                         <td><?php echo number_format($water['w_price'], 2); ?> </td>
-                                        <td><input type="number" name="product[<?php echo $water['w_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>" class="form-control"></td>
+                                        <td><input type="number" name="product[<?php echo $water['w_menuName']; ?>][quantity]" value="<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>" class="form-control" min="0"></td>
                                         <td><?php echo number_format($water['w_price'] * $_SESSION['cart'][$water['w_menuName']], 2) ?></td>
                                         <td>
                                             <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
@@ -154,7 +154,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                             <?php echo $water['w_HotColdBlended']; ?> </td>
                                         </td>
                                         <td><?php echo number_format($water['w_price'], 2); ?> </td>
-                                        <td><input type="number" name="product[<?php echo $water['w_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>" class="form-control"></td>
+                                        <td><input type="number" name="product[<?php echo $water['w_menuName']; ?>][quantity]" value="<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>" class="form-control" min="0"></td>
                                         <td><?php echo number_format($water['w_price'] * $_SESSION['cart'][$water['w_menuName']], 2) ?></td>
                                         <td>
                                             <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i></i> Delete</a>
@@ -201,7 +201,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                             <?php echo $water['w_HotColdBlended']; ?> </td>
                                         </td>
                                         <td><?php echo number_format($water['w_price'], 2); ?> </td>
-                                        <td><input type="number" name="product[<?php echo $water['w_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>" class="form-control"></td>
+                                        <td><input type="number" name="product[<?php echo $water['w_menuName']; ?>][quantity]" value="<?php echo $_SESSION['cart'][$water['w_menuName']]; ?>" class="form-control" min="0"></td>
                                         <td><?php echo number_format($water['w_price'] * $_SESSION['cart'][$water['w_menuName']], 2) ?></td>
                                         <td>
                                             <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $water['w_menuName']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
@@ -244,7 +244,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                         </td>
                                         <td><?php echo $dessert['dess_menuName']; ?> </td>
                                         <td><?php echo number_format($dessert['dess_price'], 2); ?> </td>
-                                        <td><input type="number" name="product[<?php echo $dessert['dess_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$dessert['dess_menuName']]; ?>" class="form-control"></td>
+                                        <td><input type="number" name="product[<?php echo $dessert['dess_menuName']; ?>][quantity]" value="<?php echo $_SESSION['cart'][$dessert['dess_menuName']]; ?>" class="form-control" min="0" max="<?php echo $dessert['dess_quantity']; ?>"></td>
                                         <td><?php echo number_format($dessert['dess_price'] * $_SESSION['cart'][$dessert['dess_menuName']], 2) ?></td>
                                         <td>
                                             <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $dessert['dess_menuName']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>
@@ -287,7 +287,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
                                         </td>
                                         <td><?php echo $fruit['fruit_menuName']; ?> </td>
                                         <td><?php echo number_format($fruit['fruit_price'], 2); ?> </td>
-                                        <td><input type="number" name="product[<?php echo $fruit['fruit_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$fruit['fruit_menuName']]; ?>" class="form-control"></td>
+                                        <td><input type="number" name="product[<?php echo $fruit['fruit_menuName']; ?>][quantity]]" value="<?php echo $_SESSION['cart'][$fruit['fruit_menuName']]; ?>" class="form-control " class="form-control" min="0" max="<?php echo $fruit['fruit_quantity']; ?>"></td>
                                         <td><?php echo number_format($fruit['fruit_price'] * $_SESSION['cart'][$fruit['fruit_menuName']], 2) ?></td>
                                         <td>
                                             <a onclick="return confirm('Are you sure you want to deleat');" role="button" href="../condb/cart_delete.php?id=<?php echo $fruit['fruit_menuName']; ?>" class="btn btn-outline-danger"><i class="bi bi-cart-dash"></i> Delete</a>

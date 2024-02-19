@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2024 at 08:23 AM
+-- Generation Time: Feb 19, 2024 at 11:37 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -79,11 +79,11 @@ CREATE TABLE `dessert_menu` (
 --
 
 INSERT INTO `dessert_menu` (`dess_menuID`, `dess_menuName`, `dess_quantity`, `dess_price`, `dess_picture`) VALUES
-(1, 'Chocolate Cake', 12, 100, 'des_1.jpg'),
-(2, 'Cheesecake', 1, 120, 'des_2.jpg'),
-(3, 'Apple Pie', 6, 110, 'des_3.jpg'),
+(1, 'Chocolate Cake', 3, 100, 'des_1.jpg'),
+(2, 'Cheesecake', 0, 120, 'des_2.jpg'),
+(3, 'Apple Pie', 4, 110, 'des_3.jpg'),
 (4, 'Brownie', 12, 90, 'des_4.jpg'),
-(5, 'Ice Cream Sundae', -3, 130, 'des_5.jpg'),
+(5, 'Ice Cream Sundae', 0, 130, 'des_5.jpg'),
 (6, 'Fruit Tart', 15, 140, 'des_6.jpg');
 
 -- --------------------------------------------------------
@@ -152,7 +152,7 @@ CREATE TABLE `fruit_menu` (
 --
 
 INSERT INTO `fruit_menu` (`fruit_menuID`, `fruit_menuName`, `fruit_quantity`, `fruit_price`, `fruit_picture`) VALUES
-(1, 'Apple', 5, 10, 'fru_1.jpg'),
+(1, 'Apple', 0, 10, 'fru_1.jpg'),
 (2, 'Banana', 10, 8, 'fru_2.jpg'),
 (3, 'Orange', 15, 12, 'fru_3.jpg'),
 (4, 'Grapes', 8, 15, 'fru_4.jpg'),
@@ -290,7 +290,12 @@ INSERT INTO `order_detail` (`ord_detailID`, `ord_productID`, `ord_orderID`, `ord
 (105, 2, 69, 'Banana', 'fruit', '-', 3, 8, 24, 'wait'),
 (106, 3, 69, 'Orange', 'fruit', '-', 3, 12, 36, 'wait'),
 (107, 4, 69, 'Grapes', 'fruit', '-', 3, 15, 45, 'wait'),
-(108, 5, 69, 'Strawberry', 'fruit', '-', 6, 20, 120, 'wait');
+(108, 5, 69, 'Strawberry', 'fruit', '-', 6, 20, 120, 'wait'),
+(109, 9, 70, 'ชากุหลาบ', 'milk', 'Hot', 2, 45, 90, 'wait'),
+(110, 3, 71, 'Apple Pie', 'dessert', '-', 2, 110, 220, 'wait'),
+(111, 2, 72, 'Cheesecake', 'dessert', '-', 1, 120, 120, 'wait'),
+(112, 1, 73, 'Chocolate Cake', 'dessert', '-', 9, 100, 900, 'wait'),
+(113, 1, 74, 'Apple', 'fruit', '-', 5, 10, 50, 'wait');
 
 -- --------------------------------------------------------
 
@@ -379,7 +384,12 @@ INSERT INTO `order_main` (`ord_orderID`, `ord_orderDate`, `ord_customerID`, `ord
 (66, '2024-02-19', 0, 690, '2024-02-19 06:51:53'),
 (67, '2024-02-19', 0, 65, '2024-02-19 06:52:39'),
 (68, '2024-02-19', 0, 1970, '2024-02-19 06:53:22'),
-(69, '2024-02-19', 0, 265, '2024-02-19 06:53:52');
+(69, '2024-02-19', 0, 265, '2024-02-19 06:53:52'),
+(70, '2024-02-19', 0, 90, '2024-02-19 07:42:04'),
+(71, '2024-02-19', 0, 220, '2024-02-19 07:56:23'),
+(72, '2024-02-19', 0, 120, '2024-02-19 07:59:31'),
+(73, '2024-02-19', 0, 900, '2024-02-19 08:38:43'),
+(74, '2024-02-19', 0, 50, '2024-02-19 08:41:18');
 
 -- --------------------------------------------------------
 
@@ -618,13 +628,13 @@ ALTER TABLE `fruit_menu`
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `ord_detailID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `ord_detailID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `order_main`
 --
 ALTER TABLE `order_main`
-  MODIFY `ord_orderID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `ord_orderID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `points`

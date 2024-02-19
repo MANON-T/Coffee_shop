@@ -18,14 +18,14 @@
 
 -Register
 
--Customer page
 
 -Cashier page
 
 -Barista page
 
-# Fucntion Developing
 
 -Manager page
 
--CEO page
+# Fucntion Developing
+
+-Customer page

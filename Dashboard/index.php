@@ -103,30 +103,60 @@ foreach ($age_array as $age) {
 }
 $age_values = array_values($age_count);
 
-$water_hit_query = mysqli_query($conn, "SELECT ord_productName, COUNT(*) AS total_count 
+$water_hit_query = mysqli_query($conn, "SELECT ord_productName, SUM(ord_quantity) AS total_quantity 
                                          FROM order_detail 
                                          WHERE ord_productType IN ('coffee', 'milk', 'tea')
                                          GROUP BY ord_productName 
-                                         ORDER BY total_count DESC 
+                                         ORDER BY total_quantity DESC 
                                          LIMIT 4");
 
 $top_product_names = array(); // อาเรย์สำหรับเก็บชื่อสินค้า
-$top_product_counts = array(); // อาเรย์สำหรับเก็บจำนวนของสินค้า
+$top_product_quantities = array(); // อาเรย์สำหรับเก็บจำนวนของสินค้า
 
 while ($row = mysqli_fetch_assoc($water_hit_query)) {
     $product_name = $row['ord_productName'];
-    $product_count = $row['total_count'];
+    $product_quantity = $row['total_quantity'];
     $top_product_names[] = $product_name; // เพิ่มชื่อสินค้าลงในอาเรย์
-    $top_product_counts[] = $product_count; // เพิ่มจำนวนของสินค้าลงในอาเรย์
+    $top_product_quantities[] = $product_quantity; // เพิ่มจำนวนของสินค้าลงในอาเรย์
 }
 
+$dessert_hit_query = mysqli_query($conn, "SELECT ord_productName, SUM(ord_quantity) AS total_quantity 
+                                          FROM order_detail 
+                                          WHERE ord_productType = 'dessert' 
+                                          GROUP BY ord_productName 
+                                          ORDER BY total_quantity DESC 
+                                          LIMIT 3");
+
+$top_dessert_names = array();
+$top_dessert_quantities = array();
+while ($row = mysqli_fetch_assoc($dessert_hit_query)) {
+    $top_dessert_names[] = $row['ord_productName'];
+    $top_dessert_quantities[] = $row['total_quantity'];
+}
+
+$fruit_hit_query = mysqli_query($conn, "SELECT ord_productName, SUM(ord_quantity) AS total_quantity 
+                                          FROM order_detail 
+                                          WHERE ord_productType = 'fruit' 
+                                          GROUP BY ord_productName 
+                                          ORDER BY total_quantity DESC 
+                                          LIMIT 3");
+
+$top_fruit_names = array();
+$top_fruit_quantities = array();
+while ($row = mysqli_fetch_assoc($fruit_hit_query)) {
+    $top_fruit_names[] = $row['ord_productName'];
+    $top_fruit_quantities[] = $row['total_quantity'];
+}
 // แปลงข้อมูลเป็นรูปแบบ JSON
 $data_json = json_encode($data);
 $water_jason = json_encode($water);
 $age_jason = json_encode($age_values);
 $water_top_name_jason = json_encode($top_product_names);
-$water_top_count_jason = json_encode($top_product_counts);
-
+$water_top_count_jason = json_encode($top_product_quantities);
+$dessert_top_name_jason = json_encode($top_dessert_names);
+$dessert_top_count_jason = json_encode($top_dessert_quantities);
+$fruit_top_name_jason = json_encode($top_fruit_names);
+$fruit_top_count_jason = json_encode($top_fruit_quantities);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -164,7 +194,16 @@ $water_top_count_jason = json_encode($top_product_counts);
         var cahrtName = <?php echo $water_top_name_jason ?>;
         var cahrtCount = <?php echo $water_top_count_jason ?>;
     </script>
-
+    <script>
+        // ใช้ข้อมูลจาก PHP แทนที่ข้อมูลจาก JavaScript
+        var cahrtName1 = <?php echo $dessert_top_name_jason ?>;
+        var cahrtCount1 = <?php echo $dessert_top_count_jason ?>;
+    </script>
+    <script>
+        // ใช้ข้อมูลจาก PHP แทนที่ข้อมูลจาก JavaScript
+        var cahrtName2 = <?php echo $fruit_top_name_jason ?>;
+        var cahrtCount2 = <?php echo $fruit_top_count_jason ?>;
+    </script>
 </head>
 
 <body id="page-top">
@@ -198,20 +237,21 @@ $water_top_count_jason = json_encode($top_product_counts);
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                Human Details
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <span>Employee</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <h6 class="collapse-header">Employee Detail :</h6>
+                        <a class="collapse-item" href="tables.php">All</a>
+                        <a class="collapse-item" href="table2.php">Cashier</a>
+                        <a class="collapse-item" href="table3.php">Barista</a>
                     </div>
                 </div>
             </li>
@@ -220,15 +260,13 @@ $water_top_count_jason = json_encode($top_product_counts);
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
+                    <span>Customer</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
+                        <h6 class="collapse-header">Custom Detail :</h6>
+                        <a class="collapse-item" href="table4.php">Customer</a>
+                        <a class="collapse-item" href="table5.php">Point</a>
                     </div>
                 </div>
             </li>
@@ -245,34 +283,29 @@ $water_top_count_jason = json_encode($top_product_counts);
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                    <span>Menu List</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                        <a class="collapse-item" href="table6.php">Water</a>
+                        <a class="collapse-item" href="table7.php">Dessert</a>
+                        <a class="collapse-item" href="table8.php">Fruit</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="table9.php">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+                    <span>Order</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="table10.php">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                    <span>Feedback</span></a>
             </li>
 
             <!-- Divider -->
@@ -574,8 +607,22 @@ $water_top_count_jason = json_encode($top_product_counts);
                                 <div class="card-body">
                                     <div class="chart-pie pt-4">
                                         <input type="hidden" id="phpData3" value="<?php echo $top_product_names; ?>">
-                                        <input type="hidden" id="phpData3" value="<?php echo $top_product_counts; ?>">
+                                        <input type="hidden" id="phpData4" value="<?php echo $top_product_counts; ?>">
                                         <canvas id="waterTopChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> <?php echo $top_product_names[0] ?>
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> <?php echo $top_product_names[1] ?>
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-info"></i> <?php echo $top_product_names[2] ?>
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-warning"></i> <?php echo $top_product_names[3] ?>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -590,9 +637,21 @@ $water_top_count_jason = json_encode($top_product_counts);
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4">
-                                        <canvas id="myPieChart"></canvas>
+                                        <input type="hidden" id="phpData5" value="<?php echo $dessert_top_name_jason; ?>">
+                                        <input type="hidden" id="phpData6" value="<?php echo $dessert_top_count_jason; ?>">
+                                        <canvas id="DessertTopChart"></canvas>
                                     </div>
-
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> <?php echo $top_dessert_names[0] ?>
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> <?php echo $top_dessert_names[1] ?>
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-info"></i> <?php echo $top_dessert_names[2] ?>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -606,7 +665,20 @@ $water_top_count_jason = json_encode($top_product_counts);
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4">
-                                        <canvas id="myPieChart"></canvas>
+                                        <input type="hidden" id="phpData7" value="<?php echo $fruit_top_name_jason; ?>">
+                                        <input type="hidden" id="phpData8" value="<?php echo $fruit_top_count_jason; ?>">
+                                        <canvas id="FruitTopChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> <?php echo $top_fruit_names[0] ?>
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> <?php echo $top_fruit_names[1] ?>
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-info"></i> <?php echo $top_fruit_names[2] ?>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -667,7 +739,8 @@ $water_top_count_jason = json_encode($top_product_counts);
     <script src="js/demo/chart-pie-demo-2.js"></script>
     <script src="js/demo/chart-bar-demo-2.js"></script>
     <script src="js/demo/chart-pie-demo-3.js"></script>
-
+    <script src="js/demo/chart-pie-demo-4.js"></script>
+    <script src="js/demo/chart-pie-demo-5.js"></script>
 </body>
 
 </html>

@@ -68,6 +68,7 @@ $order_row = mysqli_num_rows($order_query);
                             <div class="row g-0">
                                 <div class="col-md-12">
                                     <div class="card-body">
+                                        <h4>Order ID : <?php echo $order['ord_orderID']?></h4>
                                         <h5 class="card-title"><?php echo $order['ord_productName'] ?> - <?php echo $order['ord_option'] ?></h5>
                                         <?php $name = $order['ord_productName'] ?>
                                         <?php $option = $order['ord_option'] ?>
