@@ -17,12 +17,13 @@ if ($query) {
         $product_name = $_POST['product'][$product]['name'];
         $price = $_POST['product'][$product]['price'];
         $hcb = $_POST['product'][$product]['hcb'] ?? '-';
+        $type = $_POST['product'][$product]['type'];
         $quantity = $_POST['product'][$product]['quantity'];
         $total = $price * $productQty;
 
         // $_SESSION['cart'][$productID] = $_POST['product'][$productID]['quantity'];
-        $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_option, ord_price, ord_quantity, ord_totalPrice, ord_status) 
-        VALUES ('{$last_id}','{$productID}', '{$product_name}', '{$hcb}', '{$price}', '{$productQty}', '{$total}', 'wait')") or die('query failed');
+        $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_productType, ord_option, ord_price, ord_quantity, ord_totalPrice, ord_status) 
+        VALUES ('{$last_id}','{$productID}', '{$product_name}', '{$type}', '{$hcb}', '{$price}', '{$productQty}', '{$total}', 'wait')") or die('query failed');
 
         $dess_query = mysqli_query($conn, "SELECT * FROM dessert_menu WHERE dess_menuName = '{$product_name}'");
         if (mysqli_num_rows($dess_query) >= 1) {

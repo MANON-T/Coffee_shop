@@ -43,7 +43,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
         </div>
         <div class="links">
             <a href="#">Menu</a>
-            <a href="#">Dashboard</a>
+            <a href="../Dashboard/index.php">Dashboard</a>
             <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
         </div>
     </div>

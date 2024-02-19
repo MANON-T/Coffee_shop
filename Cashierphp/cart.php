@@ -50,6 +50,7 @@ $fruit_row = mysqli_num_rows($fruit_query);
         </div>
         <div class="links">
             <a href="index.php">Menu</a>
+            <a href="redeem.php">Redeem</a>
             <a href="cart.php">Cart (<?php echo count($_SESSION['cart'] ?? []) ?>) </a>
             <button id="LogoutBtn"><i class="bi bi-check2-circle"></i> Log Out</button>
         </div>
