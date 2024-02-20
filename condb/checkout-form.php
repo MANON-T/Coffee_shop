@@ -9,6 +9,7 @@ $queryID = mysqli_query($conn, "SELECT * FROM customer WHERE cus_username = '{$u
 $customerID = mysqli_fetch_assoc($queryID);
 $query = mysqli_query($conn, "INSERT INTO order_main(ord_orderDate, ord_customerID, ord_total) 
 VALUES ('{$now}','{$customerID['cus_customerID']}', '{$_POST['grand_total']}')") or die('query failed');
+// สำคัญ
 
 if ($query) {
     $last_id = mysqli_insert_id($conn);
@@ -24,6 +25,7 @@ if ($query) {
         // $_SESSION['cart'][$productID] = $_POST['product'][$productID]['quantity'];
         $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_productType, ord_option, ord_price, ord_quantity, ord_totalPrice, ord_status) 
         VALUES ('{$last_id}','{$productID}', '{$product_name}', '{$type}', '{$hcb}', '{$price}', '{$productQty}', '{$total}', 'wait')") or die('query failed');
+        // สำคัญ
 
         $dess_query = mysqli_query($conn, "SELECT * FROM dessert_menu WHERE dess_menuName = '{$product_name}'");
         if (mysqli_num_rows($dess_query) >= 1) {

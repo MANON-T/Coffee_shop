@@ -117,6 +117,7 @@ $point = mysqli_fetch_assoc($point_row);
                             <div class="mb-4">
                                 Point Have:
                                 <input type="number" name="point_have" class="form form-control" value="<?php echo $point['p_pointTotal'] ?>" readonly>
+                                <small>*After redemption You can use your rights within 7 days.</small>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-warning"><i class="bi bi-check-circle-fill"></i> Confirm</button>
@@ -143,6 +144,7 @@ $point = mysqli_fetch_assoc($point_row);
                             <div class="mb-4">
                                 Point Have:
                                 <input type="number" name="point_have" class="form form-control" value="<?php echo $point['p_pointTotal'] ?>" readonly>
+                                <small>*After redemption You can use your rights within 7 days.</small>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-warning"><i class="bi bi-check-circle-fill"></i> Confirm</button>
