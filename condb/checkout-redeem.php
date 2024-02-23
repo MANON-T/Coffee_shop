@@ -32,8 +32,8 @@ if ($row > 0) {
             $water_name = $water['w_menuName'];
             $water_option = $water['w_HotColdBlended'];
             $water_type = $water['w_waterType'];
-            $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_productType, ord_option, ord_price, ord_quantity, ord_totalPrice) 
-            VALUES ('{$last_id}','{$water_ID}', '{$water_name}', '{$water_type}', '{$water_option}', '0', '1', '0')") or die('query failed');
+            $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_productType, ord_option, ord_price, ord_quantity, ord_totalPrice, ord_status) 
+            VALUES ('{$last_id}','{$water_ID}', '{$water_name}', '{$water_type}', '{$water_option}', '0', '1', '0', 'wait')") or die('query failed');
             $query1 = mysqli_query($conn, "UPDATE redeem SET rd_status = 'redeemed' WHERE rd_redeemID = '{$ID}'");
         }
         $dess_query = mysqli_query($conn, "SELECT * FROM dessert_menu WHERE dess_menuName = '{$name}'");
@@ -42,8 +42,8 @@ if ($row > 0) {
             $dessert = mysqli_fetch_assoc($dess_query);
             $dessert_ID = $dessert['dess_menuID'];
             $dessert_name = $dessert['dess_menuName'];
-            $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_productType, ord_option, ord_price, ord_quantity, ord_totalPrice) 
-            VALUES ('{$last_id}','{$dessert_ID}', '{$dessert_name}', 'dessert', '-', '0', '1', '0')") or die('query failed');
+            $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_productType, ord_option, ord_price, ord_quantity, ord_totalPrice, ord_status) 
+            VALUES ('{$last_id}','{$dessert_ID}', '{$dessert_name}', 'dessert', '-', '0', '1', '0', 'wait')") or die('query failed');
             $query1 = mysqli_query($conn, "UPDATE redeem SET rd_status = 'redeemed' WHERE rd_redeemID = '{$ID}'");
         }
         $fruit_query = mysqli_query($conn, "SELECT * FROM fruit_menu WHERE fruit_menuName = '{$name}'");
@@ -52,8 +52,8 @@ if ($row > 0) {
             $fruit = mysqli_fetch_assoc($fruit_query);
             $fruit_ID = $fruit['fruit_menuID'];
             $fruit_name = $fruit['fruit_menuName'];
-            $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_productType, ord_option, ord_price, ord_quantity, ord_totalPrice) 
-            VALUES ('{$last_id}','{$fruit_ID}', '{$fruit_name}', 'fruit', '-', '0', '1', '0')") or die('query failed');
+            $query = mysqli_query($conn, "INSERT INTO order_detail(ord_orderID, ord_productID, ord_productName, ord_productType, ord_option, ord_price, ord_quantity, ord_totalPrice, ord_status) 
+            VALUES ('{$last_id}','{$fruit_ID}', '{$fruit_name}', 'fruit', '-', '0', '1', '0', 'wait')") or die('query failed');
             $query1 = mysqli_query($conn, "UPDATE redeem SET rd_status = 'redeemed' WHERE rd_redeemID = '{$ID}'");
         }
     }

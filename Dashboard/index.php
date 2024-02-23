@@ -147,16 +147,162 @@ while ($row = mysqli_fetch_assoc($fruit_hit_query)) {
     $top_fruit_names[] = $row['ord_productName'];
     $top_fruit_quantities[] = $row['total_quantity'];
 }
+
+// สร้างอาเรย์เริ่มต้น
+$weekly_totals = array_fill(0, 7, 0);
+
+// ทำการคิวรีข้อมูลจากฐานข้อมูล
+$day_query = "SELECT DAYOFWEEK(ord_orderDate) AS day_of_week, SUM(ord_total) AS total_price
+          FROM order_main 
+          WHERE YEAR(ord_orderDate) = YEAR(CURDATE())
+          AND WEEK(ord_orderDate) = WEEK(CURDATE())
+          GROUP BY DAYOFWEEK(ord_orderDate)";
+
+$result = mysqli_query($conn, $day_query);
+
+if ($result) {
+    // เก็บผลรวมลงในอาเรย์
+    while ($row = mysqli_fetch_assoc($result)) {
+        $day_of_week = $row['day_of_week'];
+        $total_price = $row['total_price'];
+
+        // เนื่องจาก DAYOFWEEK() จะคืนค่าเริ่มจาก 1 (อาทิตย์) ถึง 7 (เสาร์)
+        // เราจะลดค่า day_of_week ลง 1 เพื่อให้สอดคล้องกับ index ของอาเรย์ที่เริ่มต้นที่ 0
+        $weekly_totals[$day_of_week - 1] = $total_price;
+    }
+} else {
+    echo "Error: " . mysqli_error($conn);
+}
+
+// 1. กำหนดวันที่ปัจจุบัน
+$currentDate = date('Y-m-d');
+
+// 2. สร้างอาร์เรย์เพื่อเก็บผลรวมของ ord_total ในแต่ละชั่วโมงของวันที่ปัจจุบัน
+$hourlyTotal = array();
+
+// 3. สร้างคำสั่ง SQL เพื่อเลือกข้อมูลเวลาและ ord_total จากฐานข้อมูล
+$hour_query = mysqli_query($conn, "SELECT ord_timeStamp, ord_total FROM order_main");
+
+// 4. ตรวจสอบว่ามีข้อมูลหรือไม่ก่อนที่จะดึงข้อมูล
+if (mysqli_num_rows($hour_query) > 0) {
+    // วนลูปผลลัพธ์ที่ได้จากคำสั่ง SQL เพื่อดึงข้อมูลเวลาและ ord_total และคำนวณผลรวมของ ord_total ในแต่ละชั่วโมงของวันที่ปัจจุบัน
+    while ($row = mysqli_fetch_assoc($hour_query)) {
+        // แปลง timestamp เป็นชั่วโมงเพื่อใช้เป็นคีย์ในอาร์เรย์
+        $hour = date('Y-m-d H:00:00', strtotime($row['ord_timeStamp']));
+
+        // ตรวจสอบว่าข้อมูลอยู่ในวันที่ปัจจุบันหรือไม่
+        if (substr($hour, 0, 10) === $currentDate) {
+            // เพิ่ม ord_total เข้าไปในผลรวมของ ord_total ในชั่วโมงนั้นๆ
+            if (isset($hourlyTotal[$hour])) {
+                $hourlyTotal[$hour] += $row['ord_total'];
+            } else {
+                $hourlyTotal[$hour] = $row['ord_total'];
+            }
+        }
+    }
+} else {
+    echo "ไม่พบข้อมูลเวลา";
+}
+
+$male_age_query = mysqli_query($conn, "SELECT cus_birthday FROM customer WHERE cus_gender = 'Male'");
+
+// ตรวจสอบว่ามีผลลัพธ์ที่ได้หรือไม่
+if (mysqli_num_rows($male_age_query) > 0) {
+    // เก็บข้อมูลอายุไว้ใน array
+    $age_array1 = array();
+
+    // วนลูปผลลัพธ์ที่ได้
+    while ($row = mysqli_fetch_assoc($male_age_query)) {
+        // ดึงวันเกิดแต่ละคน
+        $birthday = $row['cus_birthday'];
+
+        // คำนวณอายุจากวันเกิด
+        $birth_date = new DateTime($birthday);
+        $current_date = new DateTime();
+        $age = $current_date->diff($birth_date)->y; // ดึงอายุเป็นปี
+
+        // เก็บอายุลงใน array
+        $age_array1[] = $age;
+    }
+} else {
+    echo "ไม่พบข้อมูลวันเกิด";
+}
+$age_count1 = array(
+    '12-18' => 0,
+    '19-29' => 0,
+    '30-40' => 0
+);
+
+// นับจำนวนคนในแต่ละช่วงอายุ
+foreach ($age_array1 as $age) {
+    if ($age >= 12 && $age <= 18) {
+        $age_count1['12-18']++;
+    } elseif ($age >= 19 && $age <= 29) {
+        $age_count1['19-29']++;
+    } elseif ($age >= 30 && $age <= 40) {
+        $age_count1['30-40']++;
+    }
+}
+
+$age_values1 = array_values($age_count1);
+
+$female_age_query = mysqli_query($conn, "SELECT cus_birthday FROM customer WHERE cus_gender = 'Female'");
+
+// ตรวจสอบว่ามีผลลัพธ์ที่ได้หรือไม่
+if (mysqli_num_rows($female_age_query) > 0) {
+    // เก็บข้อมูลอายุไว้ใน array
+    $age_array2 = array();
+
+    // วนลูปผลลัพธ์ที่ได้
+    while ($row = mysqli_fetch_assoc($female_age_query)) {
+        // ดึงวันเกิดแต่ละคน
+        $birthday = $row['cus_birthday'];
+
+        // คำนวณอายุจากวันเกิด
+        $birth_date = new DateTime($birthday);
+        $current_date = new DateTime();
+        $age = $current_date->diff($birth_date)->y; // ดึงอายุเป็นปี
+
+        // เก็บอายุลงใน array
+        $age_array2[] = $age;
+    }
+} else {
+    echo "ไม่พบข้อมูลวันเกิด";
+}
+$age_count2 = array(
+    '12-18' => 0,
+    '19-29' => 0,
+    '30-40' => 0
+);
+
+// นับจำนวนคนในแต่ละช่วงอายุ
+foreach ($age_array2 as $age) {
+    if ($age >= 12 && $age <= 18) {
+        $age_count2['12-18']++;
+    } elseif ($age >= 19 && $age <= 29) {
+        $age_count2['19-29']++;
+    } elseif ($age >= 30 && $age <= 40) {
+        $age_count2['30-40']++;
+    }
+}
+
+$age_values2 = array_values($age_count2);
+
 // แปลงข้อมูลเป็นรูปแบบ JSON
 $data_json = json_encode($data);
+$hour_key_jason = json_encode(array_keys($hourlyTotal));
+$hour_value_jason = json_encode(array_values($hourlyTotal));
 $water_jason = json_encode($water);
 $age_jason = json_encode($age_values);
+$male_age_jason = json_encode($age_values1);
+$female_age_jason = json_encode($age_values2);
 $water_top_name_jason = json_encode($top_product_names);
 $water_top_count_jason = json_encode($top_product_quantities);
 $dessert_top_name_jason = json_encode($top_dessert_names);
 $dessert_top_count_jason = json_encode($top_dessert_quantities);
 $fruit_top_name_jason = json_encode($top_fruit_names);
 $fruit_top_count_jason = json_encode($top_fruit_quantities);
+$day_jason = json_encode($weekly_totals);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -204,6 +350,19 @@ $fruit_top_count_jason = json_encode($top_fruit_quantities);
         var cahrtName2 = <?php echo $fruit_top_name_jason ?>;
         var cahrtCount2 = <?php echo $fruit_top_count_jason ?>;
     </script>
+    <script>
+        var chartData1 = <?php echo $day_jason; ?>;
+    </script>
+    <script>
+        var chartName2 = <?php echo $hour_key_jason; ?>;
+        var chartData2 = <?php echo $hour_value_jason; ?>;
+    </script>
+    <script>
+        var cahrtAge1 = <?php echo $male_age_jason; ?>;
+    </script>
+    <script>
+        var cahrtAge2 = <?php echo $female_age_jason; ?>;
+    </script>
 </head>
 
 <body id="page-top">
@@ -230,6 +389,13 @@ $fruit_top_count_jason = json_encode($top_fruit_quantities);
                 <a class="nav-link" href="index.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
+            </li>
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="../Managerphp/index.php">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Menu</span></a>
             </li>
 
             <!-- Divider -->
@@ -473,16 +639,53 @@ $fruit_top_count_jason = json_encode($top_fruit_quantities);
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Order Overview</h6>
-                                </div>
+                                <nav class="navbar navbar-expand navbar-light bg-light mb-4">
+                                    <a class="navbar-brand" href="#">Earnings Overview</a>
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Dropdown
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right animated--grow-in" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="#" onclick="showChart('Month')">Month</a>
+                                                <a class="dropdown-item" href="#" onclick="showChart('Day')">Day</a>
+                                                <a class="dropdown-item" href="#" onclick="showChart('Hour')">Hour</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </nav>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
                                         <input type="hidden" id="phpData" value="<?php echo $data; ?>">
+                                        <input type="hidden" id="phpData9" value="<?php echo $weekly_totals; ?>">
+                                        <input type="hidden" id="phpData10" value="<?php echo array_keys($hourlyTotal); ?>">
+                                        <input type="hidden" id="phpData11" value="<?php echo array_values($hourlyTotal); ?>">
                                         <canvas id="OrderOverviewChart"></canvas>
+                                        <canvas id="OrderOverviewChart1"></canvas>
+                                        <canvas id="OrderOverviewChart2"></canvas>
                                     </div>
                                 </div>
+
+                                <script>
+                                    function showChart(interval) {
+                                        // เช็คว่าถ้าเป็น 'Day' ให้แสดง canvas ที่เกี่ยวข้อง และซ่อน canvas อื่น ๆ
+                                        if (interval === 'Day') {
+                                            document.getElementById('OrderOverviewChart1').style.display = 'block';
+                                            document.getElementById('OrderOverviewChart').style.display = 'none';
+                                            document.getElementById('OrderOverviewChart2').style.display = 'none';
+                                        } else if (interval === 'Hour') {
+                                            document.getElementById('OrderOverviewChart1').style.display = 'none';
+                                            document.getElementById('OrderOverviewChart').style.display = 'none';
+                                            document.getElementById('OrderOverviewChart2').style.display = 'block';
+                                        } else {
+                                            // ในกรณีอื่น ๆ แสดง canvas ที่ไม่ใช่ 'Day' และซ่อน canvas ที่เป็น 'Day'
+                                            document.getElementById('OrderOverviewChart1').style.display = 'none';
+                                            document.getElementById('OrderOverviewChart').style.display = 'block';
+                                            document.getElementById('OrderOverviewChart2').style.display = 'none';
+                                        }
+                                    }
+                                </script>
                             </div>
                         </div>
 
@@ -520,14 +723,30 @@ $fruit_top_count_jason = json_encode($top_fruit_quantities);
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Age Range</h6>
-                                </div>
+                                <nav class="navbar navbar-expand navbar-light bg-light mb-4">
+                                    <a class="navbar-brand" href="#">Age Rang</a>
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Gender
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right animated--grow-in" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="#" onclick="showChart1('All')">All</a>
+                                                <a class="dropdown-item" href="#" onclick="showChart1('Male')">Male</a>
+                                                <a class="dropdown-item" href="#" onclick="showChart1('Female')">Female</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </nav>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
                                         <input type="hidden" id="phpData2" value="<?php echo $age_values; ?>">
+                                        <input type="hidden" id="phpData12" value="<?php echo $age_values1; ?>">
+                                        <input type="hidden" id="phpData13" value="<?php echo $age_values2; ?>">
                                         <canvas id="Age_range"></canvas>
+                                        <canvas id="Age_range1"></canvas>
+                                        <canvas id="Age_range2"></canvas>
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
@@ -540,6 +759,25 @@ $fruit_top_count_jason = json_encode($top_fruit_quantities);
                                             <i class="fas fa-circle text-info"></i> 30 - 40
                                         </span>
                                     </div>
+                                    <script>
+                                        function showChart1(gender) {
+                                            // เช็คว่าถ้าเป็น 'Day' ให้แสดง canvas ที่เกี่ยวข้อง และซ่อน canvas อื่น ๆ
+                                            if (gender === 'Male') {
+                                                document.getElementById('Age_range1').style.display = 'block';
+                                                document.getElementById('Age_range').style.display = 'none';
+                                                document.getElementById('Age_range2').style.display = 'none';
+                                            } else if (gender === 'Female') {
+                                                document.getElementById('Age_range1').style.display = 'none';
+                                                document.getElementById('Age_range').style.display = 'none';
+                                                document.getElementById('Age_range2').style.display = 'block';
+                                            } else {
+                                                // ในกรณีอื่น ๆ แสดง canvas ที่ไม่ใช่ 'Day' และซ่อน canvas ที่เป็น 'Day'
+                                                document.getElementById('Age_range1').style.display = 'none';
+                                                document.getElementById('Age_range').style.display = 'block';
+                                                document.getElementById('Age_range2').style.display = 'none';
+                                            }
+                                        }
+                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -735,12 +973,16 @@ $fruit_top_count_jason = json_encode($top_fruit_quantities);
 
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-area-demo1.js"></script>
+    <script src="js/demo/chart-area-demo2.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/demo/chart-pie-demo-2.js"></script>
     <script src="js/demo/chart-bar-demo-2.js"></script>
     <script src="js/demo/chart-pie-demo-3.js"></script>
     <script src="js/demo/chart-pie-demo-4.js"></script>
     <script src="js/demo/chart-pie-demo-5.js"></script>
+    <script src="js/demo/chart-pie-demo-6.js"></script>
+    <script src="js/demo/chart-pie-demo-7.js"></script>
 </body>
 
 </html>

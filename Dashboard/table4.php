@@ -63,6 +63,13 @@ $manager_surname = $manager_resule['emp_sername'];
                     <span>Dashboard</span></a>
             </li>
 
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="../Managerphp/index.php">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Menu</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 

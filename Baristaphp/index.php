@@ -24,6 +24,9 @@ $fruit_row = mysqli_num_rows($fruit_query);
 $order_query = mysqli_query($conn, "SELECT * FROM order_detail WHERE ord_status = 'wait'");
 $order_row = mysqli_num_rows($order_query);
 
+$barista_query = mysqli_query($conn, "SELECT * FROM employee WHERE emp_employeelevel = 'B'");
+$barista_row = mysqli_num_rows($barista_query);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,26 +66,40 @@ $order_row = mysqli_num_rows($order_query);
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <?php if ($order_row > 0) : ?>
-                    <?php while ($order = mysqli_fetch_assoc($order_query)) : ?>
+                    <?php
+                    $count = 0; // ตั้งตัวแปรสำหรับนับจำนวน order
+                    while ($order = mysqli_fetch_assoc($order_query)) :
+                        if ($count >= $barista_row) { // ตรวจสอบว่านับถึง 3 รายการหรือยัง
+                            break; // ถ้าใช่ ให้หยุด loop
+                        }
+                        $barista = mysqli_fetch_assoc($barista_query);
+                    ?>
                         <div class="card mb-3">
                             <div class="row g-0">
                                 <div class="col-md-12">
                                     <div class="card-body">
-                                        <h4>Order ID : <?php echo $order['ord_orderID']?></h4>
+                                        <h4>Order ID : <?php echo $order['ord_orderID'] ?></h4>
+                                        <hr>
+                                        <h4>Barista : <?php echo $barista['emp_name'] ?></h4>
+                                        <hr>
                                         <h5 class="card-title"><?php echo $order['ord_productName'] ?> - <?php echo $order['ord_option'] ?></h5>
-                                        <?php $name = $order['ord_productName'] ?>
-                                        <?php $option = $order['ord_option'] ?>
-                                        <?php $query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_menuName = '{$name}' AND w_HotColdBlended = '{$option}'"); ?>
-                                        <?php $water_row = mysqli_num_rows($query); ?>
-                                        <?php if ($water_row > 0) : ?>
-                                            <?php while ($water = mysqli_fetch_assoc($query)) : ?>
-                                                <?php $ID = $water['w_menuID']; ?>
-                                                <?php $recipe_query = mysqli_query($conn, "SELECT * FROM recipe_of_water WHERE rec_menuID = '{$ID}'") ?>
-                                                <?php while ($recipe = mysqli_fetch_assoc($recipe_query)) : ?>
+                                        <?php
+                                        $name = $order['ord_productName'];
+                                        $option = $order['ord_option'];
+                                        $query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_menuName = '{$name}' AND w_HotColdBlended = '{$option}'");
+                                        $water_row = mysqli_num_rows($query);
+                                        if ($water_row > 0) :
+                                            while ($water = mysqli_fetch_assoc($query)) :
+                                                $ID = $water['w_menuID'];
+                                                $recipe_query = mysqli_query($conn, "SELECT * FROM recipe_of_water WHERE rec_menuID = '{$ID}'");
+                                                while ($recipe = mysqli_fetch_assoc($recipe_query)) :
+                                        ?>
                                                     <p class="card-text"><?php echo $recipe['rec_description'] ?></p>
-                                                <?php endwhile; ?>
-                                            <?php endwhile; ?>
-                                        <?php endif; ?>
+                                        <?php
+                                                endwhile;
+                                            endwhile;
+                                        endif;
+                                        ?>
                                         <div class="text-end"> <!-- Added wrapper div with text-start class -->
                                             <a href="../condb/order_cancle.php?id=<?php echo $order['ord_detailID']; ?>" class="btn btn-dark"><i class="bi bi-trash3"></i></a>
                                             <a href="../condb/order_success.php?id=<?php echo $order['ord_detailID']; ?>" class="btn btn-success"><i class="bi bi-check-circle"></i></a>
@@ -91,7 +108,10 @@ $order_row = mysqli_num_rows($order_query);
                                 </div>
                             </div>
                         </div>
-                    <?php endwhile; ?>
+                    <?php
+                        $count++; // เพิ่มค่าตัวแปรนับ
+                    endwhile;
+                    ?>
                 <?php endif; ?>
             </div>
         </div>
