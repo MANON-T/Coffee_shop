@@ -24,8 +24,6 @@
 
 -Manager page
 
-# Fucntion Developing
-
 -Customer page
 
 -Dashboard page
