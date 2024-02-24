@@ -668,6 +668,10 @@ $day_jason = json_encode($weekly_totals);
                                 </div>
 
                                 <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        showChart('Month');
+                                    });
+
                                     function showChart(interval) {
                                         // เช็คว่าถ้าเป็น 'Day' ให้แสดง canvas ที่เกี่ยวข้อง และซ่อน canvas อื่น ๆ
                                         if (interval === 'Day') {
@@ -724,7 +728,7 @@ $day_jason = json_encode($weekly_totals);
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <nav class="navbar navbar-expand navbar-light bg-light mb-4">
-                                    <a class="navbar-brand" href="#">Age Rang</a>
+                                    <a class="navbar-brand" href="#">Age Range</a>
                                     <ul class="navbar-nav ml-auto">
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -760,6 +764,10 @@ $day_jason = json_encode($weekly_totals);
                                         </span>
                                     </div>
                                     <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            showChart1('All');
+                                        });
+
                                         function showChart1(gender) {
                                             // เช็คว่าถ้าเป็น 'Day' ให้แสดง canvas ที่เกี่ยวข้อง และซ่อน canvas อื่น ๆ
                                             if (gender === 'Male') {
@@ -784,9 +792,26 @@ $day_jason = json_encode($weekly_totals);
                         <!-- Content Column -->
                         <!-- Project Card Example -->
                         <div class="card shadow mb-4 col-xl-8 col-lg-7">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Dessert</h6>
-                            </div>
+                            <nav class="navbar navbar-expand navbar-light bg-light mb-4">
+                                <a class="navbar-brand" href="#">Stock</a>
+                                <ul class="navbar-nav ml-auto">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Choose Category
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right animated--grow-in" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="#" onclick="filterCategory('Dessert')">Dessert</a>
+                                            <a class="dropdown-item" href="#" onclick="filterCategory('Fruit')">Fruit</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#" onclick="filterCategory1('0-20')">0% - 20%</a>
+                                            <a class="dropdown-item" href="#" onclick="filterCategory1('21-40')">21% - 40%</a>
+                                            <a class="dropdown-item" href="#" onclick="filterCategory1('41-60')">41% - 60%</a>
+                                            <a class="dropdown-item" href="#" onclick="filterCategory1('61-80')">61% - 80%</a>
+                                            <a class="dropdown-item" href="#" onclick="filterCategory1('81-100')">81% - 100%</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </nav>
                             <style>
                                 .scrollable-menu {
                                     max-height: 300px;
@@ -799,6 +824,8 @@ $day_jason = json_encode($weekly_totals);
                                 <?php
                                 $dess_query = mysqli_query($conn, "SELECT * FROM dessert_menu");
                                 $dess_row = mysqli_num_rows($dess_query);
+                                $fruit_query = mysqli_query($conn, "SELECT * FROM fruit_menu");
+                                $fruit_row = mysqli_num_rows($fruit_query);
 
                                 $quantities = array();
                                 while ($row = mysqli_fetch_assoc($dess_query)) {
@@ -810,26 +837,109 @@ $day_jason = json_encode($weekly_totals);
                                         'percentage' => $percentage
                                     );
                                 }
-                                // วนลูปผ่านอาเรย์เพื่อแสดงผล
+                                $quantities1 = array();
+                                while ($row1 = mysqli_fetch_assoc($fruit_query)) {
+                                    // คำนวณเป็นเปอร์เซ็นต์เมื่อเทียบกับ 20
+                                    $percentage1 = ($row1['fruit_quantity'] / 20) * 100;
+                                    // เพิ่มข้อมูลลงในอาเรย์พร้อมกับชื่อเมนู
+                                    $quantities1[] = array(
+                                        'menuName' => $row1['fruit_menuName'],
+                                        'percentage' => $percentage1
+                                    );
+                                }
+                                // สำหรับ Dessert
+                                // สำหรับ Dessert
                                 foreach ($quantities as $key => $data) {
-                                    echo '<h4 class="small font-weight-bold">' . $data['menuName'] . '<span class="float-right">' . $data['percentage'] . '%</span></h4>';
-                                    echo '<div class="progress mb-4">';
+                                    echo '<h4 class="small font-weight-bold" data-category="Dessert">' . $data['menuName'] . '<span class="float-right">' . $data['percentage'] . '%</span></h4>';
+                                    echo '<div class="progress mb-4" data-category="Dessert" data-name="' . $data['menuName'] . '">';
                                     $percentage = $data['percentage'];
                                     if ($percentage >= 0 && $percentage <= 20) {
-                                        echo '<div class="progress-bar bg-danger" role="progressbar" style="width: ' . $percentage . '%" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100"></div>';
+                                        echo '<div class="progress-bar bg-danger" role="progressbar" style="width: ' . $percentage . '%" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100"  data-category="0-20"></div>';
                                     } elseif ($percentage > 20 && $percentage <= 40) {
-                                        echo '<div class="progress-bar bg-warning" role="progressbar" style="width: ' . $percentage . '%" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100"></div>';
+                                        echo '<div class="progress-bar bg-warning" role="progressbar" style="width: ' . $percentage . '%" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100"  data-category="21-40"></div>';
                                     } elseif ($percentage > 40 && $percentage <= 60) {
-                                        echo '<div class="progress-bar" role="progressbar" style="width: ' . $percentage . '%" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100"></div>';
+                                        echo '<div class="progress-bar" role="progressbar" style="width: ' . $percentage . '%" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100" data-category="41-60"></div>';
                                     } elseif ($percentage > 60 && $percentage <= 80) {
-                                        echo '<div class="progress-bar bg-info" role="progressbar" style="width: ' . $percentage . '%" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100"></div>';
+                                        echo '<div class="progress-bar bg-info" role="progressbar" style="width: ' . $percentage . '%" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100" data-category="61-80"></div>';
                                     } elseif ($percentage > 80 && $percentage <= 100) {
-                                        echo '<div class="progress-bar bg-success" role="progressbar" style="width: ' . $percentage . '%" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100"></div>';
+                                        echo '<div class="progress-bar bg-success" role="progressbar" style="width: ' . $percentage . '%" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100" data-category="81-100"></div>';
                                     }
                                     echo '</div>';
+                                    // เรียกใช้งาน showPercentage
+                                    echo '<script>showPercentage("Dessert", ' . $data['percentage'] . ');</script>';
+                                }
+
+                                // สำหรับ Fruit
+                                foreach ($quantities1 as $key => $data1) {
+                                    echo '<h4 class="small font-weight-bold" data-category="Fruit">' . $data1['menuName'] . '<span class="float-right">' . $data1['percentage'] . '%</span></h4>';
+                                    echo '<div class="progress mb-4" data-category="Fruit" data-name="' . $data1['menuName'] . '">';
+                                    $percentage1 = $data1['percentage'];
+                                    if ($percentage1 >= 0 && $percentage1 <= 20) {
+                                        echo '<div class="progress-bar bg-danger" role="progressbar" style="width: ' . $percentage1 . '%" aria-valuenow="' . $percentage1 . '" aria-valuemin="0" aria-valuemax="100" data-category="0-20"></div>';
+                                    } elseif ($percentage1 > 20 && $percentage1 <= 40) {
+                                        echo '<div class="progress-bar bg-warning" role="progressbar" style="width: ' . $percentage1 . '%" aria-valuenow="' . $percentage1 . '" aria-valuemin="0" aria-valuemax="100" data-category="21-40"></div>';
+                                    } elseif ($percentage1 > 40 && $percentage1 <= 60) {
+                                        echo '<div class="progress-bar" role="progressbar" style="width: ' . $percentage1 . '%" aria-valuenow="' . $percentage1 . '" aria-valuemin="0" aria-valuemax="100" data-category="41-60"></div>';
+                                    } elseif ($percentage1 > 60 && $percentage1 <= 80) {
+                                        echo '<div class="progress-bar bg-info" role="progressbar" style="width: ' . $percentage1 . '%" aria-valuenow="' . $percentage1 . '" aria-valuemin="0" aria-valuemax="100"  data-category="61-80"></div>';
+                                    } elseif ($percentage1 > 80 && $percentage1 <= 100) {
+                                        echo '<div class="progress-bar bg-success" role="progressbar" style="width: ' . $percentage1 . '%" aria-valuenow="' . $percentage1 . '" aria-valuemin="0" aria-valuemax="100"  data-category="81-100"></div>';
+                                    }
+                                    echo '</div>';
+                                    // เรียกใช้งาน showPercentage
+                                    echo '<script>showPercentage("Fruit", ' . $data1['percentage'] . ');</script>';
                                 }
                                 ?>
                             </div>
+
+                            <script>
+                                function filterCategory(category) {
+                                    // ซ่อนทั้งหมดก่อน
+                                    document.querySelectorAll('.card-body .progress').forEach(function(item) {
+                                        item.style.display = 'none';
+                                    });
+
+                                    // แสดงเฉพาะข้อมูลของหมวดหมู่ที่เลือก
+                                    document.querySelectorAll(`.card-body .progress[data-category="${category}"]`).forEach(function(item) {
+                                        item.style.display = '';
+                                    });
+
+                                    // ซ่อน h4 ของหมวดหมู่อื่น
+                                    document.querySelectorAll('.card-body h4').forEach(function(item) {
+                                        if (item.getAttribute('data-category') !== category) {
+                                            item.style.display = 'none';
+                                        } else {
+                                            item.style.display = '';
+                                        }
+                                    });
+                                }
+                            </script>
+                            <script>
+                                function filterCategory1(category1) {
+                                    // ซ่อนทั้งหมดก่อน
+                                    document.querySelectorAll('.card-body .progress').forEach(function(item) {
+                                        item.style.display = 'none';
+                                    });
+
+                                    // แสดงเฉพาะข้อมูลของหมวดหมู่ที่เลือก
+                                    document.querySelectorAll(`.card-body .progress[data-category="${category1}"]`).forEach(function(item) {
+                                        item.style.display = '';
+                                    });
+
+                                    // แสดงข้อมูลของ Dessert และ Fruit ที่เปอร์เซ็นต์ที่เลือก
+                                    document.querySelectorAll('.card-body .progress').forEach(function(item) {
+                                        var percentage = parseInt(item.querySelector('.progress-bar').getAttribute('aria-valuenow'));
+                                        var itemName = item.parentElement.querySelector('h4').textContent;
+                                        if ((category1 === '0-20' && percentage >= 0 && percentage <= 20) ||
+                                            (category1 === '21-40' && percentage > 20 && percentage <= 40) ||
+                                            (category1 === '41-60' && percentage > 40 && percentage <= 60) ||
+                                            (category1 === '61-80' && percentage > 60 && percentage <= 80) ||
+                                            (category1 === '81-100' && percentage > 80 && percentage <= 100)) {
+                                            item.style.display = '';
+                                        }
+                                    });
+                                }
+                            </script>
                         </div>
                     </div>
 
