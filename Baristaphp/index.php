@@ -80,8 +80,6 @@ $barista_row = mysqli_num_rows($barista_query);
                                     <div class="card-body">
                                         <h4>Order ID : <?php echo $order['ord_orderID'] ?></h4>
                                         <hr>
-                                        <h4>Barista : <?php echo $barista['emp_name'] ?></h4>
-                                        <hr>
                                         <h5 class="card-title"><?php echo $order['ord_productName'] ?> - <?php echo $order['ord_option'] ?></h5>
                                         <?php
                                         $name = $order['ord_productName'];
@@ -101,8 +99,8 @@ $barista_row = mysqli_num_rows($barista_query);
                                         endif;
                                         ?>
                                         <div class="text-end"> <!-- Added wrapper div with text-start class -->
-                                            <a href="../condb/order_cancle.php?id=<?php echo $order['ord_detailID']; ?>" class="btn btn-dark"><i class="bi bi-trash3"></i></a>
-                                            <a href="../condb/order_success.php?id=<?php echo $order['ord_detailID']; ?>" class="btn btn-success"><i class="bi bi-check-circle"></i></a>
+                                            <a href="../condb/order_cancle.php?id=<?php echo $order['ord_detailID']; ?>" class="btn btn-dark"><i class="bi bi-trash3"></i>Cancle</a>
+                                            <a href="../condb/order_success.php?id=<?php echo $order['ord_detailID']; ?>" class="btn btn-success"><i class="bi bi-check-circle"></i>Success</a>
                                         </div>
                                     </div>
                                 </div>
