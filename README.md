@@ -1,3 +1,3 @@
 
 # Coffee_shop
-โปรเจ็คงาน Internet Programing
+โปรเจกต์วิชา Internet Programing
