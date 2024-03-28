@@ -181,14 +181,14 @@ $currentDate = date('Y-m-d');
 $hourlyTotal = array();
 
 // 3. สร้างคำสั่ง SQL เพื่อเลือกข้อมูลเวลาและ ord_total จากฐานข้อมูล
-$hour_query = mysqli_query($conn, "SELECT ord_timeStamp, ord_total FROM order_main");
+$hour_query = mysqli_query($conn, "SELECT ord_orderDate, ord_total FROM order_main");
 
 // 4. ตรวจสอบว่ามีข้อมูลหรือไม่ก่อนที่จะดึงข้อมูล
 if (mysqli_num_rows($hour_query) > 0) {
     // วนลูปผลลัพธ์ที่ได้จากคำสั่ง SQL เพื่อดึงข้อมูลเวลาและ ord_total และคำนวณผลรวมของ ord_total ในแต่ละชั่วโมงของวันที่ปัจจุบัน
     while ($row = mysqli_fetch_assoc($hour_query)) {
         // แปลง timestamp เป็นชั่วโมงเพื่อใช้เป็นคีย์ในอาร์เรย์
-        $hour = date('Y-m-d H:00:00', strtotime($row['ord_timeStamp']));
+        $hour = date('Y-m-d H:00:00', strtotime($row['ord_orderDate']));
 
         // ตรวจสอบว่าข้อมูลอยู่ในวันที่ปัจจุบันหรือไม่
         if (substr($hour, 0, 10) === $currentDate) {

@@ -79,7 +79,40 @@ $barista_row = mysqli_num_rows($barista_query);
                                 <div class="col-md-12">
                                     <div class="card-body">
                                         <h4>Order ID : <?php echo $order['ord_orderID'] ?></h4>
+                                        <?php
+                                        $id_main = $order['ord_orderID'];
+                                        $order_main = mysqli_query($conn, "SELECT * FROM order_main WHERE ord_orderID = $id_main");
+                                        $main_result = mysqli_fetch_assoc($order_main);
+                                        ?>
+                                        <caption><?php echo $main_result['ord_orderDate'] ?></caption>
                                         <hr>
+                                        <div>
+                                            <?php if (in_array($order['ord_productType'], ['coffee', 'milk', 'tea'])) : ?>
+                                                <?php
+                                                $name = $order['ord_productName'];
+                                                $water_query = mysqli_query($conn, "SELECT * FROM water_menu WHERE w_menuName = '" . mysqli_real_escape_string($conn, $name) . "'");
+                                                ?>
+                                                <?php while ($water = mysqli_fetch_assoc($water_query)) : ?>
+                                                    <img src="../image/menu/Water/<?php echo $water['w_picture']; ?>" width="auto" height="150" alt="Product Image">
+                                                <?php endwhile; ?>
+                                            <?php elseif (in_array($order['ord_productType'], ['dessert'])) : ?>
+                                                <?php
+                                                $name = $order['ord_productName'];
+                                                $dess_query1 = mysqli_query($conn, "SELECT * FROM dessert_menu WHERE dess_menuName = '" . mysqli_real_escape_string($conn, $name) . "'");
+                                                ?>
+                                                <?php while ($dess = mysqli_fetch_assoc($dess_query1)) : ?>
+                                                    <img src="../image/menu/Dessert/<?php echo $dess['dess_picture']; ?>" width="auto" height="150" alt="Product Image">
+                                                <?php endwhile; ?>
+                                            <?php elseif (in_array($order['ord_productType'], ['fruit'])) : ?>
+                                                <?php
+                                                $name = $order['ord_productName'];
+                                                $fruit_query1 = mysqli_query($conn, "SELECT * FROM fruit_menu WHERE fruit_menuName = '" . mysqli_real_escape_string($conn, $name) . "'");
+                                                ?>
+                                                <?php while ($fruit = mysqli_fetch_assoc($fruit_query1)) : ?>
+                                                    <img src="../image/menu/Fruit/<?php echo $fruit['fruit_picture']; ?>" width="auto" height="150" alt="Product Image">
+                                                <?php endwhile; ?>
+                                            <?php endif ; ?>
+                                        </div>
                                         <h5 class="card-title"><?php echo $order['ord_productName'] ?> - <?php echo $order['ord_option'] ?></h5>
                                         <?php
                                         $name = $order['ord_productName'];
