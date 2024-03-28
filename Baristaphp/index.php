@@ -83,6 +83,20 @@ $barista_row = mysqli_num_rows($barista_query);
                                         $id_main = $order['ord_orderID'];
                                         $order_main = mysqli_query($conn, "SELECT * FROM order_main WHERE ord_orderID = $id_main");
                                         $main_result = mysqli_fetch_assoc($order_main);
+                                        if ($main_result['ord_customerID'] != 0) {
+                                            $cus_id = $main_result['ord_customerID'];
+                                            $cus_query = mysqli_query($conn, "SELECT * FROM customer WHERE cus_customerID = $cus_id");
+                                            $cus_result = mysqli_fetch_assoc($cus_query);
+                                            echo 'เจ้าของออเดอร์ :' . $cus_result['cus_firstname'] . " " . $cus_result['cus_lastname'];
+                                        } else {
+                                            echo 'เจ้าของออเดอร์ : ไม่ได้เป็นสมาชิก';
+                                        }
+                                        ?>
+                                        <br>
+                                        <?php
+                                        $id_main = $order['ord_orderID'];
+                                        $order_main = mysqli_query($conn, "SELECT * FROM order_main WHERE ord_orderID = $id_main");
+                                        $main_result = mysqli_fetch_assoc($order_main);
                                         ?>
                                         <caption><?php echo $main_result['ord_orderDate'] ?></caption>
                                         <hr>
@@ -111,7 +125,7 @@ $barista_row = mysqli_num_rows($barista_query);
                                                 <?php while ($fruit = mysqli_fetch_assoc($fruit_query1)) : ?>
                                                     <img src="../image/menu/Fruit/<?php echo $fruit['fruit_picture']; ?>" width="auto" height="150" alt="Product Image">
                                                 <?php endwhile; ?>
-                                            <?php endif ; ?>
+                                            <?php endif; ?>
                                         </div>
                                         <h5 class="card-title"><?php echo $order['ord_productName'] ?> - <?php echo $order['ord_option'] ?></h5>
                                         <?php
@@ -125,6 +139,7 @@ $barista_row = mysqli_num_rows($barista_query);
                                                 $recipe_query = mysqli_query($conn, "SELECT * FROM recipe_of_water WHERE rec_menuID = '{$ID}'");
                                                 while ($recipe = mysqli_fetch_assoc($recipe_query)) :
                                         ?>
+                                                    <h5>สูตร</h5>
                                                     <p class="card-text"><?php echo $recipe['rec_description'] ?></p>
                                         <?php
                                                 endwhile;
